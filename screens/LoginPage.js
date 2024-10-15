@@ -1,8 +1,7 @@
 import * as React from "react";
-import { Image } from "expo-image";
-import { StyleSheet, View, Text, TouchableOpacity } from "react-native";
+import { Image, Alert } from "react-native";
+import { StyleSheet, View, Text, TextInput, TouchableOpacity } from "react-native";
 import Frame13 from "../components/Frame13";
-import Inputs from "../components/Inputs";
 import StatusDefaultStyleprimarySizeLargeIconfalseTexttrue from "../components/StatusDefaultStyleprimarySizeLargeIconfalseTexttrue";
 import {
   FontSize,
@@ -14,15 +13,35 @@ import {
 } from "../GlobalStyles";
 
 const LoginPage = ({ navigation }) => {
+  const [phoneNumber, setPhoneNumber] = React.useState("");
+  const [otp, setOtp] = React.useState("");
+  const [isOtpSent, setIsOtpSent] = React.useState(false);
+
   const handleLogin = () => {
-    // Navigate to home page or other screen upon successful login
-    navigation.navigate('Home');
+    // Implement login logic with phone number and OTP verification
+    if (otp) {
+      navigation.navigate('Home');
+    } else {
+      Alert.alert("Please enter the OTP to continue.");
+    }
   };
 
-  const handleRegister = () => {
-    // Navigate to the registration page
-    navigation.navigate('Register');
+  const handleSendOtp = () => {
+    if (phoneNumber.length !== 10) {
+      Alert.alert("Please enter a valid 10-digit phone number.");
+      return;
+    }
+
+    // Here, you would call your OTP generation API or service.
+    // For now, we mock the process and assume OTP is sent.
+    console.log(`OTP sent to ${phoneNumber}`);
+    setIsOtpSent(true);
+    Alert.alert("OTP sent!", `An OTP has been sent to ${phoneNumber}.`);
   };
+
+  // const handleRegister = () => {
+  //   navigation.navigate('Register');
+  // };
 
   return (
     <View style={styles.loginPage}>
@@ -44,58 +63,42 @@ const LoginPage = ({ navigation }) => {
           </View>
         </View>
 
-        {/* Social Media Login Options */}
-        <View style={styles.signInWithFlexBox}>
+        {/* Phone Number and OTP Inputs */}
+        <View style={styles.inputContainer}>
+          <TextInput
+            style={styles.input}
+            placeholder="Phone Number"
+            keyboardType="phone-pad"
+            value={phoneNumber}
+            onChangeText={setPhoneNumber}
+          />
+
+          {/* 'Send OTP' button */}
           <TouchableOpacity
-            style={[styles.continueWithAppleLeftAli, styles.registerFlexBox]}
-            onPress={() => console.log('Apple Login')}
+            style={styles.sendOtpButton}
+            onPress={handleSendOtp}
           >
-            <Image
-              style={styles.path4Icon}
-              contentFit="cover"
-              source={require("../assets/path4.png")}
-            />
+            <Text style={styles.sendOtpText}>Send OTP</Text>
           </TouchableOpacity>
 
-          <TouchableOpacity
-            style={[styles.continueWithAppleLeftAli, styles.registerFlexBox]}
-            onPress={() => console.log('Google Login')}
-          >
-            <Image
-              style={styles.logoGoogleg48dp}
-              contentFit="cover"
-              source={require("../assets/logo-googleg-48dp.png")}
+          {isOtpSent && (
+            <TextInput
+              style={styles.input}
+              placeholder="Enter OTP"
+              keyboardType="number-pad"
+              value={otp}
+              onChangeText={setOtp}
+              secureTextEntry={true}
             />
-          </TouchableOpacity>
-
-          <TouchableOpacity
-            style={[styles.continueWithAppleLeftAli, styles.registerFlexBox]}
-            onPress={() => console.log('Facebook Login')}
-          >
-            <Image
-              style={styles.logoGoogleg48dp}
-              contentFit="cover"
-              source={require("../assets/path14.png")}
-            />
-          </TouchableOpacity>
+          )}
         </View>
-
-        {/* Separator for Social Media and Email Login */}
-        <View style={[styles.signInWith, styles.signInWithFlexBox]}>
-          <View style={styles.liner} />
-          <Text style={styles.label}>or sign in with</Text>
-          <View style={styles.liner} />
-        </View>
-
-        {/* Email Login Inputs */}
-        <Inputs />
 
         {/* Forgot Password */}
         <View style={[styles.rectangleParent, styles.registerFlexBox]}>
-          <View style={styles.frameChild} />
-          <TouchableOpacity onPress={() => console.log('Forgot Password')}>
+          {/* <View style={styles.frameChild} /> */}
+          {/* <TouchableOpacity onPress={() => console.log('Forgot Password')}>
             <Text style={styles.forgotPassword}>Forgot password</Text>
-          </TouchableOpacity>
+          </TouchableOpacity> */}
         </View>
 
         {/* Login and Register Buttons */}
@@ -116,9 +119,9 @@ const LoginPage = ({ navigation }) => {
             />
           </TouchableOpacity>
 
-          <TouchableOpacity style={[styles.register, styles.registerFlexBox]} onPress={handleRegister}>
+          {/* <TouchableOpacity style={[styles.register, styles.registerFlexBox]} onPress={handleRegister}>
             <Text style={[styles.label1, styles.titleTypo]}>Register</Text>
-          </TouchableOpacity>
+          </TouchableOpacity> */}
         </View>
       </View>
 
@@ -128,7 +131,63 @@ const LoginPage = ({ navigation }) => {
   );
 };
 
+
 const styles = StyleSheet.create({
+  inputContainer: {
+    width: '100%',
+    paddingHorizontal: 20,
+    marginVertical: 20,
+  },
+  input: {
+    backgroundColor: Color.lightGray10,
+    padding: 10,
+    borderRadius: Border.br_3xs,
+    borderWidth:1,
+    marginVertical: 10,
+    fontSize: FontSize.size_1xs,
+    fontFamily: FontFamily.montserratRegular,
+    color: Color.black,
+    width:330,
+    alignSelf:"center",
+  },
+  sendOtpButton: {
+    backgroundColor: "#e0a340",
+    padding: 10,
+    borderRadius: Border.br_3xs,
+    alignItems: "center",
+    justifyContent:"center",
+    marginVertical: 10,
+    height:50,
+    width:330,
+    alignSelf:"center",
+  },
+  sendOtpText: {
+    color: Color.white,
+    fontSize: 15,
+    fontFamily: FontFamily.montserratBold,
+    alignItems:"center",
+  },
+  rectangleParent: {
+    width: 320,
+    height: 16,
+  },
+  forgotPassword: {
+    textDecoration: "underline",
+    letterSpacing: 0.1,
+    fontFamily: FontFamily.montserratRegular,
+    color: Color.primaryMain,
+    textAlign: "left",
+    width: 311,
+    height: 13,
+    marginLeft: -92,
+    textTransform: "capitalize",
+    fontSize: FontSize.size_2xs,
+    overflow: "hidden",
+  },
+  buttons: {
+    gap: Gap.gap_16xs,
+    alignSelf: "stretch",
+  },
   contentLayout: {
     width: 375,
     alignItems: "center",
