@@ -87,7 +87,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   label: {
-    fontSize: FontSize.size_xl,
+    fontSize: 19,
     fontWeight: "600",
     fontFamily: FontFamily.montserratSemiBold,
     color: Color.lightGray11,
@@ -125,7 +125,7 @@ const styles = StyleSheet.create({
     width: 30,
     height: 38,
   },
-  name2: {
+  name2: {  //schemes icon name styling
     display: "flex",
     justifyContent: "center",
     height: 28,

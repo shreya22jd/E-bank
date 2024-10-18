@@ -111,16 +111,18 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   label: {
-    fontSize: FontSize.size_xl,
+    fontSize: 19,
     fontWeight: "600",
     fontFamily: FontFamily.montserratSemiBold,
     color: Color.lightGray11,
     textAlign: "center",
+    marginLeft:-4,
   },
   title: {
     width: 184,
     alignItems: "center",
     flexDirection: "row",
+  
   },
   profilePictureIcon: {
     borderRadius: Border.br_sm,

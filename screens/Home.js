@@ -23,12 +23,8 @@ const Home = () => {
   return (
     <View style={styles.home}>
       {/* Non-scrollable header */}
-      <LinearGradient
-        style={styles.headerSection}
-        locations={[0, 0.8]}
-        colors={["#e0a340", "#7a5923"]}
-      >
-        <View style={styles.statusBar}>
+      
+        {/* <View style={styles.statusBar}> */}
           {/* <View style={[styles.gruopStatus, styles.headerFlexBox]}>
             <Time
               hours="9"
@@ -90,8 +86,8 @@ const Home = () => {
               /> */}
             </View>
           </View>
-        </View>
-      </LinearGradient>
+        {/* </View> */}
+     
 
       {/* Scrollable content */}
       <ScrollView contentContainerStyle={styles.scrollViewContent}>
@@ -104,7 +100,7 @@ const Home = () => {
         </ScrollView>
         <FrameComponent14 />
         <FrameComponent13 />
-        <GroupComponent6 propTop={110} propLeft={70} />
+        {/* <GroupComponent6 propTop={110} propLeft={70} /> */}
       
     </View>
   );

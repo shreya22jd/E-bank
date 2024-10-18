@@ -123,11 +123,12 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   label: {
-    fontSize: FontSize.size_xl,
+    fontSize: 19,
     fontWeight: "600",
     fontFamily: FontFamily.montserratSemiBold,
     color: Color.lightGray11,
     textAlign: "center",
+    marginLeft:-3,
   },
   title: {
     alignItems: "center",
@@ -170,8 +171,9 @@ const styles = StyleSheet.create({
     gap: Gap.gap_18xs,
   },
   users: {
+    marginLeft:-10,
     width: 339,
-    gap: Gap.gap_5xl,
+    gap: Gap.gap_6xl,
     flexDirection: "row",
   },
   cardsAndShop: {

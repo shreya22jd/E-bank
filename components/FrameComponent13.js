@@ -93,9 +93,9 @@ const styles = StyleSheet.create({
     height: "100%",
     overflow: "hidden",
   },
-  frameParent: {
+  frameParent: {  //nav bar
     bottom: 2,
-    left: 5,
+    left: 22,
     borderRadius: Border.br_3xs,
     backgroundColor: Color.white,
     width: 362,

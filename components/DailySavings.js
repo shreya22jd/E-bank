@@ -118,11 +118,12 @@ const styles = StyleSheet.create({
     overflow: "hidden",
   },
   label: {
-    fontSize: FontSize.size_xl,
+    fontSize: 19,
     fontWeight: "600",
     fontFamily: FontFamily.montserratSemiBold,
     color: Color.lightGray11,
     textAlign: "center",
+    marginLeft:-6, //daily sav sec title 
   },
   title: {
     alignSelf: "stretch",
@@ -147,6 +148,7 @@ const styles = StyleSheet.create({
   },
   dailySavings1: {
     flexDirection: "row",
+    marginLeft:-4,
   },
   profilePictureIcon: {
     borderRadius: Border.br_sm,
@@ -171,7 +173,7 @@ const styles = StyleSheet.create({
   },
   users: {
     width: 339,
-    gap: Gap.gap_5xl,
+    gap: Gap.gap_6xl, //from 5 to 6 it is perfect!
     flexDirection: "row",
   },
   dailySavings: {

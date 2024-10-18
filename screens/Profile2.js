@@ -1,14 +1,52 @@
-import * as React from "react";
+import React, { useEffect, useState } from "react";
 import { Image } from "expo-image";
-import { StyleSheet, View, Pressable, Text } from "react-native";
+import { StyleSheet, View, Pressable, Text, Alert } from "react-native";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 import StatusBar1 from "../components/StatusBar1";
 import { useNavigation } from "@react-navigation/native";
 import Frame6 from "../components/Frame6";
 import Frame7 from "../components/Frame7";
 import { Border, FontSize, FontFamily, Color } from "../GlobalStyles";
 
-const Profile2 = () => {
+const Profile2 = ({ route }) => {
+  const { userName, upiId } = route.params || {}; // Destructure the passed parameters
+  const [storedUserName, setStoredUserName] = useState("");
+  const [storedUpiId, setStoredUpiId] = useState("");
   const navigation = useNavigation();
+
+  // Function to store the values in AsyncStorage
+  const storeProfileData = async (userName, upiId) => {
+    try {
+      await AsyncStorage.setItem("userName", userName);
+      await AsyncStorage.setItem("upiId", upiId);
+      Alert.alert("Profile Saved", "Your profile has been saved successfully.");
+    } catch (e) {
+      Alert.alert("Error", "Failed to save profile data.");
+    }
+  };
+
+  // Function to retrieve the values from AsyncStorage
+  const retrieveProfileData = async () => {
+    try {
+      const savedUserName = await AsyncStorage.getItem("userName");
+      const savedUpiId = await AsyncStorage.getItem("upiId");
+      if (savedUserName !== null && savedUpiId !== null) {
+        setStoredUserName(savedUserName);
+        setStoredUpiId(savedUpiId);
+      }
+    } catch (e) {
+      Alert.alert("Error", "Failed to retrieve profile data.");
+    }
+  };
+
+  useEffect(() => {
+    // If new parameters are passed, store them; otherwise, retrieve saved data
+    if (userName && upiId) {
+      storeProfileData(userName, upiId);
+    } else {
+      retrieveProfileData();
+    }
+  }, [userName, upiId]);
 
   return (
     <View style={styles.profile}>
@@ -32,33 +70,13 @@ const Profile2 = () => {
             showBatteryLight={false}
             showTimeLight={false}
           />
-          <Image
-            style={[styles.batteryLight, styles.lightPosition]}
-            contentFit="cover"
-            source={require("../assets/battery--light1.png")}
-          />
-          <Image
-            style={[styles.networkSignalLight, styles.lightPosition]}
-            contentFit="cover"
-            source={require("../assets/network-signal-light1.png")}
-          />
-          <Image
-            style={[styles.wifiSignalLight, styles.lightPosition]}
-            contentFit="cover"
-            source={require("../assets/wifi-signal--light2.png")}
-          />
-          <Image
-            style={styles.timeLight}
-            contentFit="cover"
-            source={require("../assets/time--light1.png")}
-          />
         </View>
       </View>
       <View style={[styles.frame1, styles.frameFlexBox]}>
         <View style={styles.tabBar}>
           <Pressable
             style={[styles.wrapper, styles.wrapperLayout]}
-            onPress={() => navigation.navigate("Home")}
+            onPress={() => navigation.replace("Home")}
           >
             <Image
               style={styles.icon}
@@ -69,7 +87,7 @@ const Profile2 = () => {
           <Text style={styles.profile1}>Profile</Text>
           <Pressable
             style={[styles.editIcon, styles.wrapperLayout]}
-            onPress={() => navigation.navigate("EditProfile")}
+            onPress={() => useNavigation.replace("EditProfile")}
           >
             <Image
               style={styles.icon}
@@ -79,7 +97,9 @@ const Profile2 = () => {
           </Pressable>
         </View>
       </View>
-      <Frame6 />
+
+      {/* Display the stored userName and upiId in Frame6 */}
+      <Frame6 userName={storedUserName || userName} upiId={storedUpiId || upiId} />
       <Frame7 />
     </View>
   );

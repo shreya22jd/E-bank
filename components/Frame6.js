@@ -10,7 +10,7 @@ import {
   Gap,
 } from "../GlobalStyles";
 
-const Frame6 = () => {
+const Frame6 = ({ userName = "Name", upiId = "name@gmail.com" }) => {
   return (
     <View style={styles.frame}>
       <View style={styles.frame1}>
@@ -24,8 +24,9 @@ const Frame6 = () => {
             <View style={[styles.frameItem, styles.frameLayout]} />
           </View>
           <View style={styles.tanyaMyroniukParent}>
-            <Text style={styles.tanyaMyroniuk}>Name</Text>
-            <Text style={styles.seniorDesigner}>name@gmail.com</Text>
+            {/* Displaying the passed userName */}
+            <Text style={styles.tanyaMyroniuk}>{userName}</Text>
+            <Text style={styles.seniorDesigner}>{upiId}</Text>
           </View>
         </View>
         <Image

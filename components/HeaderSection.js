@@ -1,6 +1,5 @@
 import React, { useMemo } from "react";
-import { View, Dimensions, StyleSheet, Pressable, Text } from "react-native";
-import Carousel from "react-native-reanimated-carousel";
+import { View, StyleSheet, Pressable, Text } from "react-native";
 import { Image } from "expo-image";
 import { LinearGradient } from "expo-linear-gradient";
 import Time from "./Time";
@@ -18,6 +17,7 @@ const getStyleValue = (key, value) => {
   if (value === undefined) return;
   return { [key]: value === "unset" ? undefined : value };
 };
+
 const HeaderSection = ({
   propTop,
   propLeft,
@@ -44,6 +44,7 @@ const HeaderSection = ({
       locations={[0, 0.8]}
       colors={["#e0a340", "#7a5923"]}
     >
+      {/* Status bar icons and time
       <View style={styles.gruopStatus}>
         <Time
           hours={hours}
@@ -71,50 +72,48 @@ const HeaderSection = ({
             source={require("../assets/battery1.png")}
           />
         </View>
-      </View>
-      <View>
-        <View style={styles.header}>
-          <Pressable
-            style={[styles.menu, styles.menuFlexBox]}
-            onPress={onMenuPress}
-          >
-            <Image
-              style={[styles.icon, styles.iconLayout]}
-              contentFit="cover"
-              source={require("../assets/icon14.png")}  //help, setting, about us..button
-            />
-          </Pressable>
-          <View style={[styles.title, styles.menuFlexBox]}>
-            <Text style={styles.label}>
-              <Text style={styles.welcomeBackName}>
-                <Text style={styles.label1Typo}>Welcome Back</Text>
-                <Text style={styles.name}>, ‘Name’</Text>
-              </Text>
-              <Text style={styles.name}>
-                <Text style={styles.text1}>!</Text>
-              </Text>
+      </View> */}
+
+      {/* Menu, Welcome Back, and Notification */}
+      <View style={styles.header}>
+        <Pressable
+          style={[styles.menu, styles.menuFlexBox]}
+          onPress={onMenuPress}
+        >
+          <Image
+            style={[styles.icon, styles.iconLayout]}
+            contentFit="cover"
+            source={require("../assets/icon14.png")} // Menu icon
+          />
+        </Pressable>
+        <View style={[styles.title, styles.menuFlexBox]}>
+          <Text style={styles.label}>
+            <Text style={styles.welcomeBackName}>
+              <Text style={styles.label1Typo}>Welcome Back</Text>
             </Text>
-          </View>
-          <Pressable
-            style={[styles.notification, styles.menuFlexBox]}
-            onPress={() => navigation.navigate("Notification1")}
-          >
-            <Image
-              style={[styles.notificationBingIcon, styles.iconLayout]}
-              contentFit="cover"
-              source={require("../assets/notificationbing1.png")}
-            />
-            <Image
-              style={styles.badgeIcon}
-              contentFit="cover"
-              source={require("../assets/badge1.png")}
-            />
-          </Pressable>
+            <Text style={styles.name}>
+              <Text style={styles.text1}>!</Text>
+            </Text>
+          </Text>
         </View>
+        <Pressable
+          style={[styles.notification, styles.menuFlexBox]}
+          onPress={() => navigation.navigate("Notification1")}
+        >
+          <Image
+            style={[styles.notificationBingIcon, styles.iconLayout]}
+            contentFit="cover"
+            source={require("../assets/notificationbing1.png")}
+          />
+        </Pressable>
       </View>
+
+      {/* E-Bank Section */}
       <View style={styles.ebank}>
         <Text style={styles.amount}>E - Bank</Text>
       </View>
+
+      {/* Updates Section */}
       <Pressable
         style={styles.updates}
         onPress={() => navigation.navigate("Plans1")}
@@ -156,12 +155,10 @@ const styles = StyleSheet.create({
   },
   wifiIcon: {
     width: 16,
-    overflow: "hidden",
     height: 12,
   },
   batteryIcon: {
     width: 24,
-    overflow: "hidden",
     height: 12,
   },
   icons: {
@@ -175,9 +172,6 @@ const styles = StyleSheet.create({
     alignItems: "center",
     flexDirection: "row",
     alignSelf: "stretch",
-  },
-  icon: {
-    overflow: "hidden",
   },
   menu: {
     backgroundColor: Color.colorGray_1300,
@@ -201,17 +195,11 @@ const styles = StyleSheet.create({
   },
   notificationBingIcon: {
     zIndex: 0,
-  },
-  badgeIcon: {
-    top: 6,
-    left: 21,
-    width: 7,
-    height: 7,
-    zIndex: 1,
-    position: "absolute",
+    // marginLeft: 50,
   },
   notification: {
     backgroundColor: Color.colorAliceblue_500,
+    marginLeft:60, //notification position
   },
   header: {
     gap: Gap.gap_xl,
@@ -255,14 +243,18 @@ const styles = StyleSheet.create({
     alignSelf: "stretch",
   },
   headerSection: {
-    top: 12,
-    left: 13,
+    top: 50,
+    left: 10,
     borderRadius: Border.br_5xl,
-    width: 351,
+    width: 385,
     padding: Padding.p_5xl,
+    paddingTop: 20,
     gap: Gap.gap_7xs,
     backgroundColor: "transparent",
     position: "absolute",
+    marginTop:27,
+    marginLeft:0,
+    height:245,
   },
 });
 
