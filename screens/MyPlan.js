@@ -3,6 +3,7 @@ import { StyleSheet, View, Text, Pressable } from "react-native";
 import { Image } from "expo-image";
 import CurrentPlan from "../components/CurrentPlan";
 import { useNavigation } from "@react-navigation/native";
+import { useRoute } from '@react-navigation/native'
 import {
   Padding,
   Border,
@@ -11,13 +12,22 @@ import {
   FontFamily,
   Gap,
 } from "../GlobalStyles";
+import NewPlan from '../components/NewPlan';
 
-const MyPlan = () => {
+const MyPlan = ({ targetAmount }) => {
   const navigation = useNavigation();
-
+  const route = useRoute();
+  const { balance, daysToTarget } = route.params;
   return (
     <View style={styles.myPlan}>
+        <Text style={styles.resultText}>
+                Balance: {balance !== undefined ? balance : 0} {/* Displaying 0 if undefined */}
+            </Text>
+            <Text style={styles.resultText}>
+                Days to reach target: {daysToTarget !== undefined ? daysToTarget : 'N/A'} {/* Displaying N/A if undefined */}
+            </Text>
       <View style={styles.plans}>
+        {/* Plan 1 */}
         <View style={[styles.apr, styles.aprFlexBox]}>
           <View style={styles.container} />
           <View style={[styles.plan1, styles.planFlexBox]}>
@@ -26,9 +36,8 @@ const MyPlan = () => {
                 <Text style={styles.apr1}>APR</Text>
               </View>
               <Text style={styles.plan25AprContainer}>
-                <Text style={styles.planClr}>{`Plan 25
-`}</Text>
-                <Text style={styles.apr11Clr}>Apr 1 - Apr 30, 2022</Text>
+                <Text style={styles.planClr}>Plan 25</Text>
+                <Text style={styles.apr11Clr}>Apr 1 - Apr 30, 2024</Text>
               </Text>
             </View>
             <View style={[styles.ammount, styles.ammountLayout]}>
@@ -36,6 +45,8 @@ const MyPlan = () => {
             </View>
           </View>
         </View>
+
+        {/* Plan 2 */}
         <View style={styles.aprFlexBox}>
           <View style={styles.container} />
           <View style={[styles.plan2, styles.planFlexBox]}>
@@ -44,9 +55,8 @@ const MyPlan = () => {
                 <Text style={styles.apr1}>MAR</Text>
               </View>
               <Text style={[styles.plan10MarContainer, styles.containerLayout]}>
-                <Text style={styles.planClr}>{`Plan 10
-`}</Text>
-                <Text style={styles.apr11Clr}>Mar 1 - Mar 31, 2022</Text>
+                <Text style={styles.planClr}>Plan 10</Text>
+                <Text style={styles.apr11Clr}>Mar 1 - Mar 31, 2024</Text>
               </Text>
             </View>
             <View style={[styles.ammount1, styles.ammountLayout]}>
@@ -54,6 +64,8 @@ const MyPlan = () => {
             </View>
           </View>
         </View>
+
+        {/* Plan 3 */}
         <View style={styles.aprFlexBox}>
           <View style={styles.container} />
           <View style={[styles.plan3, styles.planFlexBox]}>
@@ -62,9 +74,8 @@ const MyPlan = () => {
                 <Text style={styles.apr1}>FEB</Text>
               </View>
               <Text style={styles.plan25FebContainer}>
-                <Text style={styles.planClr}>{`Plan 25%
-`}</Text>
-                <Text style={styles.apr11Clr}>Feb 1 - Feb 28, 2022</Text>
+                <Text style={styles.planClr}>Plan 25%</Text>
+                <Text style={styles.apr11Clr}>Feb 1 - Feb 28, 2024</Text>
               </Text>
             </View>
             <View style={[styles.ammount1, styles.ammountLayout]}>
@@ -72,6 +83,8 @@ const MyPlan = () => {
             </View>
           </View>
         </View>
+
+        {/* Plan 4 */}
         <View style={styles.aprFlexBox}>
           <View style={styles.container} />
           <View style={[styles.plan4, styles.planFlexBox]}>
@@ -80,19 +93,17 @@ const MyPlan = () => {
                 <Text style={styles.apr1}>JAN</Text>
               </View>
               <Text style={styles.containerLayout}>
-                <Text style={[styles.plan5, styles.planClr]}>{`Plan 5%
-`}</Text>
+                <Text style={[styles.plan5, styles.planClr]}>Plan 5%</Text>
                 <Text style={[styles.jan11, styles.apr11Clr]}>
-                  Jan 1 - Jan 31, 2022
+                  Jan 1 - Jan 31, 2024
                 </Text>
               </Text>
             </View>
-            <View style={[styles.ammount1, styles.ammountLayout]}>
-              <Text style={[styles.text3, styles.textTypo]}>€89,00</Text>
-            </View>
+            
           </View>
         </View>
       </View>
+
       <CurrentPlan />
       <View style={[styles.exit, styles.exitFlexBox]}>
         <Image
@@ -101,13 +112,16 @@ const MyPlan = () => {
           source={require("../assets/arrowleft7.png")}
         />
       </View>
+      
       <View style={styles.parent}>
-        <Text style={[styles.text4, styles.text4Position]}>₹</Text>
+        
         <View style={[styles.amount, styles.infoFlexBox]}>
-          <Text style={styles.label}>2,400</Text>
+          {/* Display the target amount passed as a prop */}
+          <Text style={styles.label}>{targetAmount}</Text>
           <View style={styles.liner} />
         </View>
       </View>
+
       <Pressable
         style={[styles.wrapper, styles.exitPosition]}
         onPress={() => navigation.navigate("SavingPlan")}
@@ -136,7 +150,20 @@ const styles = StyleSheet.create({
     height: 80,
     alignItems: "center",
     width: 350,
+    top:330,
+    left:10,
+
   },
+  plan:{
+top:550,
+  },
+ 
+resultText: {
+    fontSize: 18,
+    marginBottom: 10,
+    top:350,
+    left:15,
+},
   planFlexBox: {
     marginTop: -65,
     flexDirection: "row",
@@ -248,149 +275,26 @@ const styles = StyleSheet.create({
       height: 4,
     },
     shadowRadius: 4,
-    elevation: 4,
     shadowOpacity: 1,
-  },
-  marWrapper: {
-    paddingHorizontal: Padding.p_7xs,
-  },
-  plan10MarContainer: {
-    fontFamily: FontFamily.interRegular,
-  },
-  text1: {
-    fontFamily: FontFamily.interRegular,
-  },
-  ammount1: {
-    borderColor: Color.colorGray_2500,
-  },
-  plan2: {
-    gap: Gap.gap_19xs,
-  },
-  febWrapper: {
-    paddingHorizontal: Padding.p_5xs,
-  },
-  plan25FebContainer: {
-    fontFamily: FontFamily.interRegular,
-    textAlign: "left",
-  },
-  plan3: {
-    gap: Gap.gap_7xl,
-  },
-  plan5: {
-    fontFamily: FontFamily.helvetica,
-    fontWeight: "700",
-  },
-  jan11: {
-    fontFamily: FontFamily.helvetica,
-  },
-  text3: {
-    fontFamily: FontFamily.helvetica,
-  },
-  plan4: {
-    gap: Gap.gap_16xs,
-  },
-  plans: {
-    top: 562,
-    height: 500,
-    paddingBottom: 120,
-    gap: Gap.gap_xs,
-    alignItems: "center",
-    width: 350,
-    left: 20,
-    position: "absolute",
-  },
-  arrowLeftIcon: {
-    width: 24,
-    height: 24,
-    display: "none",
-  },
-  exit: {
-    left: 24,
-    borderRadius: Border.br_5xs,
-    width: 37,
-    padding: Padding.p_7xs,
-    top: 39,
-    position: "absolute",
-    justifyContent: "center",
-  },
-  text4: {
-    fontSize: FontSize.kudaProjectHeaderText32Bold_size,
-    lineHeight: 48,
-    fontFamily: FontFamily.interBold,
-    color: Color.colorPeru_200,
-    textAlign: "left",
-    fontWeight: "700",
-  },
-  label: {
-    fontSize: FontSize.size_9xl,
-    fontWeight: "600",
-    fontFamily: FontFamily.montserratSemiBold,
-    color: Color.lightGray11,
-    textAlign: "left",
-  },
-  liner: {
-    borderRadius: Border.br_3xs,
-    backgroundColor: Color.primaryMain,
-    width: 1,
-    height: 28,
-    opacity: 0.5,
+    elevation: 2,
   },
   amount: {
-    top: 8,
-    width: 150,
-    gap: Gap.gap_17xs,
-    left: 20,
-    flexDirection: "row",
-    position: "absolute",
-  },
-  parent: {
-    top: 491,
-    left: 131,
-    width: 170,
-    height: 48,
-    position: "absolute",
-  },
-  icon: {
-    height: "100%",
-    width: "100%",
-  },
-  wrapper: {
-    left: 17,
-    width: 40,
-    height: 40,
-  },
-  time: {
-    fontSize: FontSize.size_mini,
-    letterSpacing: 0,
-    textAlign: "center",
-    color: Color.lightGray11,
-    fontFamily: FontFamily.helvetica,
-    fontWeight: "700",
-  },
-  connectionsIcon: {
-    width: 68,
-    height: 16,
-  },
-  statusBarwhite: {
-    width: 375,
-    paddingLeft: Padding.p_5xl,
-    paddingTop: Padding.p_5xs,
-    paddingRight: Padding.p_4xl,
-    paddingBottom: Padding.p_5xs,
-    gap: Gap.gap_20xl,
-    height: 36,
     flexDirection: "row",
     alignItems: "center",
-    backgroundColor: Color.colorGoldenrod_100,
-    left: 0,
-    top: 0,
+    paddingVertical: 10,
+    width: 164,
   },
-  myPlan: {
-    borderRadius: Border.br_5xl,
-    flex: 1,
-    height: 812,
-    width: "100%",
-    backgroundColor: Color.white,
+  label: {
+    fontFamily: FontFamily.adaminaRegular,
+    fontSize: FontSize.size_lg,
+    color: Color.colorGray_2400,
+  },
+  liner: {
+    height: 2,
+    width: 164,
+    backgroundColor: Color.colorGray_2400,
+    marginTop: 6,
+    top:500,
   },
 });
 

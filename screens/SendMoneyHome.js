@@ -1,31 +1,71 @@
-import * as React from "react";
-import { Text, StyleSheet, View } from "react-native";
+import React, { useEffect, useState } from "react";
+import { Text, StyleSheet, View, ScrollView, Pressable, Alert, PermissionsAndroid } from "react-native";
 import { Image } from "expo-image";
-import Frame2 from "../components/Frame2";
-import SendMoney2 from "../components/SendMoney2";
-import {
-  FontSize,
-  FontFamily,
-  Color,
-  Padding,
-  Gap,
-  Border,
-} from "../GlobalStyles";
+import { useNavigation, useRoute } from "@react-navigation/native";
+import Contacts from 'react-native-contacts';
+import { FontSize, FontFamily, Color, Padding, Gap, Border } from "../GlobalStyles";
 import { LinearGradient } from 'expo-linear-gradient';
+import { useTransaction } from '../screens/TransactionContext'; // Adjust the path
 
 const SendMoneyHome = () => {
+  const navigation = useNavigation();
+  const route = useRoute(); // Use useRoute to access the route parameters
+  const { contactName, amount } = route.params || {}; // Destructure parameters, handle case when they might be undefined
+  const { transactionHistory, addTransaction } = useTransaction();
+
+  const [contacts, setContacts] = useState([]);
+
+  // Request permission and fetch contacts
+  useEffect(() => {
+    const requestContactsPermission = async () => {
+      if (Platform.OS === 'android') {
+        const granted = await PermissionsAndroid.request(
+          PermissionsAndroid.PERMISSIONS.READ_CONTACTS,
+          {
+            title: "Contacts Permission",
+            message: "This app would like to access your contacts.",
+            buttonPositive: "OK",
+            buttonNegative: "Cancel",
+          }
+        );
+        if (granted !== PermissionsAndroid.RESULTS.GRANTED) {
+          Alert.alert("Permission denied", "You need to grant contacts permission to use this feature.");
+          return;
+        }
+      }
+
+      // Fetch contacts
+      Contacts.getAll()
+        .then(contacts => {
+          setContacts(contacts.slice(0, 5));
+        })
+        .catch(e => console.log('Error fetching contacts', e));
+    };
+
+    requestContactsPermission();
+  }, []);
+
+  // Transaction handling
+  useEffect(() => {
+    if (contactName && amount) {
+      addTransaction(contactName, amount);
+    }
+  }, [contactName, amount]);
+
+  // Frequent Contacts logic
+  const contactCountMap = transactionHistory.reduce((acc, transaction) => {
+    acc[transaction.contactName] = (acc[transaction.contactName] || 0) + 1;
+    return acc;
+  }, {});
+
+  const frequentContacts = [...new Set(transactionHistory
+    .filter(transaction => contactCountMap[transaction.contactName] > 2)
+    .map(transaction => transaction.contactName)
+  )];
+
   return (
     <View style={styles.sendMoneyHome}>
-      <Frame2 />
       <View style={styles.frame}>
-        {/* <View style={styles.statusBarwhite}>
-          <Text style={styles.time}>9:41</Text>
-          <Image
-            style={styles.connectionsIcon}
-            contentFit="cover"
-            source={require("../assets/connections.png")}
-          />
-        </View> */}
         <View style={styles.frame1}>
           <View style={styles.frame2}>
             <LinearGradient
@@ -38,8 +78,7 @@ const SendMoneyHome = () => {
                 <Text style={styles.label}>
                   <Text style={styles.welcomeBack}>
                     <Text style={styles.welcomeBack1}>Welcome Back</Text>
-                    <Text style={styles.text}>{`, 
-`}</Text>
+                    <Text style={styles.text}>{`, `}</Text>
                   </Text>
                   <Text style={styles.text}>
                     <Text style={styles.name1}>Name!</Text>
@@ -56,41 +95,199 @@ const SendMoneyHome = () => {
               source={require("../assets/frame2.png")}
             />
           </View>
-          <SendMoney2 />
         </View>
+      </View>
+      <Text style={styles.flexBoxHeading}>Send Money</Text>
+      {/* Flexbox container */}
+      <View style={styles.flexContainer}>
+        {/* Move the Pressable inside the flex container */}
+        <Pressable
+          style={styles.alexFlexBox}
+          onPress={() => navigation.navigate("SendMoney")}
+        >
+          <View style={styles.iconButton}>
+            <Image
+              style={styles.buttonIcon}
+              contentFit="cover"
+              source={require("../assets/button.png")}
+            />
+          </View>
+          <View style={styles.contactContainer}>
+            <Text style={styles.newSend}>Your</Text>
+            <Text style={styles.newSend}>Contact</Text>
+          </View>
+        </Pressable>
+
+        {/* Frequent Contacts Section */}
+        {frequentContacts.length > 0 && (
+          <View style={styles.frequentContactsContainer}>
+            <ScrollView horizontal showsHorizontalScrollIndicator={false}>
+              {frequentContacts.map((contact, index) => (
+                <View key={index} style={styles.frequentContactBox}>
+                  <Image
+                    style={styles.userIcon}
+                    source={require("../assets/user2.png")}
+                  />
+                  <Text style={styles.transactionText} numberOfLines={2}>{contact}</Text>
+                </View>
+              ))}
+            </ScrollView>
+          </View>
+        )}
+      </View>
+
+      {/* Transaction History Section */}
+      <View style={styles.transactionHistoryContainer}>
+        <Text style={styles.transactionHistoryTitle}>Transaction History</Text>
+        {transactionHistory.map((transaction, index) => (
+          <View key={index} style={styles.transactionBox}>
+            <Text style={styles.transactionText}>{transaction.contactName}</Text>
+            <Text style={styles.transactionText}>₹{transaction.amount}</Text>
+          </View>
+        ))}
       </View>
     </View>
   );
 };
 
 const styles = StyleSheet.create({
-  time: {
+  flexContainer: {
+    left:-22,
+    flexDirection: 'row',
+   // justifyContent: 'space-between', // Space between the Pressable and Frequent Contacts
+    alignItems: 'center', // Align items vertically
+    padding: 8,
+  },
+  flexBoxHeading:{
+    fontFamily:FontFamily.montserratMedium,
+    fontSize:20,
+    top:260,
+    left:20,
+  },
+  sendMoneyHome: {
     position: "relative",
-    fontSize: FontSize.size_mini,
-    letterSpacing: 0,
-    fontWeight: "700",
-    fontFamily: FontFamily.helvetica,
-    color: Color.lightGray11,
+    flex: 1,
+    backgroundColor: Color.white,
+    width: "100%",
+    height: "100%",
+  },
+  alexFlexBox: {
+    top:250,
+    flexDirection: 'column',
+    alignItems: 'center',
+    padding: 10,
+    margin: 20, // Adjust this to ensure visibility
+    backgroundColor: '#f6f6f6', // Add background color for visibility
+    borderRadius: Border.br_5xl,
+    elevation: 0, // For some shadow effect
+  },
+  iconButton: {
+    width: 48,
+    height: 48,
+    marginRight: 10,
+  },
+  buttonIcon: {
+    width: "100%",
+    height: "100%",
+  },
+  contactContainer: {
+    flexDirection: 'column',
+  },
+  userIcon:{
+    width:50,
+    height:50,
+  },
+  newSend: {
+    fontSize: 14,
+    textAlign:"center",
+    color: Color.blackB100,
+  },
+  frequentContactsContainer: {
+    marginTop: 20,
+    padding: 20,
+    top:240,
+    height:110,
+    width:310,
+    // marginRight:0,
+    backgroundColor: "#F6F6F6",
+    borderRadius: Border.br_5xl,
+    flexDirection: 'row',
+  },
+  frequentContactBox: {
+    paddingLeft: 10,
+    flexDirection: 'column',
+    alignItems: 'center',
+    marginVertical: 2,
+    marginHorizontal: -5,
+    width: 100,
+  },
+  transactionHistoryContainer: {
+    marginTop: 20,
+    padding: 20,
+    backgroundColor: "#F3ECE1",
+    borderRadius: Border.br_5xl,
+    top:220,
+  },
+  transactionBox: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    padding: 10,
+    marginVertical: 5,
+    backgroundColor: Color.colorWhitesmoke_100,
+    borderRadius: 8,
+  },
+  transactionHistoryTitle:{
+    fontSize:20,
+    paddingBottom:10,
+    fontFamily: FontFamily.montserratMedium,
+ },
+  transactionText: {
+    fontSize: 15,
+    color: Color.blackB100,
     textAlign: "center",
   },
-  connectionsIcon: {
-    position: "relative",
-    width: 68,
-    height: 16,
-  },
-  statusBarwhite: {
-    backgroundColor: Color.colorGoldenrod_100,
-    width: 375,
-    height: 36,
-    flexDirection: "row",
-    alignItems: "center",
+  frame: {
+    position: "absolute",
+    top: 45,
+    left: -6,
+    width: 476,
+    height: 390,
+    overflow: "hidden",
+    flexDirection: "column",
+    alignItems: "flex-start",
     justifyContent: "flex-start",
-    paddingLeft: Padding.p_5xl,
-    paddingTop: Padding.p_5xs,
-    paddingRight: Padding.p_4xl,
-    paddingBottom: Padding.p_5xs,
-    gap: Gap.gap_20xl,
-    marginLeft: 7,
+    gap: Gap.gap_7xs,
+  },
+  frame2: {
+    width: 458,
+    height: 204,
+    overflow: "hidden",
+    marginLeft: 18,
+  },
+ 
+  frame1: {
+    width: 476,
+    height: 340,
+    overflow: "hidden",
+    flexDirection: "column",
+    alignItems: "flex-start",
+    justifyContent: "flex-start",
+    paddingLeft: 0,
+    gap: Gap.gap_4xs,
+  },
+  headerSection: {
+    position: "absolute",
+    top: 0,
+    left: 0,
+    borderRadius: Border.br_7xl,
+    width: 385,
+    height: 204,
+    overflow: "hidden",
+    flexDirection: "column",
+    alignItems: "flex-start",
+    justifyContent: "flex-start",
+    padding: Padding.p_5xl,
+    backgroundColor: "transparent",
   },
   statusBar: {
     alignSelf: "stretch",
@@ -129,20 +326,6 @@ const styles = StyleSheet.create({
     padding: Padding.p_7xs,
     marginTop: -24,
   },
-  headerSection: {
-    position: "absolute",
-    top: 0,
-    left: 0,
-    borderRadius: Border.br_7xl,
-    width: 385,
-    height: 204,
-    overflow: "hidden",
-    flexDirection: "column",
-    alignItems: "flex-start",
-    justifyContent: "flex-start",
-    padding: Padding.p_5xl,
-    backgroundColor: "transparent",
-  },
   header: {
     alignSelf: "stretch",
     height: 43,
@@ -162,55 +345,10 @@ const styles = StyleSheet.create({
   },
   frameIcon: {
     position: "absolute",
-    top: 10,     //back button
+    top: 10, //back button
     left: 21,
     width: 40,
     height: 55,
-    overflow: "hidden",
-  },
-  frame2: {
-    width: 458,
-    height: 204,
-    overflow: "hidden",
-    marginLeft: 18,
-  },
-  frame1: {
-    width: 476,
-    height: 340,
-    overflow: "hidden",
-    flexDirection: "column",
-    alignItems: "flex-start",
-    justifyContent: "flex-start",
-    paddingLeft: 0,
-    gap: Gap.gap_4xs,
-  },
-  frame: {
-    position: "absolute",
-    top: 45,
-    left: -6,
-    width: 476,
-    height: 390,
-    overflow: "hidden",
-    flexDirection: "column",
-    alignItems: "flex-start",
-    justifyContent: "flex-start",
-    gap: Gap.gap_7xs,
-  },
-  sendMoneyHome: {
-    position: "relative",
-    shadowColor: "rgba(176, 176, 176, 0.2)",
-    shadowOffset: {
-      width: 0,
-      height: 12,
-    },
-    shadowRadius: 44.8,
-    elevation: 44.8,
-    shadowOpacity: 1,
-    borderRadius: Border.br_5xl,
-    backgroundColor: Color.white,
-    flex: 1,
-    width: "100%",
-    height: 812,
     overflow: "hidden",
   },
 });

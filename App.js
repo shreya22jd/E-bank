@@ -130,7 +130,7 @@ import Map1 from "./screens/Map1";
 import PaymentMethod1 from "./screens/PaymentMethod1";
 import HomeNav1 from "./screens/HomeNav1";
 import ShipTo from "./components/ShipTo";
-
+import { TransactionProvider } from './screens/TransactionContext';
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { View, Text, Pressable, TouchableOpacity } from "react-native";
 
@@ -181,11 +181,12 @@ const App = () => {
 
   return (
     <>
+    <TransactionProvider>
       <NavigationContainer>
         {hideSplashScreen ? (
           <Stack.Navigator 
           screenOptions={{ headerShown: false }} 
-          initialRouteName="LoginPage" // Set Home as the initial screen
+          initialRouteName="LoginPage" // Set LoginPage as the initial screen
         >
               <Stack.Screen
               name="Home"
@@ -811,7 +812,7 @@ const App = () => {
               name="PaymentMethod1"
               component={PaymentMethod1}
               options={{ headerShown: false }}
-            />
+            /> 
             <Stack.Screen
               name="HomeNav1"
               component={HomeNav1}
@@ -820,6 +821,7 @@ const App = () => {
           </Stack.Navigator>
         ) : null}
       </NavigationContainer>
+      </TransactionProvider>
     </>
   );
 };

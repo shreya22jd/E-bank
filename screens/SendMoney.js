@@ -40,14 +40,19 @@ const SendMoney = () => {
     setFilteredContacts(filtered);
   };
 
+  const handleContactPress = (selectedContact) => {
+    // Navigate to the Money screen, passing the selected contact's name and number
+    navigation.navigate('Money', { contactName: selectedContact.name, contactNumber: selectedContact.phoneNumbers[0]?.number });
+  };
+  
   const renderContactItem = ({ item }) => {
     const contactName = item.name || 'No Name';
     const phoneNumber = item.phoneNumbers?.[0]?.number || 'No Number';
 
     return (           
       <Pressable   
-        style={styles.contactItem} //this part will navigate to sendMoney1 page on pressing any number
-        onPress={() => navigation.navigate("SendMoney1", { contactName, phoneNumber })} // Navigate to SendMoney1
+        style={styles.contactItem} //this part will navigate to Money page on pressing any number
+        onPress={() => handleContactPress(item)} // Navigate to SendMoney1
       >
         <Image
           style={styles.userIcon}
@@ -68,7 +73,7 @@ const SendMoney = () => {
       <View style={styles.statusBarParent}>
         <StatusBar1
           statusBarPosition="absolute"
-          statusBarWidth={390}
+          statusBarWidth={412}
           statusBarHeight={95}
           statusBarTop={0}
           statusBarLeft={0}
@@ -145,7 +150,7 @@ const styles = StyleSheet.create({
     borderRadius: Border.br_xs,
     backgroundColor: Color.white,
     paddingVertical: 5,
-    marginTop: 90, // Adjust to position below the title
+    marginTop: 100, // Adjust to position below the title
   },
   searchIcon: {
     width: 30,

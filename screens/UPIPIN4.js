@@ -1,259 +1,154 @@
 import * as React from "react";
-import { StyleSheet, View, Text, Pressable } from "react-native";
+import { StyleSheet, View, Text, TextInput, Pressable, KeyboardAvoidingView, Platform } from "react-native";
 import { Image } from "expo-image";
-import KeyboardsNumber from "../components/KeyboardsNumber";
-import Item3 from "../components/Item3";
-import { useNavigation } from "@react-navigation/native";
-import {
-  Color,
-  Border,
-  FontSize,
-  FontFamily,
-  Padding,
-  Gap,
-} from "../GlobalStyles";
+import { useNavigation, useRoute } from "@react-navigation/native"; // Import useRoute
+import { Color, Border, FontSize, FontFamily } from "../GlobalStyles";
 
 const UPIPIN4 = () => {
   const navigation = useNavigation();
+  const route = useRoute(); // Use useRoute to get the route parameters
+  const { contactName, contactNumber, amount } = route.params; // Destructure the parameters
+  const [upiPin, setUpiPin] = React.useState("");
+
+  const handleChange = (text) => {
+    const cleanedText = text.replace(/\s/g, '').slice(0, 4);
+    const formattedText = cleanedText.replace(/(.{1})/g, '$1 ').trim();
+    setUpiPin(formattedText);
+  };
+
+  const isUPIPinValid = upiPin.replace(/\s/g, '').length === 4; // Check if UPI PIN has 4 digits
 
   return (
-    <View style={styles.upiPin}>
-      <View style={styles.body}>
-        <KeyboardsNumber textHeight="51.51%" textTop="48.49%" />
-        <View style={styles.barsHomeIndicatorIphone}>
-          <View style={styles.homeIndicator} />
-        </View>
-        <View style={styles.codeNumber}>
-          <Item3
-            propRight="2.24%"
-            propLeft="76.92%"
-            propHeight="100%"
-            propWidth="20.83%"
-            propTop="0%"
-            propBottom="0%"
-            propBackgroundColor="#8f92a1"
-            number=" "
-          />
-          <Item3
-            propRight="27.88%"
-            propLeft="51.28%"
-            propHeight="100%"
-            propWidth="20.83%"
-            propTop="0%"
-            propBottom="0%"
-            propBackgroundColor="#171717"
-            number="0"
-          />
-          <Item3
-            propRight="0%"
-            propLeft="79.17%"
-            propHeight="100%"
-            propWidth="20.83%"
-            propTop="0%"
-            propBottom="0%"
-            propBackgroundColor="#171717"
-            number="0"
-          />
-          <Item3
-            propRight="53.53%"
-            propLeft="25.64%"
-            propHeight="100%"
-            propWidth="20.83%"
-            propTop="0%"
-            propBottom="0%"
-            propBackgroundColor="#171717"
-            number="0"
-          />
-          <Item3
-            propRight="79.17%"
-            propLeft="0%"
-            propHeight="100%"
-            propWidth="20.83%"
-            propTop="0%"
-            propBottom="0%"
-            propBackgroundColor="#171717"
-            number="0"
-          />
-        </View>
+    <KeyboardAvoidingView
+      style={styles.container}
+      behavior={Platform.OS === "ios" ? "padding" : "height"}
+      keyboardVerticalOffset={0} 
+    >  
+      <View style={styles.upiPin}>
         <Text style={styles.otpAuthentication}>Enter UPI PIN</Text>
-      </View>
-      <Image
-        style={styles.image111Icon}
-        contentFit="cover"
-        source={require("../assets/image-111.png")}
-      />
-      <Text style={[styles.bankOfBaroda, styles.timeClr]}>Bank of Baroda</Text>
-      <Pressable
-        style={[styles.signIn, styles.signLayout]}
-        onPress={() => navigation.navigate("Info8")}
-      >
-        <View style={[styles.signIn1, styles.signIn1Position]} />
-        <Text style={styles.text}>Proceed to Pay</Text>
-      </Pressable>
-      <View style={[styles.statusBarwhite, styles.signIn1Position]}>
-        <Text style={[styles.time, styles.timeClr]}>9:41</Text>
-        <Image
-          style={styles.connectionsIcon}
-          contentFit="cover"
-          source={require("../assets/connections.png")}
+        <TextInput
+          style={styles.input}
+          placeholder="• • • •"
+          placeholderTextColor="#000"
+          keyboardType="numeric"
+          maxLength={7}
+          value={upiPin}
+          onChangeText={handleChange}
         />
-      </View>
-      <Pressable
-        style={styles.wrapper}
-        onPress={() => navigation.navigate("PaymentMethod2")}
-      >
         <Image
-          style={styles.icon}
+          style={styles.image111Icon}
           contentFit="cover"
-          source={require("../assets/group-1272628274.png")}
+          source={require("../assets/image-111.png")}
         />
-      </Pressable>
-    </View>
+        <Text style={styles.bankOfBaroda}>Bank of Baroda</Text>
+
+        {/* Display the contact name, number, and amount */}
+        <Text style={styles.detailsText}>Contact Name: {contactName}</Text>
+        <Text style={styles.detailsText}>Contact Number: {contactNumber}</Text>
+        <Text style={styles.detailsText}>Amount: ₹{amount}</Text>
+
+        {/* Proceed to Pay Button */}
+        <Pressable
+          style={[ 
+            styles.signIn,
+            { backgroundColor: isUPIPinValid ? Color.colorGoldenrod_100 : Color.gray4 }, // Change color based on validity
+          ]}
+          onPress={() => {
+            if (isUPIPinValid) {
+              navigation.navigate("Info8", {
+                contactName,
+                contactNumber,
+                amount,
+              }); // Navigate to Info8
+
+              // Set a timeout to navigate back to SendMoneyHome after a few seconds
+              setTimeout(() => {
+                navigation.navigate("SendMoneyHome", {
+                  contactName,
+                  contactNumber,
+                  amount,
+                });
+              }, 2000); // Adjust the time (in milliseconds) as needed
+            } else {
+              console.log("Please enter a valid UPI PIN.");
+            }
+          }}
+          disabled={!isUPIPinValid} // Disable if the UPI PIN is not valid
+        >
+          <Text style={styles.text}>Proceed to Pay</Text>
+        </Pressable>
+      </View>
+    </KeyboardAvoidingView>
   );
 };
 
 const styles = StyleSheet.create({
-  timeClr: {
-    color: Color.lightGray11,
-    letterSpacing: 0,
-    textAlign: "center",
-  },
-  signLayout: {
-    height: 56,
-    width: 335,
-  },
-  signIn1Position: {
-    backgroundColor: Color.colorGoldenrod_100,
-    top: 0,
-    left: 0,
-    position: "absolute",
-  },
-  homeIndicator: {
-    marginLeft: -66.5,
-    bottom: 8,
-    left: "50%",
-    borderRadius: Border.br_81xl,
-    backgroundColor: Color.lightGray11,
-    width: 134,
-    height: 5,
-    position: "absolute",
-  },
-  barsHomeIndicatorIphone: {
-    top: 595,
-    height: 34,
-    opacity: 0.05,
-    width: 375,
-    left: 0,
-    position: "absolute",
-  },
-  codeNumber: {
-    height: "10.33%",
-    width: "83.2%",
-    top: "14.79%",
-    right: "7.47%",
-    bottom: "74.88%",
-    left: "9.33%",
-    position: "absolute",
+  container: {
+    flex: 1,
+    backgroundColor: Color.white, 
   },
   otpAuthentication: {
-    marginTop: -314.5,
-    width: "40.53%",
-    top: "50%",
-    left: "27.47%",
+    marginTop: 200,
     fontSize: FontSize.size_5xl,
     letterSpacing: -1,
-    lineHeight: 32,
+    lineHeight: 25,
     fontFamily: FontFamily.dMSansBold,
     color: Color.blackB100,
-    textAlign: "left",
-    height: 26,
+    textAlign: "center",
     fontWeight: "700",
-    position: "absolute",
   },
-  body: {
-    height: "77.46%",
-    top: "22.54%",
-    right: "0%",
-    bottom: "0%",
-    left: "0%",
-    position: "absolute",
-    width: "100%",
+  input: {
+    height: 50,
+    borderColor: '#000',
+    borderWidth: 1,
+    borderRadius: 8,
+    textAlign: 'center',
+    fontSize: FontSize.size_5xl,
+    marginVertical: 20,
+    width: '60%',
+    alignSelf: 'center',
   },
   image111Icon: {
     top: 80,
-    left: 151,
+    left: 180,
     width: 55,
     height: 55,
     position: "absolute",
   },
   bankOfBaroda: {
     top: 127,
-    left: 138,
+    left: 160,
     fontSize: FontSize.mobileBody3Regular_size,
     fontFamily: FontFamily.interRegular,
     textAlign: "center",
     position: "absolute",
+    color: Color.lightGray11,
   },
-  signIn1: {
-    borderRadius: Border.br_base,
-    height: 56,
-    width: 335,
-  },
-  text: {
-    top: 16,
-    left: 58,
-    fontSize: FontSize.font_size,
-    lineHeight: 24,
-    fontFamily: FontFamily.montserratBold,
-    color: Color.white,
-    width: 220,
-    height: 24,
+  detailsText: {
+    fontSize: FontSize.size_m, // Adjust font size as needed
+    color: Color.blackB100,
     textAlign: "center",
-    fontWeight: "700",
-    position: "absolute",
+    marginVertical: 5, // Space between the texts
   },
   signIn: {
-    top: 392,
-    left: 20,
-    position: "absolute",
+    marginTop: 30,
+    height: 56,
+    width: "60%",
+    borderRadius: Border.br_base,
+    alignSelf: 'center',
+    justifyContent: 'center',
+    alignItems: 'center',
   },
-  time: {
-    fontSize: FontSize.size_mini,
-    fontFamily: FontFamily.helvetica,
-    textAlign: "center",
+  text: {
+    fontSize: FontSize.font_size,
+    fontFamily: FontFamily.montserratBold,
+    color: Color.white,
     fontWeight: "700",
   },
-  connectionsIcon: {
-    width: 68,
-    height: 16,
-  },
-  statusBarwhite: {
-    height: 36,
-    flexDirection: "row",
-    alignItems: "center",
-    paddingLeft: Padding.p_5xl,
-    paddingRight: Padding.p_4xl,
-    gap: Gap.gap_20xl,
-    width: 375,
-  },
-  icon: {
-    height: "100%",
-    width: "100%",
-  },
-  wrapper: {
-    left: 24,
-    top: 50,
-    width: 40,
-    height: 40,
-    position: "absolute",
-  },
   upiPin: {
-    borderRadius: Border.br_5xl,
-    backgroundColor: Color.white,
     flex: 1,
-    height: 812,
-    overflow: "hidden",
-    width: "100%",
+    backgroundColor: Color.white,
+    paddingVertical: 20,
   },
 });
 
