@@ -1,267 +1,237 @@
-import * as React from "react";
-import { Image } from "expo-image";
-import { StyleSheet, Pressable, View, Text } from "react-native";
-import { useNavigation } from "@react-navigation/native";
-import StatusBar1 from "../components/StatusBar1";
-import { Color, FontFamily, Border, FontSize } from "../GlobalStyles";
+import React, { useEffect, useState } from "react";
+import { View, Text, TextInput, Image, TouchableOpacity, FlatList, StyleSheet } from "react-native";
+import { useNavigation, useRoute } from "@react-navigation/native";
+import StatusBar1 from "../components/StatusBar1"; // Your custom StatusBar component
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 const Message = () => {
   const navigation = useNavigation();
+  const route = useRoute();
+  const { contactName = "No Name", phoneNumber = "No Number" } = route.params || {};
+  const [messages, setMessages] = useState([]);
+  const [inputMessage, setInputMessage] = useState("");
+
+  const STORAGE_KEY = `messages_${contactName}`; // Unique key for storing messages
+
+  const handleSendMessage = async () => {
+    if (inputMessage.trim()) {
+      const newMessage = { text: inputMessage, sender: "user", timestamp: new Date() };
+      const updatedMessages = [...messages, newMessage];
+      setMessages(updatedMessages);
+      setInputMessage(""); // Clear input after sending
+
+      // Save messages to AsyncStorage
+      await AsyncStorage.setItem(STORAGE_KEY, JSON.stringify(updatedMessages));
+    }
+  };
+
+  // Load messages from AsyncStorage when the component mounts
+  useEffect(() => {
+    const loadMessages = async () => {
+      const storedMessages = await AsyncStorage.getItem(STORAGE_KEY);
+      if (storedMessages) {
+        setMessages(JSON.parse(storedMessages));
+      }
+    };
+
+    loadMessages();
+  }, [STORAGE_KEY]);
+
+  // Function to format the date
+  const formatDate = (timestamp) => {
+    const date = new Date(timestamp);
+    const today = new Date();
+    
+    // Check if the date is today
+    if (date.toDateString() === today.toDateString()) {
+      return "Today";
+    }
+    
+    // Check if the date is yesterday
+    const yesterday = new Date(today);
+    yesterday.setDate(today.getDate() - 1);
+    if (date.toDateString() === yesterday.toDateString()) {
+      return "Yesterday";
+    }
+
+    // Format the date as 'DD MMM'
+    const options = { day: '2-digit', month: 'short' };
+    return date.toLocaleDateString('en-GB', options);
+  };
+
+  // Group messages by date
+  const groupMessagesByDate = () => {
+    const groupedMessages = [];
+    let lastDate = "";
+
+    messages.forEach((message) => {
+      const messageDate = formatDate(message.timestamp);
+
+      if (lastDate !== messageDate) {
+        groupedMessages.push({ date: messageDate, messages: [] });
+        lastDate = messageDate;
+      }
+      groupedMessages[groupedMessages.length - 1].messages.push(message);
+    });
+
+    return groupedMessages;
+  };
+
+  const renderItem = ({ item }) => (
+    <View>
+      <Text style={styles.dateText}>{item.date}</Text>
+      {item.messages.map((msg, index) => (
+        <View key={index} style={msg.sender === "user" ? styles.userMessage : styles.contactMessage}>
+          <Text style={styles.messageText}>{msg.text}</Text>
+        </View>
+      ))}
+    </View>
+  );
+
+  const groupedMessages = groupMessagesByDate();
 
   return (
-    <View style={styles.message}>
-      <Pressable
-        style={styles.iconsarrowsarrowLongLeft}
-        onPress={() => navigation.navigate("OrderReview")}
-      >
-        <Image
-          style={[styles.icon, styles.iconLayout]}
-          contentFit="cover"
-          source={require("../assets/iconsarrowsarrowlongleft1.png")}
-        />
-      </Pressable>
-      <View style={styles.searchButton} />
-      <View style={[styles.image108Parent, styles.wrapperPosition]}>
-        <Image
-          style={[styles.image108Icon, styles.timeLightPosition]}
-          contentFit="cover"
-          source={require("../assets/image-108.png")}
-        />
-        <Text style={styles.searchLanguage}>message..</Text>
-      </View>
-      <Image
-        style={styles.vuesaxlinearpaperclip2Icon}
-        contentFit="cover"
-        source={require("../assets/vuesaxlinearpaperclip21.png")}
+    <View style={styles.container}>
+      <StatusBar1
+        statusBarPosition="absolute"
+        statusBarWidth={412}
+        statusBarHeight={95}
+        statusBarTop={0.5}
+        statusBarLeft={0.5}
+        statusBarBackgroundColor="#e0a340"
+        statusBarRight="unset"
+        statusBarBottom="unset"
+        notch={require("../assets/notch.png")}
+        statusIconsWidth={69}
+        statusIconsHeight={14}
+        showNetworkSignalLight={false}
+        wiFiSignalLight={require("../assets/wifi-signal--light.png")}
+        showWiFiSignalLight={false}
+        showBatteryLight={false}
+        showTimeLight={false}
       />
-      <Text style={[styles.yesterday, styles.okayTypo]}>yesterday</Text>
-      <View style={[styles.messageChild, styles.messageBorder]} />
-      <View style={[styles.messageItem, styles.messageBorder]} />
-      <Text style={[styles.hiCanYou, styles.okayTypo]}>
-        Hi, can you send me 500
-      </Text>
-      <Text style={[styles.okay, styles.okayTypo]}>Okay</Text>
-      <View style={[styles.statusBarParent, styles.timeLightPosition]}>
-        <StatusBar1
-          notch={require("../assets/notch.png")}
-          showNetworkSignalLight={false}
-          wiFiSignalLight={require("../assets/wifi-signal--light.png")}
-          showWiFiSignalLight={false}
-          showBatteryLight={false}
-          showTimeLight={false}
-        />
-        <Image
-          style={[styles.batteryLight, styles.lightPosition]}
-          contentFit="cover"
-          source={require("../assets/battery--light1.png")}
-        />
-        <Image
-          style={[styles.networkSignalLight, styles.lightPosition]}
-          contentFit="cover"
-          source={require("../assets/network-signal-light1.png")}
-        />
-        <Image
-          style={[styles.wifiSignalLight, styles.lightPosition]}
-          contentFit="cover"
-          source={require("../assets/wifi-signal--light2.png")}
-        />
-        <Image
-          style={[styles.timeLight, styles.timeLightPosition]}
-          contentFit="cover"
-          source={require("../assets/time--light1.png")}
-        />
-      </View>
-      <View style={styles.info}>
+
+      {/* Display the contact name and number with the image */}
+      <View style={styles.contactInfo}>
+        <Image source={require("../assets/LoginImg.png")} style={styles.contactImage} />
         <View>
-          <Text style={styles.reason}>Alex</Text>
-          <Text style={styles.time}>+91-2384659236</Text>
+          <Text style={styles.contactName}>{contactName}</Text>
+          <Text style={styles.contactNumber}>{phoneNumber}</Text>
         </View>
       </View>
-      <Pressable
-        style={[styles.wrapper, styles.wrapperPosition]}
-        onPress={() => navigation.navigate("RequestMoney")}
-      >
-        <Image
-          style={styles.iconLayout}
-          contentFit="cover"
-          source={require("../assets/group-1000000886.png")}
+
+      {/* Chat Messages */}
+      <FlatList
+        data={groupedMessages}
+        renderItem={renderItem}
+        keyExtractor={(item, index) => index.toString()}
+        style={styles.messagesContainer}
+      />
+
+      {/* Message Input Area */}
+      <View style={styles.messageInputContainer}>
+        <TextInput
+          style={styles.messageInput}
+          placeholder="Enter message"
+          placeholderTextColor="#888"
+          value={inputMessage}
+          onChangeText={setInputMessage}
         />
-      </Pressable>
+        <TouchableOpacity style={styles.sendButton} onPress={handleSendMessage}>
+          <Image
+            style={styles.sendIcon}
+            source={require("../assets/send2.png")} // Adjust path if needed
+          />
+        </TouchableOpacity>
+      </View>
     </View>
   );
 };
 
 const styles = StyleSheet.create({
-  iconLayout: {
-    height: "100%",
-    width: "100%",
+  container: {
+    flex: 1,
+    backgroundColor: "#fff",
   },
-  wrapperPosition: {
-    left: 22,
-    position: "absolute",
-  },
-  timeLightPosition: {
-    left: 0,
-    position: "absolute",
-  },
-  okayTypo: {
-    color: Color.lightGray11,
-    fontFamily: FontFamily.interRegular,
-    lineHeight: 30,
-    textAlign: "left",
-    position: "absolute",
-  },
-  messageBorder: {
-    borderWidth: 1,
-    borderColor: Color.colorGainsboro_200,
-    borderStyle: "solid",
-    borderRadius: Border.br_3xs,
-    position: "absolute",
-  },
-  lightPosition: {
-    height: 13,
-    top: 7,
-    position: "absolute",
-  },
-  icon: {
-    marginTop: -330,
-  },
-  iconsarrowsarrowLongLeft: {
-    left: 23,
-    top: "50%",
-    width: 24,
-    height: 24,
-    position: "absolute",
-  },
-  searchButton: {
-    top: 756,
-    backgroundColor: Color.colorWhitesmoke_800,
-    width: 351,
-    height: 42,
-    borderRadius: Border.br_3xs,
-    left: 11,
-    position: "absolute",
-  },
-  image108Icon: {
-    width: 21,
-    top: 0,
-    left: 0,
-    height: 19,
-  },
-  searchLanguage: {
-    top: 2,
-    left: 28,
-    fontSize: FontSize.m3LabelLarge_size,
-    lineHeight: 14,
-    fontFamily: FontFamily.mobileBody3Regular,
-    color: Color.colorDarkgray_100,
-    width: 124,
-    height: 16,
-    textAlign: "left",
-    position: "absolute",
-  },
-  image108Parent: {
-    top: 768,
-    width: 152,
-    height: 19,
-  },
-  vuesaxlinearpaperclip2Icon: {
-    top: 775,
-    left: 269,
-    width: 5,
-    height: 4,
-    position: "absolute",
-  },
-  yesterday: {
-    top: 95,
-    left: 160,
-    fontSize: FontSize.mobileBody3Regular_size,
-  },
-  messageChild: {
-    top: 252,
-    backgroundColor: "#eabd75",
-    width: 95,
-    height: 43,
-    left: 11,
-    borderColor: Color.colorGainsboro_200,
-    borderStyle: "solid",
-  },
-  messageItem: {
-    top: 173,
-    left: 133,
-    backgroundColor: Color.gray6,
-    width: 225,
-    height: 59,
-  },
-  hiCanYou: {
-    top: 188,
-    left: 138,
-    fontSize: FontSize.font_size,
-  },
-  okay: {
-    top: 259,
-    left: 32,
-    fontSize: FontSize.font_size,
-  },
-  batteryLight: {
-    left: 334,
-    width: 25,
-  },
-  networkSignalLight: {
-    left: 292,
-    width: 20,
-  },
-  wifiSignalLight: {
-    left: 315,
-    width: 16,
-  },
-  timeLight: {
-    top: 4,
-    borderRadius: Border.br_xl,
-    width: 54,
-    height: 19,
-    overflow: "hidden",
-  },
-  statusBarParent: {
-    width: 390,
-    height: 95,
-    top: 0,
-    left: 0,
-  },
-  reason: {
-    fontWeight: "600",
-    fontFamily: FontFamily.montserratSemiBold,
-    color: Color.white,
-    textAlign: "center",
-    fontSize: FontSize.font_size,
-  },
-  time: {
-    fontWeight: "500",
-    fontFamily: FontFamily.montserratMedium,
-    color: Color.colorWhitesmoke_800,
-    textAlign: "center",
-    fontSize: FontSize.mobileBody3Regular_size,
-  },
-  info: {
-    top: 32,
-    left: 86,
-    width: 338,
+  contactInfo: {
     flexDirection: "row",
     alignItems: "center",
-    position: "absolute",
+    padding: 10,
+    borderBottomWidth: 1,
+    borderColor: "#ffffff",
   },
-  wrapper: {
-    top: 30,
-    width: 42,
-    height: 42,
+  contactImage: {
+    top:2,
+    left:10,
+    width: 55, // Adjust as needed
+    height: 55, // Adjust as needed
+    borderRadius: 20, // Makes the image circular
+    marginRight: 10, // Space between the image and text
   },
-  message: {
-    borderRadius: Border.br_5xl,
-    backgroundColor: Color.white,
+  contactName: {
+    fontWeight: "bold",
+    fontSize: 20,
+    left:15,
+    paddingTop:25,
+  },
+  contactNumber: {
+    color: "#000000",
+    paddingBottom:20,
+    left:15,
+    paddingTop:2,
+  },
+  messagesContainer: {
     flex: 1,
-    height: 812,
-    overflow: "hidden",
-    width: "100%",
+    padding: 5,
+  },
+  userMessage: {
+    alignSelf: "flex-end",
+    backgroundColor: "#F3ECE1",
+    padding: 10,
+    borderRadius: 10,
+    marginVertical: 5,
+    maxWidth: "80%",
+  },
+  contactMessage: {
+    alignSelf: "flex-start",
+    backgroundColor: "#f1f0f0",
+    padding: 10,
+    borderRadius: 10,
+    marginVertical: 5,
+    maxWidth: "80%",
+  },
+  messageText: {
+    fontSize: 16,
+  },
+  dateText: {
+    fontSize: 14,
+    fontWeight: "bold",
+    color: "#888",
+    textAlign: "center",
+    marginVertical: 10,
+  },
+  messageInputContainer: {
+    flexDirection: "row",
+    alignItems: "center",
+    padding: 10,
+    borderTopWidth: 1,
+    borderColor: "#F3ECE1",
+  },
+  messageInput: {
+    flex: 1,
+    borderWidth: 1,
+    borderColor: "#F3ECE1",
+    borderRadius: 20,
+    paddingHorizontal: 10,
+    paddingVertical: 5,
+    marginRight: 10,
+  },
+  sendButton: {
+    padding: 10,
+  },
+  sendIcon: {
+    width: 30,
+    height: 30,
   },
 });
 

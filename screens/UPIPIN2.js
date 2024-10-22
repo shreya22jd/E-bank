@@ -19,7 +19,7 @@ const UPIPIN2 = () => {
   // Function to handle the continue button press
   const handleContinue = () => {
     if (pin.length === 4) {
-      navigation.navigate("Info6"); // Navigate to the info16 page
+      navigation.navigate("BalanceDisplay"); // Navigate to the info16 page
     } else {
       alert("Please enter a valid 4-digit UPI PIN.");
     }
@@ -42,14 +42,24 @@ const UPIPIN2 = () => {
         <Text style={styles.otpAuthentication}>Enter UPI PIN</Text>
       </View>
       <View style={[styles.statusBarParent, styles.timeLightPosition]}>
-        <StatusBar1
-          statusBarPosition="absolute"
-          statusBarWidth={390}
-          statusBarHeight={95}
-          statusBarTop={0}
-          statusBarLeft={0}
-          statusBarBackgroundColor="#e0a340"
-        />
+      <StatusBar1
+        statusBarPosition="absolute"
+        statusBarWidth={412}
+        statusBarHeight={95}
+        statusBarTop={0.5}
+        statusBarLeft={0.5}
+        statusBarBackgroundColor="#e0a340"
+        statusBarRight="unset"
+        statusBarBottom="unset"
+        notch={require("../assets/notch.png")}
+        statusIconsWidth={69}
+        statusIconsHeight={14}
+        showNetworkSignalLight={false}
+        wiFiSignalLight={require("../assets/wifi-signal--light.png")}
+        showWiFiSignalLight={false}
+        showBatteryLight={false}
+        showTimeLight={false}
+      />
       </View>
 
       {/* Pressable for Check Balance */}

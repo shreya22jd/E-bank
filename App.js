@@ -13,6 +13,7 @@ import Message from "./screens/Message";
 import Proceed from "./screens/Proceed";
 import Donate from "./screens/Donate";
 import Info6 from "./screens/Info6";
+import BalanceDisplay from "./screens/BalanceDisplay";
 import PaymentMethod4 from "./screens/PaymentMethod4";
 import Help1 from "./screens/Help1";
 import Shares from "./screens/Shares";
@@ -236,6 +237,11 @@ const App = () => {
             <Stack.Screen
               name="Info6"
               component={Info6}
+              options={{ headerShown: false }}
+            />
+             <Stack.Screen
+              name="BalanceDisplay"
+              component={BalanceDisplay}
               options={{ headerShown: false }}
             />
             <Stack.Screen

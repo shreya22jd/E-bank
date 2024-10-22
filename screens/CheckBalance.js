@@ -12,23 +12,23 @@ const CheckBalance = () => {
     <View style={styles.checkBalance}>
       <View style={[styles.statusBarParent, styles.timeLightPosition]}>
       <StatusBar1
-          statusBarPosition="absolute"
-          statusBarWidth={412}
-          statusBarHeight={95}
-          statusBarTop={0.5}
-          statusBarLeft={0.5}
-          statusBarBackgroundColor="#e0a340"
-          statusBarRight="unset"
-          statusBarBottom="unset"
-          notch={require("../assets/notch.png")}
-          statusIconsWidth={69}
-          statusIconsHeight={14}
-          showNetworkSignalLight={false}
-          wiFiSignalLight={require("../assets/wifi-signal--light.png")}
-          showWiFiSignalLight={false}
-          showBatteryLight={false}
-          showTimeLight={false}
-        />
+        statusBarPosition="absolute"
+        statusBarWidth={412}
+        statusBarHeight={95}
+        statusBarTop={0.5}
+        statusBarLeft={0.5}
+        statusBarBackgroundColor="#e0a340"
+        statusBarRight="unset"
+        statusBarBottom="unset"
+        notch={require("../assets/notch.png")}
+        statusIconsWidth={69}
+        statusIconsHeight={14}
+        showNetworkSignalLight={false}
+        wiFiSignalLight={require("../assets/wifi-signal--light.png")}
+        showWiFiSignalLight={false}
+        showBatteryLight={false}
+        showTimeLight={false}
+      />
         {/* <Image
           style={[styles.batteryLight, styles.lightPosition]}
           contentFit="cover"
@@ -53,7 +53,7 @@ const CheckBalance = () => {
 
       {/* Bank of Baroda Pressable */}
       <Pressable
-        onPress={() => navigation.navigate("UPIPIN2")}
+        onPress={() => navigation.navigate("UPIPIN4")}
         style={styles.bankContainer}
       >
         <Image
