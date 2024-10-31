@@ -155,6 +155,7 @@ const styles = StyleSheet.create({
     gap: Gap.gap_12xs,
   },
   users: {
+    left:2,  //this will gaive space for trasaction section
     width: 351,
     gap: Gap.gap_6xl,
     flexDirection: "row",

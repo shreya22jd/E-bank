@@ -99,7 +99,7 @@ const Home = () => {
         </View>
         </ScrollView>
         <FrameComponent14 />
-        <FrameComponent13 />
+        <FrameComponent13 /> 
         {/* <GroupComponent6 propTop={110} propLeft={70} /> */}
       
     </View>

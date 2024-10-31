@@ -134,7 +134,7 @@ import ShipTo from "./components/ShipTo";
 import { TransactionProvider } from './screens/TransactionContext';
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { View, Text, Pressable, TouchableOpacity } from "react-native";
-
+import MiniStatement from "./screens/MiniStatement";
 const App = () => {
   const [hideSplashScreen, setHideSplashScreen] = React.useState(true);
 
@@ -203,6 +203,11 @@ const App = () => {
               name="UPIPIN"
               component={UPIPIN}
               options={{ headerShown: false }}
+            />
+            <Stack.Screen 
+            name="MiniStatement" 
+            component={MiniStatement} 
+            options={{ headerShown: false }}
             />
             <Stack.Screen
               name="SavingPlan"
