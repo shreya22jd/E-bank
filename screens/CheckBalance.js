@@ -91,7 +91,7 @@ const styles = StyleSheet.create({
     color: Color.lightGray11,
     fontFamily: FontFamily.poppinsLight,
     fontWeight: "700",
-    fontSize: FontSize.size_2xl,
+    fontSize: 16,
     textAlign: "center",
   },
   statusBarParent: {
@@ -100,18 +100,17 @@ const styles = StyleSheet.create({
     height: 95,
   },
   wrapperPosition: {
-    top: 35,
+    top: 40,
     position: "absolute",
   },
   checkBalance1: {
-    left: 110,
+    left: 125,
     fontSize: 24,
     fontWeight: "700",
     fontFamily: FontFamily.poppinsBold,
     color: Color.white,
     textAlign: "center",
     letterSpacing: 0,
-    top: 36,
   },
   checkBalance: {
     borderRadius: Border.br_5xl,

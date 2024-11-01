@@ -1,11 +1,30 @@
-import React from "react";
-import { Text, StyleSheet, View } from "react-native";
+import React, { useEffect } from "react";
+import { Text, StyleSheet, View, BackHandler } from "react-native";
 import { LinearGradient } from 'expo-linear-gradient';
+import { useNavigation } from "@react-navigation/native";
 import { FontSize, FontFamily, Color, Padding, Border } from "../GlobalStyles";
 import StatusBar1 from "../components/StatusBar1";
 
 const BalanceDisplay = () => {
-  // Example values for balance and name
+  const navigation = useNavigation();
+
+  useEffect(() => {
+    // Handle back button press
+    const backAction = () => {
+      navigation.navigate("CheckBalance");
+      return true;
+    };
+
+    // Add event listener for back press
+    const backHandler = BackHandler.addEventListener(
+      "hardwareBackPress",
+      backAction
+    );
+
+    // Clean up event listener
+    return () => backHandler.remove();
+  }, [navigation]);
+
   const balance = "₹50,000";
   const name = "Available Balance";
 
@@ -32,7 +51,7 @@ const BalanceDisplay = () => {
           showTimeLight={false}
         />
       </View>
-    <Text style={styles.title}>Balance</Text>
+      <Text style={styles.title}>Balance</Text>
       {/* Brown Gradient Balance Section */}
       <LinearGradient
         style={styles.headerSection}
@@ -49,33 +68,33 @@ const BalanceDisplay = () => {
 };
 
 const styles = StyleSheet.create({
-    title:{
-     top:-230,
-     fontSize:24,
-     fontFamily: FontFamily.poppinsLight,
-     fontWeight:"700",
-     color:"white",
-    },
+  title: {
+    top: -230,
+    fontSize: 24,
+    fontFamily: FontFamily.poppinsLight,
+    fontWeight: "700",
+    color: "white",
+  },
   container: {
     flex: 1,
     backgroundColor: Color.white,
-    justifyContent: "center", // Center the frame vertically
-    alignItems: "center", // Center the frame horizontally
+    justifyContent: "center",
+    alignItems: "center",
   },
   statusBarParent: {
     position: "absolute",
     top: 0,
     width: "100%",
-    height: 95, // Status bar height
+    height: 95,
   },
   headerSection: {
-    top:-90,
+    top: -90,
     borderRadius: Border.br_7xl,
-    width: 390, // Adjusted width for the brown frame
-    height: 280, // Adjusted height for the brown frame
+    width: 390,
+    height: 280,
     flexDirection: "column",
     alignItems: "center",
-    justifyContent: "center", // Center balance and name
+    justifyContent: "center",
     backgroundColor: "transparent",
     padding: Padding.p_5xl,
   },
@@ -85,14 +104,14 @@ const styles = StyleSheet.create({
     justifyContent: "center",
   },
   balanceText: {
-    fontSize: 30, // Large font size for balance
+    fontSize: 30,
     color: Color.white,
     fontWeight: "600",
     fontFamily: FontFamily.montserratSemiBold,
     textAlign: "center",
   },
   nameText: {
-    fontSize: FontSize.size_xl, // Adjusted font size for "Available Balance"
+    fontSize: FontSize.size_xl,
     color: Color.white,
     fontWeight: "500",
     fontFamily: FontFamily.montserratMedium,

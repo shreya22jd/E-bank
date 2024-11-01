@@ -63,7 +63,7 @@ const UPIPIN2 = () => {
       </View>
 
       {/* Pressable for Check Balance */}
-      <Pressable
+      {/* <Pressable
         style={styles.wrapper}
         onPress={() => navigation.navigate("CheckBalance")}
       >
@@ -72,7 +72,7 @@ const UPIPIN2 = () => {
           contentFit="cover"
           source={require("../assets/group-1272628274.png")}
         />
-      </Pressable>
+      </Pressable> */}
       <Text style={[styles.checkBalance, styles.labelTypo]}>Check Balance</Text>
 
       {/* Pressable button for Continue */}
@@ -123,12 +123,12 @@ const styles = StyleSheet.create({
     marginTop: -331.5,
     width: "81.33%",
     top: "50%",
-    left: "13.87%",
+    left: 40,
     letterSpacing: -1,
     lineHeight: 32,
     fontFamily: FontFamily.dMSansBold,
     color: Color.blackB100,
-    textAlign: "left",
+    textAlign: "center",
     fontWeight: "700",
     fontSize: FontSize.size_5xl,
     position: "absolute",
@@ -160,12 +160,14 @@ const styles = StyleSheet.create({
   },
   checkBalance: {
     top: 33,
-    left: 100,
+    left: 120,
     letterSpacing: 0,
     fontFamily: FontFamily.poppinsBold,
     fontSize: FontSize.size_5xl,
     color: Color.white,
     position: "absolute",
+    textAlign:"center",
+    
   },
   label: {
     fontSize: FontSize.font_size,
@@ -174,7 +176,8 @@ const styles = StyleSheet.create({
   },
   buttonSend: {
     top: 406,
-    left: 27,
+   // left: 27,
+   alignSelf:"center",
     borderRadius: Border.br_base,
     backgroundColor: Color.colorGoldenrod_100,
     width: 327,

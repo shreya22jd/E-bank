@@ -1,8 +1,18 @@
 import * as React from "react";
-import { StyleSheet, View, Text, TextInput, Pressable, ScrollView } from "react-native";
+import {
+  StyleSheet,
+  View,
+  Text,
+  TextInput,
+  Pressable,
+  ScrollView,
+  KeyboardAvoidingView,
+  Platform,
+  BackHandler,
+} from "react-native";
 import { Image } from "expo-image";
 import StatusBar1 from "../components/StatusBar1";
-import { useNavigation } from "@react-navigation/native";
+import { useNavigation, useFocusEffect } from "@react-navigation/native";
 import { Color, Border, FontFamily, FontSize, Padding } from "../GlobalStyles";
 
 const Ministatement = () => {
@@ -10,7 +20,6 @@ const Ministatement = () => {
   const [pin, setPin] = React.useState("");
   const [showTransactions, setShowTransactions] = React.useState(false);
 
-  // Sample transaction data
   const transactions = [
     { id: 1, date: "2024-10-01", amount: "₹100", status: "Success" },
     { id: 2, date: "2024-10-05", amount: "₹250", status: "Success" },
@@ -19,95 +28,97 @@ const Ministatement = () => {
     { id: 5, date: "2024-10-20", amount: "₹300", status: "Success" },
   ];
 
-  // Function to handle input change and limit the length to 4 digits
   const handlePinChange = (value) => {
     if (value.length <= 4) {
       setPin(value);
     }
   };
 
-  // Function to handle the continue button press
   const handleContinue = () => {
     if (pin.length === 4) {
-      setShowTransactions(true); // Show transactions instead of navigating
+      setShowTransactions(true);
     } else {
       alert("Please enter a valid 4-digit UPI PIN.");
     }
   };
 
+  useFocusEffect(
+    React.useCallback(() => {
+      const onBackPress = () => {
+        navigation.navigate("CheckBalance");
+        return true;
+      };
+
+      BackHandler.addEventListener("hardwareBackPress", onBackPress);
+
+      return () => BackHandler.removeEventListener("hardwareBackPress", onBackPress);
+    }, [navigation])
+  );
+
   return (
-    <View style={styles.ministatement}>
-      <View style={styles.body}>
-        {showTransactions ? (
-          // Display transactions if showTransactions is true
-          <ScrollView style={styles.transactionList}>
-            <Text style={styles.transactionHeader}>Transaction History</Text>
-            {transactions.map((transaction) => (
-              <View key={transaction.id} style={styles.transactionItem}>
-                <Text style={styles.transactionText}>{transaction.date}</Text>
-                <Text style={styles.transactionText}>{transaction.amount}</Text>
-                <Text style={styles.transactionText}>{transaction.status}</Text>
-              </View>
-            ))}
-          </ScrollView>
-        ) : (
-          // PIN input if showTransactions is false
-          <View style={styles.codeNumber}>
-            <TextInput
-              style={styles.textInput}
-              keyboardType="numeric"
-              maxLength={4}
-              value={pin}
-              onChangeText={handlePinChange}
-              secureTextEntry={true}
-              autoFocus={true}
-            />
-            <Text style={styles.otpAuthentication}>Enter UPI PIN</Text>
-          </View>
+    <KeyboardAvoidingView
+      style={{ flex: 1 }}
+      behavior={Platform.OS === "ios" ? "padding" : "height"}
+    >
+      <View style={styles.ministatement}>
+        <View style={styles.body}>
+          {showTransactions ? (
+            <ScrollView style={styles.transactionList}>
+              <Text style={styles.transactionHeader}>Transaction History</Text>
+              {transactions.map((transaction) => (
+                <View key={transaction.id} style={styles.transactionItem}>
+                  <Text style={styles.transactionText}>{transaction.date}</Text>
+                  <Text style={styles.transactionText}>{transaction.amount}</Text>
+                  <Text style={styles.transactionText}>{transaction.status}</Text>
+                </View>
+              ))}
+            </ScrollView>
+          ) : (
+            <View style={styles.codeNumber}>
+              <TextInput
+                style={styles.textInput}
+                keyboardType="numeric"
+                maxLength={4}
+                value={pin}
+                onChangeText={handlePinChange}
+                secureTextEntry={true}
+                autoFocus={true}
+              />
+              <Text style={styles.otpAuthentication}>Enter UPI PIN</Text>
+            </View>
+          )}
+        </View>
+
+        <View style={[styles.statusBarParent, styles.timeLightPosition]}>
+          <StatusBar1
+            statusBarPosition="absolute"
+            statusBarWidth={412}
+            statusBarHeight={95}
+            statusBarTop={0.5}
+            statusBarLeft={0.5}
+            statusBarBackgroundColor="#e0a340"
+            statusBarRight="unset"
+            statusBarBottom="unset"
+            notch={require("../assets/notch.png")}
+            statusIconsWidth={69}
+            statusIconsHeight={14}
+            showNetworkSignalLight={false}
+            wiFiSignalLight={require("../assets/wifi-signal--light.png")}
+            showWiFiSignalLight={false}
+            showBatteryLight={false}
+            showTimeLight={false}
+          />
+        </View>
+
+        <Text style={[styles.checkBalance, styles.labelTypo]}>Get Mini Statement</Text>
+
+        {!showTransactions && (
+          <Pressable style={styles.buttonSend} onPress={handleContinue}>
+            <Text style={[styles.label, styles.labelTypo]}>Continue</Text>
+          </Pressable>
         )}
       </View>
-
-      <View style={[styles.statusBarParent, styles.timeLightPosition]}>
-        <StatusBar1
-          statusBarPosition="absolute"
-          statusBarWidth={412}
-          statusBarHeight={95}
-          statusBarTop={0.5}
-          statusBarLeft={0.5}
-          statusBarBackgroundColor="#e0a340"
-          statusBarRight="unset"
-          statusBarBottom="unset"
-          notch={require("../assets/notch.png")}
-          statusIconsWidth={69}
-          statusIconsHeight={14}
-          showNetworkSignalLight={false}
-          wiFiSignalLight={require("../assets/wifi-signal--light.png")}
-          showWiFiSignalLight={false}
-          showBatteryLight={false}
-          showTimeLight={false}
-        />
-      </View>
-
-      {/* Pressable for Check Balance */}
-      <Pressable
-        style={styles.wrapper}
-        onPress={() => navigation.navigate("CheckBalance")}
-      >
-        <Image
-          style={styles.icon}
-          contentFit="cover"
-          source={require("../assets/group-1272628274.png")}
-        />
-      </Pressable>
-      <Text style={[styles.checkBalance, styles.labelTypo]}>Get Mini Statement</Text>
-
-      {/* Pressable button for Continue */}
-      {!showTransactions && (
-        <Pressable style={styles.buttonSend} onPress={handleContinue}>
-          <Text style={[styles.label, styles.labelTypo]}>Continue</Text>
-        </Pressable>
-      )}
-    </View>
+    </KeyboardAvoidingView>
   );
 };
 
@@ -142,15 +153,13 @@ const styles = StyleSheet.create({
     letterSpacing: 8,
   },
   otpAuthentication: {
-    marginTop: -331.5,
+    top: -50,
     width: "81.33%",
-    top: "50%",
-    left: "13.87%",
+    left: 100,
     letterSpacing: -1,
     lineHeight: 32,
     fontFamily: FontFamily.dMSansBold,
     color: Color.blackB100,
-    textAlign: "left",
     fontWeight: "700",
     fontSize: FontSize.size_5xl,
     position: "absolute",
@@ -181,7 +190,7 @@ const styles = StyleSheet.create({
     position: "absolute",
   },
   checkBalance: {
-    top: 33,
+    top: 40,
     left: 100,
     letterSpacing: 0,
     fontFamily: FontFamily.poppinsBold,
@@ -196,11 +205,11 @@ const styles = StyleSheet.create({
   },
   buttonSend: {
     top: 406,
-    left: 27,
     borderRadius: Border.br_base,
     backgroundColor: Color.colorGoldenrod_100,
     width: 327,
     height: 54,
+    alignSelf: "center",
     flexDirection: "row",
     alignItems: "center",
     justifyContent: "center",
@@ -221,9 +230,10 @@ const styles = StyleSheet.create({
     paddingHorizontal: 20,
   },
   transactionHeader: {
-    fontSize: FontSize.size_lg,
+    fontSize: 20,
     fontWeight: "700",
-    marginBottom: 10,
+    marginBottom: 30,
+    textAlign:"center",
   },
   transactionItem: {
     flexDirection: "row",
@@ -235,6 +245,7 @@ const styles = StyleSheet.create({
   transactionText: {
     flex: 1,
     textAlign: "center",
+    fontSize:16,
   },
 });
 

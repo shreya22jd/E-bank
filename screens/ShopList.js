@@ -8,59 +8,60 @@ import { Color, FontFamily, FontSize, Border } from "../GlobalStyles";
 const ShopList = () => {
   const navigation = useNavigation();
 
-  // Function to open Amazon or fallback to web
-  const openAmazon = async () => {
-    const url = "https://www.amazon.com";
-    const appUrl = "amazon://";
-
-    const supported = await Linking.canOpenURL(appUrl);
-    if (supported) {
-      Linking.openURL(appUrl);
-    } else {
-      Linking.openURL(url);
-    }
-  };
-
-  // Function to open Flipkart or fallback to web
-  const openFlipkart = async () => {
-    const url = "https://www.flipkart.com";
-    const appUrl = "flipkart://";
-
-    const supported = await Linking.canOpenURL(appUrl);
-    if (supported) {
-      Linking.openURL(appUrl);
-    } else {
-      Linking.openURL(url);
+  // Function to open app or website
+  const openAppOrWebsite = async (url, appUrl) => {
+    try {
+      const supported = await Linking.canOpenURL(appUrl);
+      if (supported) {
+        await Linking.openURL(appUrl);  // Opens the app if installed
+      } else {
+        await Linking.openURL(url);     // Opens the website if app is not installed
+      }
+    } catch (error) {
+      Alert.alert("Error", "Unable to open the link");
     }
   };
 
   return (
     <View style={styles.shopList}>
       <TopBar />
+      
+      {/* Flipkart Section */}
+      <Pressable
+        onPress={() => openAppOrWebsite("https://www.flipkart.com", "flipkart://")}>
+        <Text style={[styles.flipkart, styles.amazonTypo]}>Flipkart</Text>
+        <Image
+          style={[styles.flipkartIconIcons1, styles.iconLayout]}
+          contentFit="cover"
+          source={require("../assets/flipkart-iconicons-1.png")}
+        />
+      </Pressable>
 
-      <View style={styles.storeContainer}>
-        {/* Flipkart */}
-        <Pressable onPress={openFlipkart} style={styles.storeButton}>
-          <Text style={[styles.storeText, styles.amazonTypo]}>Flipkart</Text>
-          <Image
-            style={styles.iconImage}
-            contentFit="cover"
-            source={require("../assets/flipkart-iconicons-1.png")}
-          />
-        </Pressable>
+      {/* Amazon Section */}
+      <Pressable
+        onPress={() => openAppOrWebsite("https://www.amazon.com", "amazon://")}>
+        <Text style={[styles.amazon, styles.amazonTypo]}>Amazon</Text>
+        <Image
+          style={[styles.icon, styles.iconLayout]}
+          contentFit="cover"
+          source={require("../assets/flipkart-iconicons-1.png")}
+        />
+      </Pressable>
 
-        {/* Amazon */}
-        <Pressable onPress={openAmazon} style={styles.storeButton}>
-          <Text style={[styles.storeText, styles.amazonTypo]}>Amazon</Text>
-          <Image
-            style={styles.iconImage}
-            contentFit="cover"
-            source={require("../assets/arrows-diagramsarrow.png")}
-          />
-        </Pressable>
-      </View>
-
-      {/* Navigation Button */}
+      {/* Other App Components */}
+      <Pressable
+        style={[styles.arrowsDiagramsarrowParent, styles.arrowsIconLayout]}
+        onPress={() => navigation.navigate("Onboarding")}
+      >
+        <Image
+          style={[styles.arrowsDiagramsarrowIcon2, styles.arrowsIconLayout]}
+          contentFit="cover"
+          source={require("../assets/arrows-diagramsarrow.png")}
+        />
+        <Text style={[styles.welcomeToCastore, styles.welcomePosition]}>
+          STStore
+        </Text>
+      </Pressable>
       <Pressable
         style={styles.wrapper}
         onPress={() => navigation.navigate("Home")}
@@ -76,49 +77,88 @@ const ShopList = () => {
 };
 
 const styles = StyleSheet.create({
-  shopList: {
-    flex: 1,
-    backgroundColor: Color.white,
-    paddingHorizontal: 20,
-    alignItems: "center",
-  },
-  storeContainer: {
-    flexDirection: "column",
-    justifyContent: "space-around",
-    alignItems: "center",
-    marginTop: 30,
-    width: "100%",
-  },
-  storeButton: {
-    flexDirection: "row",
-    justifyContent: "space-between",
-    alignItems: "center",
-    width: "90%",
-    padding: 20,
-    backgroundColor: Color.lightGray,
-    borderRadius: Border.br_base,
-    marginVertical: 10,
-  },
-  storeText: {
-    fontSize: FontSize.size_2xl,
-    fontFamily: FontFamily.montserratBold,
-    color: Color.black,
-  },
   amazonTypo: {
-    textAlign: "left",
+    textAlign: "center",
+    color: Color.lightGray11,
+    fontFamily: FontFamily.poppinsLight,
+    fontWeight: "300",
+    letterSpacing: 0,
+    fontSize: FontSize.size_xl,
+    left: 119,
+    position: "absolute",
   },
-  iconImage: {
-    width: 30,
-    height: 30,
+  arrowsIconLayout: {
+    height: 24,
+    position: "absolute",
   },
-  wrapper: {
-    marginTop: 40,
-    width: 50,
-    height: 50,
+  iconLayout: {
+    height: 42,
+    width: 42,
+    borderRadius: Border.br_3xs,
+    position: "absolute",
+  },
+  welcomePosition: {
+    height: 23,
+    color: Color.blackB100,
+    lineHeight: 32,
+    letterSpacing: -1,
+    top: "50%",
+    marginTop: -11,
+    textAlign: "center",
+    fontSize: FontSize.size_xl,
+    position: "absolute",
+  },
+  flipkart: {
+    top: 142,
+  },
+  amazon: {
+    top: 222,
+  },
+  flipkartIconIcons1: {
+    top: 136,
+    left: 20,
+  },
+  icon: {
+    top: 219,
+    left: 19,
+    overflow: "hidden",
+  },
+  arrowsDiagramsarrowIcon2: {
+    top: 0,
+    left: 393,
+    width: 24,
+    height: 24,
+    overflow: "hidden",
+  },
+  welcomeToCastore: {
+    width: "73.38%",
+    left: "0%",
+    fontWeight: "700",
+    fontFamily: FontFamily.dMSansBold,
+  },
+  arrowsDiagramsarrowParent: {
+    top: 302,
+    left: -99,
+    width: 417,
   },
   icon1: {
-    width: "100%",
     height: "100%",
+    width: "100%",
+  },
+  wrapper: {
+    left: 28,
+    top: 44,
+    width: 40,
+    height: 40,
+    position: "absolute",
+  },
+  shopList: {
+    borderRadius: Border.br_11xl,
+    backgroundColor: Color.white,
+    flex: 1,
+    height: 812,
+    overflow: "hidden",
+    width: "100%",
   },
 });
 
