@@ -182,16 +182,18 @@ const styles = StyleSheet.create({
   },
   welcomeBackName: {
     color: Color.colorGray_1400,
+    textAlign:"center",
   },
   text1: {
     color: Color.white,
   },
   label: {
     fontSize: FontSize.m3LabelLarge_size,
-    textAlign: "left",
+    textAlign: "center",
   },
   title: {
     alignSelf: "stretch",
+    left:30, //welcome back text alignment
   },
   notificationBingIcon: {
     zIndex: 0,

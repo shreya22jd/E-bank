@@ -109,13 +109,14 @@ const styles = StyleSheet.create({
     fontFamily: FontFamily.montserratMedium,
     fontWeight: "500",
     alignSelf: "stretch",
+    fontSize:11,
   },
   insuarance: {
     width: 60,
     gap: Gap.gap_12xs,
   },
   name1: {
-    fontSize: FontSize.size_2xs,
+    fontSize: 11,
   },
   loan: {
     width: 54,
@@ -133,7 +134,7 @@ const styles = StyleSheet.create({
     fontFamily: FontFamily.montserratMedium,
     fontWeight: "500",
     textAlign: "center",
-    fontSize: FontSize.mobileBody3Regular_size,
+    fontSize: 11,
   },
   schemes: {
     height: 80,
@@ -144,10 +145,10 @@ const styles = StyleSheet.create({
     height: 38,
   },
   schemes1: {
-    gap: Gap.gap_9xs,
+    gap: Gap.gap_9xs, //check deposit image and text gap
   },
   users: {
-    gap: Gap.gap_5xl,
+    gap: Gap.gap_3xl,
     flexDirection: "row",
   },
   loans: {

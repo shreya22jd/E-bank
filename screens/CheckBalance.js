@@ -108,7 +108,7 @@ const styles = StyleSheet.create({
     fontSize: 24,
     fontWeight: "700",
     fontFamily: FontFamily.poppinsBold,
-    color: Color.white,
+    color: Color.black,
     textAlign: "center",
     letterSpacing: 0,
   },

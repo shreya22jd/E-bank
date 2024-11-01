@@ -28,24 +28,26 @@ const ShopList = () => {
       
       {/* Flipkart Section */}
       <Pressable
+        style={styles.iconContainer}  // Added container for proper alignment
         onPress={() => openAppOrWebsite("https://www.flipkart.com", "flipkart://")}>
-        <Text style={[styles.flipkart, styles.amazonTypo]}>Flipkart</Text>
         <Image
-          style={[styles.flipkartIconIcons1, styles.iconLayout]}
+          style={[styles.flipkartIcon, styles.iconLayout]}
           contentFit="cover"
           source={require("../assets/flipkart-iconicons-1.png")}
         />
+        <Text style={[styles.flipkart, styles.iconText]}>Flipkart</Text>
       </Pressable>
 
       {/* Amazon Section */}
       <Pressable
+        style={styles.iconContainer}  // Added container for proper alignment
         onPress={() => openAppOrWebsite("https://www.amazon.com", "amazon://")}>
-        <Text style={[styles.amazon, styles.amazonTypo]}>Amazon</Text>
         <Image
-          style={[styles.icon, styles.iconLayout]}
+          style={[styles.amazonIcon, styles.iconLayout]}
           contentFit="cover"
           source={require("../assets/flipkart-iconicons-1.png")}
         />
+        <Text style={[styles.amazon, styles.iconText]}>Amazon</Text>
       </Pressable>
 
       {/* Other App Components */}
@@ -77,24 +79,33 @@ const ShopList = () => {
 };
 
 const styles = StyleSheet.create({
-  amazonTypo: {
-    textAlign: "center",
-    color: Color.lightGray11,
-    fontFamily: FontFamily.poppinsLight,
-    fontWeight: "300",
-    letterSpacing: 0,
-    fontSize: FontSize.size_xl,
-    left: 119,
-    position: "absolute",
-  },
-  arrowsIconLayout: {
-    height: 24,
-    position: "absolute",
+  iconContainer: {
+    flexDirection: "row",
+    alignItems: "center",
+    marginVertical: 20,  // Adjust space between icons
+    paddingHorizontal: 20,
   },
   iconLayout: {
     height: 42,
     width: 42,
     borderRadius: Border.br_3xs,
+    marginRight: 10,  // Adds space between icon and text
+  },
+  iconText: {
+    color: Color.lightGray11,
+    fontFamily: FontFamily.poppinsLight,
+    fontWeight: "300",
+    fontSize: FontSize.size_xl,
+    textAlign: "left",
+  },
+  flipkart: {
+    // Specific styling for Flipkart text, if needed
+  },
+  amazon: {
+    // Specific styling for Amazon text, if needed
+  },
+  arrowsIconLayout: {
+    height: 24,
     position: "absolute",
   },
   welcomePosition: {
@@ -108,20 +119,11 @@ const styles = StyleSheet.create({
     fontSize: FontSize.size_xl,
     position: "absolute",
   },
-  flipkart: {
-    top: 142,
+  flipkartIcon: {
+    // Specific styling for Flipkart icon, if needed
   },
-  amazon: {
-    top: 222,
-  },
-  flipkartIconIcons1: {
-    top: 136,
-    left: 20,
-  },
-  icon: {
-    top: 219,
-    left: 19,
-    overflow: "hidden",
+  amazonIcon: {
+    // Specific styling for Amazon icon, if needed
   },
   arrowsDiagramsarrowIcon2: {
     top: 0,

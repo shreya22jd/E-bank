@@ -130,6 +130,7 @@ const styles = StyleSheet.create({
   label1Typo: {
     fontFamily: FontFamily.montserratMedium,
     fontWeight: "500",
+    
   },
   homeIcons: {
     marginTop: 120, // Adjusted to prevent overlap with header
@@ -172,6 +173,7 @@ const styles = StyleSheet.create({
   },
   welcomeBackName: {
     color: Color.colorGray_1400,
+    
   },
   text1: {
     color: Color.white,

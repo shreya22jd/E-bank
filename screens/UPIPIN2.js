@@ -73,7 +73,7 @@ const UPIPIN2 = () => {
           source={require("../assets/group-1272628274.png")}
         />
       </Pressable> */}
-      <Text style={[styles.checkBalance, styles.labelTypo]}>Check Balance</Text>
+      <Text style={[styles.checkBalance, styles.label2]}>Check Balance</Text>
 
       {/* Pressable button for Continue */}
       <Pressable style={styles.buttonSend} onPress={handleContinue}>
@@ -96,7 +96,12 @@ const styles = StyleSheet.create({
   },
   labelTypo: {
     textAlign: "center",
-    color: Color.white,
+    color: Color.white, //header and continue button text color
+    fontWeight: "700",
+  },
+  label2: {
+    textAlign: "center",
+    color: Color.black, //header and continue button text color
     fontWeight: "700",
   },
   codeNumber: {
@@ -164,7 +169,7 @@ const styles = StyleSheet.create({
     letterSpacing: 0,
     fontFamily: FontFamily.poppinsBold,
     fontSize: FontSize.size_5xl,
-    color: Color.white,
+    color: Color.black,
     position: "absolute",
     textAlign:"center",
     

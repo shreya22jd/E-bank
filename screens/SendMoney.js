@@ -137,7 +137,7 @@ const styles = StyleSheet.create({
   sendMoneyTitle: {
     position: "absolute",
     top: 40,
-    left: 95,
+    left: 120,
     fontSize: FontSize.size_5xl,
     fontFamily: FontFamily.poppinsSemiBold,
     color: Color.black,

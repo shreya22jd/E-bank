@@ -18,7 +18,7 @@ const Info8 = () => {
     <View style={styles.info15}>
       <View style={[styles.info15Child, styles.info15Bg]} />
       <View style={[styles.info15Item, styles.info15Bg]} />
-      <Pressable
+      {/* <Pressable
         style={[styles.info15Inner, styles.parentFlexBox]}
         onPress={() => navigation.navigate("BookMyshow")}
       >
@@ -27,7 +27,7 @@ const Info8 = () => {
           contentFit="cover"
           source={require("../assets/group-1272628259.png")}
         />
-      </Pressable>
+      </Pressable> */}
       <View style={[styles.rectangleView, styles.rectangleViewPosition]} />
       <View style={[styles.rectangleParent, styles.groupChildPosition]}>
         <View style={[styles.groupChild, styles.groupChildPosition]} />
@@ -65,19 +65,19 @@ const Info8 = () => {
           />
         </View>
       </View>
-      <View style={[styles.statusBarwhite, styles.rectangleViewPosition]}>
+      {/* <View style={[styles.statusBarwhite, styles.rectangleViewPosition]}>
         <Image
           style={styles.connectionsIcon}
           contentFit="cover"
           source={require("../assets/connections.png")}
         />
         <Text style={[styles.time, styles.timeFlexBox]}>9:41</Text>
-      </View>
+      </View> */}
       <View style={[styles.groupParent, styles.groupLayout]}>
         <Image
           style={[styles.groupInner, styles.groupLayout]}
           contentFit="cover"
-          source={require("../assets/group-33722.png")}
+          source={require("../assets/group-33722.png")} //successful image
         />
         <Text style={[styles.successful, styles.timeFlexBox]}>Successful!</Text>
       </View>
@@ -244,12 +244,13 @@ const styles = StyleSheet.create({
   },
   groupInner: {
     height: 112,
-    left: 0,
+    left: 20, //successful image 
     top: 0,
+    alignContent:"center", 
   },
   successful: {
     top: "87.84%",
-    left: "18.75%",
+    left: 35,
     color: Color.text,
     fontFamily: FontFamily.poppinsSemiBold,
     fontWeight: "600",
