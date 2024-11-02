@@ -57,52 +57,31 @@ const Settings = () => {
           />
         </Pressable>
       </View>
-      <Text style={[styles.joined28Jan, styles.settings1Position]}>
-        End to end encryption
-      </Text>
+      
       <View style={[styles.frame, styles.framePosition]}>
         <View style={styles.framePosition}>
-          <StatusBar1
-            statusBarPosition="absolute"
-            statusBarWidth={390}
-            statusBarHeight={95}
-            statusBarTop={0}
-            statusBarLeft={0}
-            statusBarBackgroundColor="#e0a340"
-            statusBarRight="unset"
-            statusBarBottom="unset"
-            notch={require("../assets/notch.png")}
-            statusIconsWidth={69}
-            statusIconsHeight={14}
-            showNetworkSignalLight={false}
-            wiFiSignalLight={require("../assets/wifi-signal--light.png")}
-            showWiFiSignalLight={false}
-            showBatteryLight={false}
-            showTimeLight={false}
-          />
-          <Image
-            style={[styles.batteryLight, styles.lightPosition]}
-            contentFit="cover"
-            source={require("../assets/battery--light1.png")}
-          />
-          <Image
-            style={[styles.networkSignalLight, styles.lightPosition]}
-            contentFit="cover"
-            source={require("../assets/network-signal-light1.png")}
-          />
-          <Image
-            style={[styles.wifiSignalLight, styles.lightPosition]}
-            contentFit="cover"
-            source={require("../assets/wifi-signal--light2.png")}
-          />
-          <Image
-            style={[styles.timeLight, styles.timeLightPosition]}
-            contentFit="cover"
-            source={require("../assets/time--light1.png")}
-          />
+        <StatusBar1
+          statusBarPosition="absolute"
+          statusBarWidth={412}
+          statusBarHeight={95}
+          statusBarTop={0.5}
+          statusBarLeft={0.1}
+          statusBarBackgroundColor="#e0a340"
+          statusBarRight="unset"
+          statusBarBottom="unset"
+          notch={require("../assets/notch.png")}
+          statusIconsWidth={69}
+          statusIconsHeight={14}
+          showNetworkSignalLight={false}
+          wiFiSignalLight={require("../assets/wifi-signal--light.png")}
+          showWiFiSignalLight={false}
+          showBatteryLight={false}
+          showTimeLight={false}
+        />
+        
         </View>
         <View style={[styles.tabBar, styles.tabBarLayout]}>
-          <Pressable
+          {/* <Pressable
             style={[styles.container, styles.tabBarLayout]}
             onPress={() => navigation.navigate("Home")}
           >
@@ -111,14 +90,17 @@ const Settings = () => {
               contentFit="cover"
               source={require("../assets/group-1272628274.png")}
             />
-          </Pressable>
+          </Pressable> */}
           <Text style={[styles.settings1, styles.settings1Position]}>
             Settings
           </Text>
         </View>
       </View>
-      <Frame11 />
       <Frame10 />
+      <Frame11 /> 
+      {/* <Text style={[styles.joined28Jan, styles.settings1Position]}>
+        End to end encryption
+      </Text> */}
     </View>
   );
 };
@@ -237,22 +219,22 @@ const styles = StyleSheet.create({
   settings1: {
     top: 10,
     fontSize: FontSize.size_5xl,
-    lineHeight: 18,
+    lineHeight: 28,
     fontWeight: "700",
     fontFamily: FontFamily.poppinsBold,
     color: Color.white,
     textAlign: "center",
     width: 122,
-    height: 20,
+    height: 30,
   },
   tabBar: {
-    top: 38,
-    left: 20,
+    top: 30,
+    left: 40,
     width: 229,
   },
-  frame: {
-    overflow: "hidden",
-  },
+  // frame: {
+  //   overflow: "hidden",
+  // },
   settings: {
     borderRadius: Border.br_5xl,
     flex: 1,

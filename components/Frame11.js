@@ -1,4 +1,4 @@
-import * as React from "react";
+import React, { useState } from "react";
 import { Text, StyleSheet, View, Pressable } from "react-native";
 import { Image } from "expo-image";
 import { useNavigation } from "@react-navigation/native";
@@ -6,218 +6,109 @@ import { Color, FontFamily, FontSize, Border } from "../GlobalStyles";
 
 const Frame11 = () => {
   const navigation = useNavigation();
+  const [isBiometricEnabled, setIsBiometricEnabled] = useState(false);
+
+  const toggleSwitch = () => {
+    setIsBiometricEnabled(!isBiometricEnabled);
+  };
 
   return (
-    <View style={styles.frame}>
-      <View style={styles.securitySection}>
-        <Text style={[styles.security, styles.securityLayout]}>Security</Text>
-        <Text style={[styles.chooseWhatData, styles.securityTypo]}>
-          Choose what data you share with us
-        </Text>
+    <View style={styles.container}>
+      <Text style={styles.header}>Security</Text>
+
+      <Pressable
+        style={styles.menuItem}
+        onPress={() => navigation.navigate("ChangePassword")}
+      >
+        <Text style={styles.menuText}>Change Password</Text>
+        <Image
+          style={styles.arrowIcon}
+          contentFit="cover"
+          source={require("../assets/arrows-diagramsarrow.png")}
+        />
+      </Pressable>
+
+      <Pressable
+        style={styles.menuItem}
+        onPress={() => navigation.navigate("TermCondition")}
+      >
+        <Text style={styles.menuText}>Privacy Policy</Text>
+        <Image
+          style={styles.arrowIcon}
+          contentFit="cover"
+          source={require("../assets/arrows-diagramsarrow.png")}
+        />
+      </Pressable>
+
+      <View style={styles.menuItem}>
+        <Text style={styles.menuText}>Biometric</Text>
         <Pressable
-          style={[styles.groupParent, styles.groupLayout]}
-          onPress={() => navigation.navigate("ChangePassword")}
+          style={[styles.toggle, isBiometricEnabled && styles.toggleActive]}
+          onPress={toggleSwitch}
         >
           <View
-            style={[styles.arrowsDiagramsarrowParent, styles.arrowsPosition]}
-          >
-            <Image
-              style={[styles.arrowsDiagramsarrowIcon, styles.arrowsPosition]}
-              contentFit="cover"
-              source={require("../assets/arrows-diagramsarrow.png")}
-            />
-            <Text style={[styles.changePassword, styles.biometricTypo]}>
-              Change Password
-            </Text>
-          </View>
-          <Image
-            style={styles.groupChild}
-            contentFit="cover"
-            source={require("../assets/vector-105.png")}
+            style={[
+              styles.toggleSwitch,
+              isBiometricEnabled && styles.toggleSwitchActive,
+            ]}
           />
         </Pressable>
-        <Pressable
-          style={[styles.groupContainer, styles.groupLayout]}
-          onPress={() => navigation.navigate("TermCondition")}
-        >
-          <View
-            style={[styles.arrowsDiagramsarrowParent, styles.arrowsPosition]}
-          >
-            <Image
-              style={[styles.arrowsDiagramsarrowIcon, styles.arrowsPosition]}
-              contentFit="cover"
-              source={require("../assets/arrows-diagramsarrow.png")}
-            />
-            <Text style={[styles.privacyPolicy, styles.biometricTypo]}>
-              Privacy Policy
-            </Text>
-          </View>
-          <Image
-            style={styles.groupChild}
-            contentFit="cover"
-            source={require("../assets/vector-105.png")}
-          />
-        </Pressable>
-        <View style={[styles.biometricParent, styles.securityLayout]}>
-          <Text style={[styles.biometric, styles.biometricTypo]}>
-            Biometric
-          </Text>
-          <Image
-            style={[styles.groupInner, styles.securityLayout]}
-            contentFit="cover"
-            source={require("../assets/ellipse-14.png")}
-          />
-        </View>
-      </View>
-      <View style={styles.toggle}>
-        <View style={styles.toggleChild} />
-        <View style={styles.toggleItem} />
       </View>
     </View>
   );
 };
 
 const styles = StyleSheet.create({
-  securityLayout: {
-    height: 16,
-    position: "absolute",
+  container: {
+    paddingLeft: 30,
+    top: -60,
+    backgroundColor: Color.backgroundLight,
+    borderRadius: 10,
   },
-  securityTypo: {
-    textAlign: "left",
-    color: Color.colorDarkgray_100,
+  header: {
     fontFamily: FontFamily.mobileBody3Regular,
-    left: 0,
+    color: Color.colorDarkgray_100,
+    fontSize: FontSize.m3LabelLarge_size,
+    marginBottom: 20,
   },
-  groupLayout: {
-    height: 34,
-    left: 0,
-    width: 335,
-    position: "absolute",
+  menuItem: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
+    paddingVertical: 10,
+    width: "100%",
   },
-  arrowsPosition: {
-    height: 24,
-    top: 0,
-    position: "absolute",
-  },
-  biometricTypo: {
+  menuText: {
     color: Color.colorGray_600,
     fontFamily: FontFamily.poppinsMedium,
-    fontWeight: "500",
-    height: 16,
-    textAlign: "left",
-    lineHeight: 14,
     fontSize: FontSize.m3LabelLarge_size,
-    left: 0,
-    position: "absolute",
   },
-  security: {
-    width: 57,
-    textAlign: "left",
-    color: Color.colorDarkgray_100,
-    fontFamily: FontFamily.mobileBody3Regular,
-    left: 0,
-    lineHeight: 14,
-    fontSize: FontSize.m3LabelLarge_size,
-    height: 16,
-    top: 0,
-  },
-  chooseWhatData: {
-    top: 152,
-    fontSize: FontSize.mobileBody3Regular_size,
-    lineHeight: 12,
-    width: 219,
-    height: 14,
-    position: "absolute",
-  },
-  arrowsDiagramsarrowIcon: {
-    left: 311,
+  arrowIcon: {
+    right:30,
     width: 24,
-    overflow: "hidden",
-  },
-  changePassword: {
-    width: 129,
-    top: 4,
-    fontFamily: FontFamily.poppinsMedium,
-    fontWeight: "500",
-  },
-  arrowsDiagramsarrowParent: {
-    left: 0,
-    width: 335,
-  },
-  groupChild: {
-    top: 34,
-    maxHeight: "100%",
-    left: 0,
-    width: 335,
-    position: "absolute",
-  },
-  groupParent: {
-    top: 47,
-  },
-  privacyPolicy: {
-    width: 97,
-    top: 4,
-    fontFamily: FontFamily.poppinsMedium,
-    fontWeight: "500",
-  },
-  groupContainer: {
-    top: 103,
-  },
-  biometric: {
-    width: 68,
-    top: 0,
-  },
-  groupInner: {
-    left: 301,
-    width: 16,
-    top: 0,
-  },
-  biometricParent: {
-    top: 197,
-    width: 317,
-    left: 0,
-  },
-  securitySection: {
-    height: 213,
-    width: 335,
-  },
-  toggleChild: {
-    height: "100%",
-    width: "100%",
-    top: "0%",
-    right: "0%",
-    bottom: "0%",
-    left: "0%",
-    borderRadius: Border.br_3xs,
-    backgroundColor: Color.colorGainsboro_500,
-    position: "absolute",
-  },
-  toggleItem: {
-    height: "60%",
-    width: "30%",
-    top: "20%",
-    right: "55%",
-    bottom: "20%",
-    left: "15%",
-    borderRadius: Border.br_81xl,
-    backgroundColor: Color.white,
-    position: "absolute",
+    height: 24,
   },
   toggle: {
+    right:30,
     width: 40,
     height: 20,
-    marginLeft: -40,
+    borderRadius: 10,
+    backgroundColor: Color.colorGainsboro_500,
+    justifyContent: "center",
+    padding: 2,
   },
-  frame: {
-    top: 406,
-    left: 20,
-    height: 215,
-    flexDirection: "row",
-    alignItems: "flex-end",
-    justifyContent: "flex-end",
-    overflow: "hidden",
-    width: 335,
-    position: "absolute",
+  toggleActive: {
+    backgroundColor: "black", // Turns black when active
+  },
+  toggleSwitch: {
+    width: 16,
+    height: 16,
+    borderRadius: 8,
+    backgroundColor: Color.white,
+    transform: [{ translateX: 0 }],
+  },
+  toggleSwitchActive: {
+    transform: [{ translateX: 20 }], // Moves switch to the right when active
   },
 });
 

@@ -52,29 +52,29 @@ const Profile2 = ({ route }) => {
     <View style={styles.profile}>
       <View style={[styles.frame, styles.frameFlexBox]}>
         <View style={styles.statusBarParent}>
-          <StatusBar1
-            statusBarPosition="absolute"
-            statusBarWidth={390}
-            statusBarHeight={95}
-            statusBarTop={0}
-            statusBarLeft={0}
-            statusBarBackgroundColor="#e0a340"
-            statusBarRight="unset"
-            statusBarBottom="unset"
-            notch={require("../assets/notch.png")}
-            statusIconsWidth={69}
-            statusIconsHeight={14}
-            showNetworkSignalLight={false}
-            wiFiSignalLight={require("../assets/wifi-signal--light.png")}
-            showWiFiSignalLight={false}
-            showBatteryLight={false}
-            showTimeLight={false}
-          />
+        <StatusBar1
+          statusBarPosition="absolute"
+          statusBarWidth={412}
+          statusBarHeight={95}
+          statusBarTop={0.5}
+          statusBarLeft={0.1}
+          statusBarBackgroundColor="#e0a340"
+          statusBarRight="unset"
+          statusBarBottom="unset"
+          notch={require("../assets/notch.png")}
+          statusIconsWidth={69}
+          statusIconsHeight={14}
+          showNetworkSignalLight={false}
+          wiFiSignalLight={require("../assets/wifi-signal--light.png")}
+          showWiFiSignalLight={false}
+          showBatteryLight={false}
+          showTimeLight={false}
+        />
         </View>
       </View>
       <View style={[styles.frame1, styles.frameFlexBox]}>
         <View style={styles.tabBar}>
-          <Pressable
+          {/* <Pressable
             style={[styles.wrapper, styles.wrapperLayout]}
             onPress={() => navigation.replace("Home")}
           >
@@ -83,9 +83,9 @@ const Profile2 = ({ route }) => {
               contentFit="cover"
               source={require("../assets/group-1272628274.png")}
             />
-          </Pressable>
+          </Pressable> */}
           <Text style={styles.profile1}>Profile</Text>
-          <Pressable
+          {/* <Pressable
             style={[styles.editIcon, styles.wrapperLayout]}
             onPress={() => useNavigation.replace("EditProfile")}
           >
@@ -94,7 +94,7 @@ const Profile2 = ({ route }) => {
               contentFit="cover"
               source={require("../assets/editicon.png")}
             />
-          </Pressable>
+          </Pressable> */}
         </View>
       </View>
 
@@ -109,7 +109,7 @@ const styles = StyleSheet.create({
   frameFlexBox: {
     justifyContent: "center",
     position: "absolute",
-    overflow: "hidden",
+    //overflow: "hidden",
   },
   lightPosition: {
     height: 13,
@@ -162,16 +162,16 @@ const styles = StyleSheet.create({
     left: 0,
   },
   profile1: {
-    top: 12,
-    left: 127,
+    top: 4,
+    left: 140,
     fontSize: FontSize.size_5xl,
-    lineHeight: 18,
+   // lineHeight: 30,
     fontWeight: "700",
     fontFamily: FontFamily.poppinsBold,
     color: Color.white,
     textAlign: "center",
     width: 88,
-    height: 20,
+    height: 50,
     position: "absolute",
   },
   editIcon: {

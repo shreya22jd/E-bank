@@ -181,7 +181,7 @@ const styles = StyleSheet.create({
   logoutTypo: {
     textAlign: "left",
     fontFamily: FontFamily.mobileBody3Regular,
-    lineHeight: 14,
+    lineHeight: 15.5,
     fontSize: FontSize.m3LabelLarge_size,
   },
   frameLayout: {
@@ -196,7 +196,7 @@ const styles = StyleSheet.create({
     textAlign: "left",
     color: Color.colorGray_600,
     fontFamily: FontFamily.mobileBody3Regular,
-    lineHeight: 14,
+    lineHeight: 15,
     fontSize: FontSize.m3LabelLarge_size,
     position: "absolute",
   },

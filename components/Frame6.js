@@ -59,19 +59,19 @@ const styles = StyleSheet.create({
     width: 70,
     alignItems: "center",
   },
-  tanyaMyroniuk: {
+  tanyaMyroniuk: {  //NAME
     fontSize: FontSize.font_size,
-    lineHeight: 17,
+    lineHeight: 19,
     fontWeight: "600",
     fontFamily: FontFamily.poppinsSemiBold,
     color: Color.colorGray_600,
     width: 179,
-    height: 19,
+    height: 25,
     textAlign: "left",
   },
-  seniorDesigner: {
+  seniorDesigner: { //upi id
     fontSize: FontSize.mobileBody3Regular_size,
-    lineHeight: 12,
+    lineHeight: 14,
     fontFamily: FontFamily.mobileBody3Regular,
     color: Color.colorSlategray_100,
     height: 14,
@@ -81,7 +81,7 @@ const styles = StyleSheet.create({
   tanyaMyroniukParent: {
     height: 43,
     paddingTop: Padding.p_11xs,
-    gap: Gap.gap_12xs,
+    gap: Gap.gap_18xs, //gap btw name and UPI ID
     width: 219,
   },
   profile: {
