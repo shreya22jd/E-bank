@@ -5,52 +5,48 @@ import { Color, Border, FontSize, FontFamily } from "../GlobalStyles";
 
 const LoginPage = ({ navigation }) => {
   const [phoneNumber, setPhoneNumber] = React.useState("");
-  const [userName, setUserName] = React.useState(""); // New state for username
-  const [debitCard, setDebitCard] = React.useState("");
-  const [expiryDate, setExpiryDate] = React.useState("");
+  const [userName, setUserName] = React.useState("");
   const [otp, setOtp] = React.useState("");
   const [atmPin, setAtmPin] = React.useState("");
   const [upiPin, setUpiPin] = React.useState("");
   const [isOtpSent, setIsOtpSent] = React.useState(false);
+  const [isOtpVerified, setIsOtpVerified] = React.useState(false);
 
-  const fetchLoginPage = () => {
-    if (phoneNumber.length !== 10) {
-      Alert.alert("Please enter a valid 10-digit phone number.");
-      return;
-    }
-    if (userName.trim() === "") {
-      Alert.alert("Please enter your name.");
-      return;
-    }
-    // Fetch the bank account and card details using phone number.
-    console.log(`Fetching bank details for ${phoneNumber}`);
-    // Mock data for now
-    setDebitCard("1234 5678 9876 5432");
-    setExpiryDate("12/26");
+  // Mock backend database
+  const mockDatabase = {
+    validOtp: "1234", // Simulated OTP
+    user: {
+      userName: "John Doe", // Default name
+      upiId: "1234567890@bank", // Simulated UPI ID
+    },
   };
 
   const handleSendOtp = () => {
-    if (debitCard) {
-      console.log(`OTP sent for verification of card: ${debitCard}`);
-      setIsOtpSent(true);
-      Alert.alert("OTP Sent!", `OTP sent to the phone number ${phoneNumber}`);
+    if (phoneNumber.length !== 10) {
+      Alert.alert("Error", "Please enter a valid 10-digit phone number.");
+      return;
+    }
+    console.log(`Sending OTP to ${phoneNumber}`);
+    setIsOtpSent(true);
+    Alert.alert("OTP Sent", `An OTP has been sent to ${phoneNumber}`);
+  };
+
+  const handleVerifyOtp = () => {
+    if (otp === mockDatabase.validOtp) {
+      setIsOtpVerified(true);
+      Alert.alert("Success", "OTP verified successfully.");
+    } else {
+      Alert.alert("Error", "Invalid OTP. Please try again.");
     }
   };
 
   const handleSetUpiPin = () => {
     if (atmPin.length === 4 && upiPin.length === 4) {
-      const upiId = `${phoneNumber}@bank`; // Example UPI ID format using phone number
-      Alert.alert("Success!", "UPI PIN set successfully.");
-  
-      // Navigate to Profile2 with userName and upiId as params
-      navigation.navigate("Profile2", { userName, upiId });
-      setTimeout(() => {
-        // Reset navigation stack and navigate to Home screen
-        navigation.reset({
-          index: 0,
-          routes: [{ name: "Home" }], // Reset the stack to just the Home screen
-        });
-      }, 0);
+      const upiId = `${phoneNumber}@bank`;
+      mockDatabase.user.userName = userName || mockDatabase.user.userName;
+      mockDatabase.user.upiId = upiId;
+      Alert.alert("Success!", `UPI PIN set successfully. Your UPI ID is ${upiId}`);
+      navigation.navigate("Home", { userName: mockDatabase.user.userName, upiId });
     } else {
       Alert.alert("Error", "Please enter valid ATM and UPI PINs.");
     }
@@ -76,45 +72,28 @@ const LoginPage = ({ navigation }) => {
         </View>
       </View>
 
-      <TextInput
-        style={styles.input}
-        placeholder="Enter Your Name"
-        value={userName}
-        onChangeText={setUserName} // Update username state
-      />
-      <TextInput
-        style={styles.input}
-        placeholder="Phone Number"
-        keyboardType="phone-pad"
-        value={phoneNumber}
-        onChangeText={setPhoneNumber}
-      />
-      <TouchableOpacity style={styles.button} onPress={fetchLoginPage}>
-        <Text style={styles.buttonText}>Continue</Text>
-      </TouchableOpacity>
-
-      {debitCard ? (
+      {!isOtpSent && (
         <>
           <TextInput
             style={styles.input}
-            placeholder="Debit Card Number"
-            value={debitCard}
-            editable={false}
+            placeholder="Enter Your Name"
+            value={userName}
+            onChangeText={setUserName}
           />
           <TextInput
             style={styles.input}
-            placeholder="Expiry Date"
-            value={expiryDate}
-            editable={false}
+            placeholder="Phone Number"
+            keyboardType="phone-pad"
+            value={phoneNumber}
+            onChangeText={setPhoneNumber}
           />
-
           <TouchableOpacity style={styles.button} onPress={handleSendOtp}>
             <Text style={styles.buttonText}>Send OTP</Text>
           </TouchableOpacity>
         </>
-      ) : null}
+      )}
 
-      {isOtpSent && (
+      {isOtpSent && !isOtpVerified && (
         <>
           <TextInput
             style={styles.input}
@@ -123,6 +102,14 @@ const LoginPage = ({ navigation }) => {
             value={otp}
             onChangeText={setOtp}
           />
+          <TouchableOpacity style={styles.button} onPress={handleVerifyOtp}>
+            <Text style={styles.buttonText}>Continue</Text>
+          </TouchableOpacity>
+        </>
+      )}
+
+      {isOtpVerified && (
+        <>
           <TextInput
             style={styles.input}
             placeholder="ATM PIN"
@@ -147,6 +134,7 @@ const LoginPage = ({ navigation }) => {
     </View>
   );
 };
+
 const styles = StyleSheet.create({
   container: {
     flex: 1,
@@ -154,13 +142,13 @@ const styles = StyleSheet.create({
     justifyContent: "center",
   },
   titleTypo: {
-    textAlign:"center",
-    fontSize:24,
-    paddingBottom:10,
+    textAlign: "center",
+    fontSize: 24,
+    paddingBottom: 10,
   },
   description: {
-    textAlign:"center",
-    paddingBottom:30,
+    textAlign: "center",
+    paddingBottom: 30,
   },
   input: {
     backgroundColor: Color.lightGray10,
@@ -178,7 +166,6 @@ const styles = StyleSheet.create({
     borderRadius: Border.br_3xs,
     alignItems: "center",
     marginVertical: 10,
-    
   },
   buttonText: {
     color: Color.white,
@@ -188,7 +175,7 @@ const styles = StyleSheet.create({
   icon: {
     height: 60,
     width: 60,
-    paddingTop:70,
+    paddingTop: 70,
   },
   frame: {
     alignItems: "center",

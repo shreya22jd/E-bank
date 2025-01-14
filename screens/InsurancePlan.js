@@ -1,5 +1,6 @@
+
 import * as React from "react";
-import { Text, StyleSheet, View, Pressable } from "react-native";
+import { Text, StyleSheet, View, Pressable, TextInput } from "react-native";
 import { Image } from "expo-image";
 import { useNavigation } from "@react-navigation/native";
 import Frame12 from "../components/Frame12";
@@ -14,6 +15,7 @@ import {
 
 const InsurancePlan = () => {
   const navigation = useNavigation();
+  const [firstName, setFirstName] = React.useState(""); // State for First Name
 
   return (
     <View style={styles.insurancePlan}>
@@ -65,14 +67,25 @@ const InsurancePlan = () => {
           </View>
         </View>
       </Pressable>
+
       <View style={[styles.insurancePlanChild, styles.insuranceBg]} />
+
+      {/* Input field for First Name */}
       <View style={[styles.component223Parent, styles.parentPosition]}>
         <View style={[styles.component223, styles.componentPosition]}>
           <View style={[styles.rectangle1, styles.rectanglePosition]} />
-          <Text style={[styles.damola, styles.damolaTypo]}>Damola</Text>
+          <TextInput
+            style={[styles.input, { color: "black", backgroundColor: "white", padding: 10 }]} // Ensure text is visible and input is styled
+            value={firstName}
+            onChangeText={setFirstName}
+            placeholder="Enter First Name"
+            placeholderTextColor={Color.gray4}
+            editable={true} // Ensure the input is editable
+          />
         </View>
         <Text style={[styles.firstName, styles.firstNameTypo]}>First Name</Text>
       </View>
+
       <View style={[styles.rectangleGroup, styles.frameLayout]}>
         <View style={[styles.rectangle2, styles.groupItemPosition]}>
           <View style={[styles.rectangle3, styles.rectanglePosition]} />
@@ -86,7 +99,9 @@ const InsurancePlan = () => {
           Date of Birth
         </Text>
       </View>
+
       <View style={[styles.insurancePlanItem, styles.insuranceBg]} />
+
       <View style={styles.comprehensiveMotorInsuranceParent}>
         <Text
           style={[styles.comprehensiveMotorInsurance, styles.groupItemPosition]}
@@ -95,14 +110,16 @@ Motor Insurance Plan`}</Text>
         <Text
           style={[styles.fillOrUpdate, styles.damolaTypo]}
         >{`Fill or Update your information and we’ll get your vehicle covered in no time.
-`}</Text>
+        `}</Text>
       </View>
+
       <Pressable
         style={[styles.button, styles.parentFlexBox]}
         onPress={() => navigation.navigate("Proceed")}
       >
         <Text style={[styles.continue, styles.textClr]}>Continue</Text>
       </Pressable>
+
       <View style={[styles.rectangleContainer, styles.componentPosition]}>
         <View style={[styles.groupChild, styles.componentPosition]} />
         <View style={[styles.homeIndicatorwhite, styles.groupItemPosition]}>
@@ -139,6 +156,7 @@ Motor Insurance Plan`}</Text>
           />
         </View>
       </View>
+
       <View style={[styles.frame, styles.frameLayout]}>
         <View style={[styles.typeHere1, styles.typePosition]} />
         <View style={[styles.component224Parent, styles.componentPosition]}>
@@ -151,6 +169,7 @@ Motor Insurance Plan`}</Text>
           </Text>
         </View>
       </View>
+
       <Frame12 />
     </View>
   );

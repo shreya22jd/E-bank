@@ -37,16 +37,12 @@ const FrameComponent12 = () => {
           source={require("../assets/weuilocationfilled.png")}
         />
       </Pressable>
-      <Pressable
-        style={styles.chatsIcon}
-        onPress={() => navigation.navigate("Profile2")}
-      >
         <Image
           style={styles.iconLayout}
           contentFit="cover"
           source={require("../assets/profile.png")}
         />
-      </Pressable>
+     
       <Image
         style={styles.chatsIcon}
         contentFit="cover"

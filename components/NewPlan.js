@@ -7,24 +7,31 @@ import { Color, Border, FontSize, FontFamily } from "../GlobalStyles";
 
 const NewPlan = () => {
   const navigation = useNavigation();
-  const [targetAmount, setTargetAmount] = React.useState(""); // State for target amount
-  const [dailyAmount, setDailyAmount] = React.useState(""); // State for today's amount
+  const [targetAmount, setTargetAmount] = React.useState(""); 
+  const [dailyAmount, setDailyAmount] = React.useState(""); 
+  const [balance, setBalance] = React.useState(null); 
+  const [daysToTarget, setDaysToTarget] = React.useState(null); 
 
-  const calculateBalanceAndDays = () => {
-    const target = parseFloat(targetAmount) || 0;
-    const daily = parseFloat(dailyAmount) || 0;
-    
-    if (daily > 0) {
-      const currentBalance = target - daily; // Calculate the balance
+  // Calculate balance and days whenever targetAmount or dailyAmount changes
+  React.useEffect(() => {
+    const calculateBalanceAndDays = () => {
+      const target = parseFloat(targetAmount) || 0;
+      const daily = parseFloat(dailyAmount) || 0;
 
-      // Calculate days to reach the target if daily amount is greater than 0
-      const days = currentBalance > 0 ? Math.ceil(currentBalance / daily) : 0; 
-      
-      return { currentBalance, days }; // Return calculated values
-    } else {
-      return { currentBalance: null, days: null }; // Reset values if daily amount is zero
-    }
-  };
+      if (daily > 0) {
+        const currentBalance = target - daily;
+        setBalance(currentBalance);
+
+        const days = currentBalance > 0 ? Math.ceil(currentBalance / daily) : 0; 
+        setDaysToTarget(days);
+      } else {
+        setBalance(null);
+        setDaysToTarget(null);
+      }
+    };
+
+    calculateBalanceAndDays();
+  }, [targetAmount, dailyAmount]);
 
   return (
     <View style={[styles.newPlan, styles.plusPosition]}>
@@ -35,7 +42,7 @@ const NewPlan = () => {
       </View>
       <View style={[styles.plus, styles.plusPosition]}>
         <Text style={styles.newPlanEnterContainer}>
-          <Text style={styles.newPlan1}>New plan{"\n"}</Text>
+          <Text style={styles.newPlan1}>{`New plan\n`}</Text>
           <Text style={styles.enterTheParameters}>
             Enter the parameters of the month
           </Text>
@@ -47,30 +54,27 @@ const NewPlan = () => {
         />
       </View>
 
-      {/* TextInput for manually entering the target amount */}
       <TextInput
         style={styles.targetInput}
         placeholder="Enter target amount"
         value={targetAmount}
         keyboardType="numeric"
-        onChangeText={setTargetAmount} // Updates targetAmount
+        onChangeText={setTargetAmount}
       />
 
-      {/* TextInput for today's amount */}
       <TextInput
         style={styles.targetInput}
         placeholder="Enter today's amount"
         value={dailyAmount}
         keyboardType="numeric"
-        onChangeText={setDailyAmount} // Updates dailyAmount
+        onChangeText={setDailyAmount}
       />
-    
+
       <FrameComponent
         onFramePressablePress={() => {
-          const { currentBalance, days } = calculateBalanceAndDays(); // Calculate values
           navigation.navigate("MyPlan", {
-            balance: currentBalance, // Pass balance as a parameter
-            daysToTarget: days, // Pass daysToTarget as a parameter
+            balance: balance,
+            daysToTarget: daysToTarget,
           });
         }}
         propTop={330}
@@ -98,7 +102,7 @@ const styles = StyleSheet.create({
     backgroundColor: Color.colorLinen_100,
     marginTop: 15,
     marginBottom: 10,
-    top: 150,
+    top: 90,
   },
   resultText: {
     fontSize: FontSize.size_smi,
@@ -114,7 +118,7 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderStyle: "solid",
     borderRadius: Border.br_mini,
-    left: 0,
+    left: 1000,
     top: 0,
     height: 44,
     width: 44,

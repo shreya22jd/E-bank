@@ -10,104 +10,28 @@ const About = () => {
 
   return (
     <View style={styles.about}>
-      <View style={[styles.groupParent, styles.wrapperPosition]}>
-        <View style={[styles.groupParent, styles.wrapperPosition]}>
-          <StatusBar1
-            statusBarPosition="absolute"
-            statusBarWidth={390}
-            statusBarHeight={95}
-            statusBarTop={0}
-            statusBarLeft={0}
-            statusBarBackgroundColor="#e0a340"
-            statusBarRight="unset"
-            statusBarBottom="unset"
-            notch={require("../assets/notch.png")}
-            statusIconsWidth={69}
-            statusIconsHeight={14}
-            showNetworkSignalLight={false}
-            wiFiSignalLight={require("../assets/wifi-signal--light.png")}
-            showWiFiSignalLight={false}
-            showBatteryLight={false}
-            showTimeLight={false}
-          />
-          <Image
-            style={[styles.batteryLight, styles.lightPosition]}
-            contentFit="cover"
-            source={require("../assets/battery--light1.png")}
-          />
-          <Image
-            style={[styles.networkSignalLight, styles.lightPosition]}
-            contentFit="cover"
-            source={require("../assets/network-signal-light1.png")}
-          />
-          <Image
-            style={[styles.wifiSignalLight, styles.lightPosition]}
-            contentFit="cover"
-            source={require("../assets/wifi-signal--light2.png")}
-          />
-          <Image
-            style={styles.timeLight}
-            contentFit="cover"
-            source={require("../assets/time--light1.png")}
-          />
-        </View>
-        <View style={[styles.groupParent, styles.wrapperPosition]}>
-          <View style={[styles.groupParent, styles.wrapperPosition]}>
-            <StatusBar1
-              statusBarPosition="absolute"
-              statusBarWidth={390}
-              statusBarHeight={95}
-              statusBarTop={0}
-              statusBarLeft={0}
-              statusBarBackgroundColor="#e0a340"
-              statusBarRight="unset"
-              statusBarBottom="unset"
-              notch={require("../assets/notch.png")}
-              statusIconsWidth={69}
-              statusIconsHeight={14}
-              showNetworkSignalLight={false}
-              wiFiSignalLight={require("../assets/wifi-signal--light.png")}
-              showWiFiSignalLight={false}
-              showBatteryLight={false}
-              showTimeLight={false}
-            />
-            <Image
-              style={[styles.batteryLight, styles.lightPosition]}
-              contentFit="cover"
-              source={require("../assets/battery--light1.png")}
-            />
-            <Image
-              style={[styles.networkSignalLight, styles.lightPosition]}
-              contentFit="cover"
-              source={require("../assets/network-signal-light1.png")}
-            />
-            <Image
-              style={[styles.wifiSignalLight, styles.lightPosition]}
-              contentFit="cover"
-              source={require("../assets/wifi-signal--light2.png")}
-            />
-            <Image
-              style={styles.timeLight}
-              contentFit="cover"
-              source={require("../assets/time--light1.png")}
-            />
-          </View>
-        </View>
-      </View>
       <View style={[styles.groupContainer, styles.wrapperLayout]}>
-        <Pressable
-          style={[styles.wrapper, styles.wrapperLayout]}
-          onPress={() => navigation.navigate("Home")}
-        >
-          <Image
-            style={styles.icon}
-            contentFit="cover"
-            source={require("../assets/group-1272628274.png")}
-          />
-        </Pressable>
-        <View style={styles.termsConditionWrapper}>
+      <View style={styles.statusBarParent}>
+        <StatusBar1
+          statusBarPosition="absolute"
+          statusBarWidth={420}
+          statusBarHeight={95}
+          statusBarTop={-30}
+          statusBarLeft={-30}
+          statusBarBackgroundColor="#e0a340"
+          statusBarRight="unset"
+          statusBarBottom="unset"
+          notch={require("../assets/notch.png")}
+          statusIconsWidth={69}
+          statusIconsHeight={14}
+          showNetworkSignalLight={false}
+          wiFiSignalLight={require("../assets/wifi-signal--light.png")}
+          showWiFiSignalLight={false}
+          showBatteryLight={false}
+          showTimeLight={false}
+        />
+      </View>
           <Text style={styles.termsCondition}>About Us</Text>
-        </View>
       </View>
       <Text
         style={styles.l151ThankYou}
@@ -174,21 +98,15 @@ const styles = StyleSheet.create({
   },
   termsCondition: {
     fontSize: FontSize.size_5xl,
-    lineHeight: 18,
+    lineHeight: 25,
     fontWeight: "600",
     fontFamily: FontFamily.poppinsSemiBold,
     color: Color.white,
     textAlign: "center",
+    top:20,
+    left:60,
   },
-  termsConditionWrapper: {
-    top: 1,
-    left: 95,
-    flexDirection: "row",
-    alignItems: "center",
-    justifyContent: "center",
-    padding: Padding.p_3xs,
-    position: "absolute",
-  },
+
   groupContainer: {
     top: 30,
     left: 28,

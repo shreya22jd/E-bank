@@ -1,345 +1,341 @@
-import * as React from "react";
+import React, { useState } from "react";
+import { View, Text, Pressable, TextInput, ScrollView, Modal, StyleSheet } from "react-native";
+import DateTimePicker from "@react-native-community/datetimepicker";
 import { Image } from "expo-image";
-import { StyleSheet, View, Text, Pressable } from "react-native";
-import FormComponent from "../components/FormComponent";
-import DropdownMenu from "../components/DropdownMenu";
 import { useNavigation } from "@react-navigation/native";
-import {
-  Color,
-  Padding,
-  FontFamily,
-  FontSize,
-  Border,
-  Gap,
-} from "../GlobalStyles";
+import { Color, Padding, FontFamily, FontSize, Border } from "../GlobalStyles";
+import { useSelectedContacts } from "../screens/SelectedContactsContext"; // Import context for contacts
+import { useRooms } from "../screens/RoomContext"; // Import Room context
 
 const RoomSettings1 = () => {
   const navigation = useNavigation();
+  const { selectedContacts } = useSelectedContacts(); // Access selected contacts from context
+  const { addRoom } = useRooms(); // Access the addRoom function from RoomContext
+
+  const [roomName, setRoomName] = useState(""); // State for Room Name
+  const [totalAmount, setTotalAmount] = useState(""); // State for Total Amount
+  const [selectedFrequency, setSelectedFrequency] = useState("Select Frequency");
+  const [frequencyModalVisible, setFrequencyModalVisible] = useState(false);
+  const [targetDate, setTargetDate] = useState(new Date());
+  const [showDatePicker, setShowDatePicker] = useState(false);
+
+  // Frequency Options
+  const frequencyOptions = ["Daily", "Weekly", "Monthly", "Yearly"];
+
+  // Handle start button press to add the room
+  const handleStart = () => {
+    if (roomName && totalAmount) {
+      addRoom(roomName, totalAmount); // Add room to context
+      navigation.navigate("RoomCreated"); // Navigate to RoomCreated screen
+    }
+  };
 
   return (
-    <View style={[styles.roomsettings, styles.titleFlexBox]}>
+    <View style={styles.container}>
+      {/* Navigation Bar */}
+      <View style={[styles.navbar, styles.navbarPosition]}>
+        <Pressable
+          style={styles.wrapper}
+          onPress={() => navigation.navigate("EmptyFriendlist")}
+        >
+          <Image
+            style={styles.icon}
+            contentFit="cover"
+            source={require("../assets/group-1272628270.png")}
+          />
+        </Pressable>
+        <Text style={styles.header}>Room Settings</Text>
+      </View>
+
       <View style={styles.content}>
         <Image
-          style={styles.contentChild}
+          style={styles.backgroundImage}
           contentFit="cover"
           source={require("../assets/rectangle-59.png")}
         />
-        <View style={[styles.formComponentWrapper, styles.titleSpaceBlock]}>
-          <FormComponent undefined="Birthday contribution" />
-        </View>
-        <View style={[styles.formComponentWrapper, styles.titleSpaceBlock]}>
-          <FormComponent undefined="2000 INR" />
-        </View>
-        <Image
-          style={styles.userIcon}
-          contentFit="cover"
-          source={require("../assets/user1.png")}
-        />
-        <Text style={styles.reason}>Alex</Text>
-        <View style={[styles.roomMembersParent, styles.reminderWrapperFlexBox]}>
-          <Text
-            style={[styles.roomMembers, styles.roomTypo]}
-          >{`Room members            `}</Text>
-          <Image
-            style={styles.frameChild}
-            contentFit="cover"
-            source={require("../assets/vector-3.png")}
+
+        {/* Room Name Input */}
+        <View style={styles.inputContainer}>
+          <Text style={styles.label}>Room Name:</Text>
+          <TextInput
+            style={styles.textInput}
+            placeholder="Enter room name"
+            value={roomName}
+            onChangeText={setRoomName}
           />
         </View>
-        <View style={styles.contentItem} />
-        <View style={styles.frameParent}>
-          <View style={[styles.reminderWrapper, styles.reminderWrapperFlexBox]}>
-            <Text style={[styles.reminder, styles.roomTypo]}>Reminder</Text>
-          </View>
-          <DropdownMenu
-            selectMenu="Select "
-            propPosition="absolute"
-            propTop={0}
-            propLeft={278}
-            vector={require("../assets/vector17.png")}
+
+        {/* Total Amount Input */}
+        <View style={styles.inputContainer}>
+          <Text style={styles.label}>Total Amount:</Text>
+          <TextInput
+            style={styles.textInput}
+            placeholder="Enter total amount"
+            keyboardType="numeric"
+            value={totalAmount}
+            onChangeText={setTotalAmount}
           />
         </View>
-        <View style={styles.contentItem} />
-        <Pressable
-          style={[styles.targetDateParent, styles.titleSpaceBlock]}
-          onPress={() => navigation.navigate("TargetDay")}
+
+        {/* Room Members Section */}
+        <Text style={styles.label}>Room members:</Text>
+        <ScrollView
+          horizontal
+          showsHorizontalScrollIndicator={false}
+          contentContainerStyle={styles.contactListContainer}
         >
-          <Text
-            style={[styles.targetDate, styles.roomTypo]}
-          >{`        Target date                          `}</Text>
-          <Image
-            style={styles.frameChild}
-            contentFit="cover"
-            source={require("../assets/vector-3.png")}
-          />
-        </Pressable>
-        <View style={styles.contentItem} />
-        <Pressable
-          style={styles.framePressable}
-          onPress={() => navigation.navigate("RoomCreated")}
-        >
-          <View style={[styles.rectangleParent, styles.groupChildPosition]}>
-            <View style={[styles.groupChild, styles.groupChildBg]} />
-            <Text style={[styles.start, styles.timeTypo]}>Start</Text>
-          </View>
-        </Pressable>
-      </View>
-      <Image
-        style={styles.materialSymbolseditIcon}
-        contentFit="cover"
-        source={require("../assets/materialsymbolsedit1.png")}
-      />
-      <View style={[styles.statusBarwhite, styles.groupChildBg]}>
-        <Image
-          style={styles.connectionsIcon}
-          contentFit="cover"
-          source={require("../assets/connections.png")}
-        />
-        <Text style={[styles.time, styles.timeTypo]}>9:41</Text>
-      </View>
-      <View style={[styles.navbar, styles.navbarFlexBox]}>
-        <View style={[styles.navbar1, styles.navbarFlexBox]}>
-          <View style={[styles.title, styles.titleSpaceBlock]}>
-            <Pressable
-              style={styles.wrapper}
-              onPress={() => navigation.navigate("Home")}
-            >
-              <Image
-                style={styles.icon}
-                contentFit="cover"
-                source={require("../assets/group-1272628270.png")}
-              />
-            </Pressable>
-            <Text style={[styles.roomSettings, styles.roomTypo]}>
-              Room Settings
+          {selectedContacts.length > 0 ? (
+            selectedContacts.map((contact) => (
+              <View key={contact.id} style={styles.contactItem}>
+                <Image
+                  source={contact.icon ? { uri: contact.icon } : require("../assets/user.png")}
+                  style={styles.contactIcon}
+                />
+                <Text style={styles.contactName}>{contact.name}</Text>
+              </View>
+            ))
+          ) : (
+            <Text style={styles.noContactsText}>No contacts selected</Text>
+          )}
+        </ScrollView>
+
+        {/* Reminder Dropdown */}
+        <View style={styles.reminderContainer}>
+          <Text style={styles.label}>Reminder:</Text>
+          <Pressable
+            style={styles.dropdown}
+            onPress={() => setFrequencyModalVisible(true)}
+          >
+            <Text style={styles.dropdownText}>{selectedFrequency}</Text>
+          </Pressable>
+        </View>
+
+        {/* Target Date */}
+        <View style={styles.targetDateContainer}>
+          <Text style={styles.label}>Target Date:</Text>
+          <Pressable
+            style={styles.datePicker}
+            onPress={() => setShowDatePicker(true)}
+          >
+            <Text style={styles.dateText}>
+              {targetDate.toDateString()}
             </Text>
-          </View>
-          <View style={styles.navbarChild} />
+          </Pressable>
         </View>
-        <View style={styles.navbarChild} />
+
+        {/* DateTimePicker for Target Date */}
+        {showDatePicker && (
+          <DateTimePicker
+            value={targetDate}
+            mode="date"
+            display="default"
+            onChange={(event, date) => {
+              setShowDatePicker(false);
+              if (date) setTargetDate(date);
+            }}
+          />
+        )}
+
+        {/* Start Button */}
+        <Pressable
+          style={styles.startButton}
+          onPress={handleStart}
+        >
+          <Text style={styles.startButtonText}>Start</Text>
+        </Pressable>
       </View>
+
+      {/* Frequency Selection Modal */}
+      <Modal
+        visible={frequencyModalVisible}
+        transparent
+        animationType="slide"
+        onRequestClose={() => setFrequencyModalVisible(false)}
+      >
+        <View style={styles.modalOverlay}>
+          <View style={styles.modalContent}>
+            {frequencyOptions.map((option) => (
+              <Pressable
+                key={option}
+                style={styles.modalOption}
+                onPress={() => {
+                  setSelectedFrequency(option);
+                  setFrequencyModalVisible(false);
+                }}
+              >
+                <Text style={styles.modalOptionText}>{option}</Text>
+              </Pressable>
+            ))}
+          </View>
+        </View>
+      </Modal>
     </View>
   );
 };
 
 const styles = StyleSheet.create({
-  titleFlexBox: {
+  container: {
     flex: 1,
     backgroundColor: Color.white,
+    padding: Padding.p_base,
   },
-  titleSpaceBlock: {
-    paddingVertical: 0,
-    paddingHorizontal: Padding.p_base,
+  navbar: {
     flexDirection: "row",
     alignItems: "center",
-  },
-  reminderWrapperFlexBox: {
-    paddingRight: Padding.p_base,
-    width: 390,
-    flexDirection: "row",
-    alignItems: "center",
-  },
-  roomTypo: {
-    color: Color.textBigTitle,
-    fontFamily: FontFamily.poppinsSemiBold,
-    textAlign: "center",
-    fontWeight: "600",
-  },
-  groupChildPosition: {
-    left: "0%",
-    bottom: "0%",
-    right: "0%",
-    top: "0%",
-    height: "100%",
     width: "100%",
+    paddingVertical: 10,
+    paddingHorizontal: Padding.p_base,
+    backgroundColor: Color.white,
+    elevation: 2, // Optional: Adds shadow for Android
   },
-  groupChildBg: {
-    backgroundColor: Color.colorGoldenrod_100,
+  navbarPosition: {
     position: "absolute",
+    top: 30,
+    left: 0,
   },
-  timeTypo: {
-    fontWeight: "700",
-    position: "absolute",
-  },
-  navbarFlexBox: {
+  wrapper: {
+    width: 40,
+    height: 40,
     justifyContent: "center",
     alignItems: "center",
-  },
-  contentChild: {
-    maxWidth: "100%",
-    height: 161,
-    overflow: "hidden",
-    alignSelf: "stretch",
-    width: "100%",
-  },
-  formComponentWrapper: {
-    alignSelf: "stretch",
-  },
-  userIcon: {
-    width: 43,
-    height: 45,
-  },
-  reason: {
-    fontFamily: FontFamily.montserratSemiBold,
-    color: Color.colorDarkslategray_800,
-    textAlign: "center",
-    fontWeight: "600",
-    fontSize: FontSize.font_size,
-  },
-  roomMembers: {
-    width: 201,
-    fontSize: FontSize.font_size,
-  },
-  frameChild: {
-    width: 6,
-    height: 12,
-  },
-  roomMembersParent: {
-    paddingLeft: Padding.p_36xl,
-    gap: 33,
-  },
-  contentItem: {
-    borderStyle: "solid",
-    borderColor: Color.textBigTitle,
-    borderTopWidth: 1,
-    height: 1,
-    alignSelf: "stretch",
-  },
-  reminder: {
-    width: 228,
-    fontSize: FontSize.font_size,
-  },
-  reminderWrapper: {
-    top: 2,
-    paddingLeft: Padding.p_4xs,
-    left: 0,
-    position: "absolute",
-  },
-  frameParent: {
-    height: 30,
-    width: 390,
-  },
-  targetDate: {
-    width: 202,
-    fontSize: FontSize.font_size,
-  },
-  targetDateParent: {
-    gap: 69,
-    width: 390,
-  },
-  groupChild: {
-    shadowColor: "rgba(0, 0, 0, 0.41)",
-    shadowOffset: {
-      width: 0,
-      height: 1,
-    },
-    shadowRadius: 3,
-    elevation: 3,
-    shadowOpacity: 1,
-    left: "0%",
-    bottom: "0%",
-    right: "0%",
-    top: "0%",
-    height: "100%",
-    width: "100%",
-    borderRadius: Border.br_base,
-  },
-  start: {
-    height: "33.33%",
-    width: "44.97%",
-    top: "33.33%",
-    left: "37.04%",
-    fontFamily: FontFamily.montserratBold,
-    color: Color.white,
-    textAlign: "left",
-    fontSize: FontSize.font_size,
-  },
-  rectangleParent: {
-    position: "absolute",
-  },
-  framePressable: {
-    width: 189,
-    height: 54,
-    borderRadius: Border.br_base,
-  },
-  content: {
-    top: 118,
-    height: 699,
-    gap: Gap.gap_4xs,
-    alignItems: "center",
-    left: 0,
-    right: 0,
-    position: "absolute",
-  },
-  materialSymbolseditIcon: {
-    top: 262,
-    left: 351,
-    borderRadius: Border.br_xl,
-    width: 24,
-    height: 24,
-    overflow: "hidden",
-    position: "absolute",
-  },
-  connectionsIcon: {
-    top: 9,
-    right: 23,
-    width: 68,
-    height: 16,
-    position: "absolute",
-  },
-  time: {
-    marginTop: -10,
-    top: "50%",
-    left: 24,
-    fontSize: FontSize.size_mini,
-    letterSpacing: 0,
-    fontFamily: FontFamily.helvetica,
-    color: Color.lightGray11,
-    textAlign: "center",
-  },
-  statusBarwhite: {
-    top: 0,
-    height: 36,
-    width: 375,
-    left: 0,
+    marginRight: 10,
   },
   icon: {
     height: "100%",
     width: "100%",
   },
-  wrapper: {
+  content: {
+    flex: 1,
+    alignItems: "center",
+    justifyContent: "center",
+    marginTop: 60, // Adjust this to create space for the navbar
+  },
+  backgroundImage: {
+    width: "100%",
+    height: 160,
+    marginBottom: 20,
+  },
+  header: {
+    fontFamily: FontFamily.poppinsSemiBold,
+    fontSize: FontSize.font_size,
+    color: Color.textBigTitle,
+    marginBottom: 15,
+  },
+  label: {
+    fontSize: FontSize.font_size,
+    fontFamily: FontFamily.poppinsSemiBold,
+    color: Color.textBigTitle,
+    marginBottom: 8,
+  },
+  inputContainer: {
+    width: "100%",
+    marginBottom: 15,
+  },
+  textInput: {
+    borderWidth: 1,
+    borderColor: Color.colorLightGray,
+    paddingVertical: 10,
+    paddingHorizontal: 15,
+    borderRadius: Border.br_8xs,
+    fontSize: FontSize.font_size,
+    fontFamily: FontFamily.poppinsRegular,
+  },
+  contactListContainer: {
+    flexDirection: "row",
+    alignItems: "center",
+    paddingVertical: 8,
+  },
+  contactItem: {
+    alignItems: "center",
+    marginRight: 15,
+  },
+  contactIcon: {
     width: 40,
     height: 40,
+    borderRadius: 20,
+    backgroundColor: Color.colorLightGray,
   },
-  roomSettings: {
-    fontSize: FontSize.size_5xl,
-    width: 313,
+  contactName: {
+    fontFamily: FontFamily.montserratSemiBold,
+    color: Color.colorDarkslategray_800,
+    textAlign: "center",
+    fontSize: FontSize.font_size,
+    marginTop: 4,
   },
-  title: {
-    justifyContent: "space-between",
-    alignSelf: "stretch",
-    flex: 1,
-    backgroundColor: Color.white,
-  },
-  navbarChild: {
-    height: 0,
-    alignSelf: "stretch",
-  },
-  navbar1: {
-    height: 64,
-    width: 375,
-  },
-  navbar: {
-    top: 47,
-    left: 0,
-    right: 0,
-    justifyContent: "center",
-    position: "absolute",
-  },
-  roomsettings: {
-    borderRadius: Border.br_5xl,
-    height: 812,
+  reminderContainer: {
+    flexDirection: "row",
+    alignItems: "center",
+    marginVertical: 10,
     width: "100%",
+    justifyContent: "space-between",
+  },
+  dropdown: {
+    borderWidth: 1,
+    borderColor: Color.colorLightGray,
+    paddingVertical: 10,
+    paddingHorizontal: 15,
+    borderRadius: Border.br_8xs,
+    backgroundColor: Color.colorGoldenrod_100,
+  },
+  dropdownText: {
+    fontFamily: FontFamily.poppinsRegular,
+    color: Color.white,
+    fontSize: FontSize.font_size,
+  },
+  targetDateContainer: {
+    flexDirection: "row",
+    alignItems: "center",
+    marginVertical: 10,
+    width: "100%",
+    justifyContent: "space-between",
+  },
+  datePicker: {
+    borderWidth: 1,
+    borderColor: Color.colorLightGray,
+    paddingVertical: 10,
+    paddingHorizontal: 15,
+    borderRadius: Border.br_8xs,
+    backgroundColor: Color.colorGoldenrod_100,
+  },
+  dateText: {
+    fontFamily: FontFamily.poppinsRegular,
+    color: Color.white,
+    fontSize: FontSize.font_size,
+  },
+  startButton: {
+    backgroundColor: Color.colorGoldenrod_100,
+    paddingVertical: 12,
+    paddingHorizontal: 40,
+    borderRadius: Border.br_5xs,
+    marginTop: 30,
+  },
+  startButtonText: {
+    color: Color.white,
+    fontFamily: FontFamily.poppinsSemiBold,
+    fontSize: FontSize.font_size,
+  },
+  modalOverlay: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
+    backgroundColor: "rgba(0, 0, 0, 0.5)",
+  },
+  modalContent: {
+    backgroundColor: Color.white,
+    borderRadius: Border.br_mini,
+    width: 250,
+    padding: 20,
+    alignItems: "center",
+  },
+  modalOption: {
+    paddingVertical: 10,
+    width: "100%",
+    alignItems: "center",
+  },
+  modalOptionText: {
+    fontFamily: FontFamily.poppinsRegular,
+    fontSize: FontSize.font_size,
+    color: Color.textBigTitle,
   },
 });
 

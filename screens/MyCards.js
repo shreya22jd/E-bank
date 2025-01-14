@@ -1,158 +1,237 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
-  View,
   Text,
   StyleSheet,
-  ScrollView,
-  Alert,
-  TouchableOpacity,
-  Modal,
+  View,
+  Pressable,
   TextInput,
-  Button,
+  Image,
+  Alert,
+  Animated,
+  ScrollView,
 } from "react-native";
-import { Color, Border } from "../GlobalStyles"; // Global styles for colors and borders
 
 const MyCards = () => {
-  // State for modal visibility and input values
-  const [modalVisible, setModalVisible] = useState(false);
-  const [selectedBank, setSelectedBank] = useState(null);
-  const [lastFourDigits, setLastFourDigits] = useState("");
+  const [currentScreen, setCurrentScreen] = useState("BankSelection");
+  const [selectedBank, setSelectedBank] = useState("");
+  const [cvv, setCvv] = useState("");
   const [phoneNumber, setPhoneNumber] = useState("");
+  const [ringScale] = useState(new Animated.Value(1));
 
-  // Sample bank data
-  const banks = [
-    { name: "Axis Bank" },
-    { name: "HDFC Bank" },
-    { name: "SBI" },
-    { name: "Canara Bank" },
+  useEffect(() => {
+    if (currentScreen === "Success") {
+      animateRings();
+    }
+  }, [currentScreen]);
+
+  const bankData = [
+    { name: "HDFC Bank", icon: require("../assets/hdfcbank.jpeg") },
+    { name: "Axis Bank", icon: require("../assets/axis-icon.jpeg") },
+    { name: "SBI Bank", icon: require("../assets/sbi.jpeg") },
+    { name: "ICICI Bank", icon: require("../assets/icici-icon.jpeg") },
   ];
 
-  // Function to handle bank selection
-  const handleBankPress = (bankName) => {
+  const handleBankSelection = (bankName) => {
     setSelectedBank(bankName);
-    setModalVisible(true);
+    setCurrentScreen("EnterDetails");
   };
 
-  // Function to handle payment
   const handlePayment = () => {
-    Alert.alert(
-      "Payment",
-      `Proceeding with payment through ${selectedBank}\n +
-        Last 4 Digits: ${lastFourDigits}\n +
-        Phone Number: ${phoneNumber}`
-    ); //the above line should be in  ``
-    // Here, you can add functionality to connect with the bank's payment gateway
-    setModalVisible(false);
-    // Reset fields
-    setLastFourDigits("");
-    setPhoneNumber("");
+    if (cvv.length !== 3 || phoneNumber.length !== 10) {
+      Alert.alert(
+        "Invalid Input",
+        "Please enter a valid CVV and phone number."
+      );
+      return;
+    }
+    setCurrentScreen("Success");
   };
+
+  const animateRings = () => {
+    Animated.loop(
+      Animated.sequence([
+        Animated.timing(ringScale, {
+          toValue: 1.5,
+          duration: 1000,
+          useNativeDriver: true,
+        }),
+        Animated.timing(ringScale, {
+          toValue: 1,
+          duration: 1000,
+          useNativeDriver: true,
+        }),
+      ])
+    ).start();
+  };
+
+  const renderBankSelection = () => (
+    <ScrollView contentContainerStyle={styles.bankContainer}>
+      {bankData.map((bank, index) => (
+        <Pressable
+          key={index}
+          style={styles.bankItem}
+          onPress={() => handleBankSelection(bank.name)}
+        >
+          <Image source={bank.icon} style={styles.bankIcon} />
+          <Text style={styles.bankName}>{bank.name}</Text>
+        </Pressable>
+      ))}
+    </ScrollView>
+  );
+
+  const renderEnterDetails = () => (
+    <View style={styles.detailsContainer}>
+      <Text style={styles.detailsText}>
+        Enter Payment Details for {selectedBank}
+      </Text>
+      <TextInput
+        style={styles.input}
+        placeholder="Enter CVV"
+        keyboardType="numeric"
+        maxLength={3}
+        onChangeText={setCvv}
+      />
+      <TextInput
+        style={styles.input}
+        placeholder="Enter Phone Number"
+        keyboardType="phone-pad"
+        maxLength={10}
+        onChangeText={setPhoneNumber}
+      />
+      <Pressable style={styles.button} onPress={handlePayment}>
+        <Text style={styles.buttonText}>Make Payment</Text>
+      </Pressable>
+    </View>
+  );
+
+  const renderSuccess = () => (
+    <View style={styles.successContainer}>
+      <Animated.View
+        style={[styles.ring, { transform: [{ scale: ringScale }] }]}
+      />
+      <Text style={styles.successMessage}>Payment Successful!</Text>
+      <Text style={styles.successDetails}>
+        Your payment with {selectedBank} was completed successfully.
+      </Text>
+      <Pressable
+        style={styles.button}
+        onPress={() => setCurrentScreen("BankSelection")}
+      >
+        <Text style={styles.buttonText}>Back to Home</Text>
+      </Pressable>
+    </View>
+  );
 
   return (
-    <View style={styles.container}>
-      <Text style={styles.title}>Credit Card Payments</Text>
-      <ScrollView>
-        {banks.map((bank, index) => (
-          <TouchableOpacity
-            key={index}
-            style={styles.bankContainer}
-            onPress={() => handleBankPress(bank.name)}
-          >
-            <Text style={styles.bankName}>{bank.name}</Text>
-          </TouchableOpacity>
-        ))}
-      </ScrollView>
-
-      {/* Modal for entering payment details */}
-      <Modal
-        animationType="slide"
-        transparent={true}
-        visible={modalVisible}
-        onRequestClose={() => setModalVisible(false)}
-      >
-        <View style={styles.modalContainer}>
-          <View style={styles.modalView}>
-            <Text style={styles.modalTitle}>Enter Payment Details</Text>
-            <TextInput
-              style={styles.input}
-              placeholder="Last 4 Digits of Card"
-              value={lastFourDigits}
-              onChangeText={setLastFourDigits}
-              keyboardType="numeric"
-              maxLength={4} // Limit to 4 digits
-            />
-            <TextInput
-              style={styles.input}
-              placeholder="Phone Number"
-              value={phoneNumber}
-              onChangeText={setPhoneNumber}
-              keyboardType="phone-pad"
-              maxLength={10} // Limit to 10 digits
-            />
-            <Button title="Proceed to Payment" onPress={handlePayment} />
-            <Button
-              title="Cancel"
-              onPress={() => setModalVisible(false)}
-              color="red"
-            />
-          </View>
-        </View>
-      </Modal>
+    <View style={styles.appContainer}>
+      <View style={styles.header}>
+        <Text style={styles.headerText}>Bank Payment</Text>
+      </View>
+      {currentScreen === "BankSelection" && renderBankSelection()}
+      {currentScreen === "EnterDetails" && renderEnterDetails()}
+      {currentScreen === "Success" && renderSuccess()}
     </View>
   );
 };
 
 const styles = StyleSheet.create({
-  container: {
+  appContainer: {
     flex: 1,
-    backgroundColor: Color.white,
-    padding: 16,
+    backgroundColor: "#f5f5f5",
   },
-  title: {
+  header: {
+    backgroundColor: "#e0a340",
+    width: "100%",
+    paddingVertical: 20,
+    alignItems: "center",
+    marginBottom: 20,
+  },
+  headerText: {
     fontSize: 24,
     fontWeight: "bold",
-    marginBottom: 16,
-    color: Color.blackB100,
+    color: "#333",
   },
   bankContainer: {
-    padding: 12,
-    marginVertical: 6,
+    flexDirection: "row",
+    flexWrap: "wrap",
+    justifyContent: "center",
+    padding: 20,
+  },
+  bankItem: {
+    width: "40%",
+    margin: 10,
+    alignItems: "center",
     borderWidth: 1,
-    borderColor: Border.gray,
+    borderColor: "#ccc",
     borderRadius: 8,
-    backgroundColor: Color.lightGray, // Optional background color for better visual
+    padding: 15,
+  },
+  bankIcon: {
+    width: 50,
+    height: 50,
+    marginBottom: 10,
   },
   bankName: {
-    fontSize: 18,
-    color: Color.blackB100,
+    fontSize: 16,
+    fontWeight: "bold",
   },
-  modalContainer: {
+  detailsContainer: {
+    flex: 1,
+    padding: 20,
+  },
+  detailsText: {
+    fontSize: 20,
+    marginBottom: 20,
+    textAlign: "center",
+  },
+  input: {
+    borderWidth: 1,
+    borderColor: "#ccc",
+    borderRadius: 8,
+    padding: 10,
+    marginBottom: 20,
+    fontSize: 16,
+  },
+  button: {
+    backgroundColor: "#e0a340",
+    padding: 15,
+    borderRadius: 8,
+    alignItems: "center",
+    width: "100%",
+    marginTop: 20,
+  },
+  buttonText: {
+    color: "#fff",
+    fontSize: 16,
+    fontWeight: "bold",
+  },
+  successContainer: {
     flex: 1,
     justifyContent: "center",
     alignItems: "center",
-    backgroundColor: "rgba(0, 0, 0, 0.5)", // Dark overlay
-  },
-  modalView: {
-    width: "80%",
-    backgroundColor: Color.white,
-    borderRadius: 10,
     padding: 20,
-    alignItems: "center",
-    elevation: 5,
+    position: "relative",
   },
-  modalTitle: {
-    fontSize: 20,
+  ring: {
+    width: 200,
+    height: 200,
+    borderRadius: 100,
+    position: "absolute",
+    backgroundColor: "rgba(255, 200, 150, 0.3)",
+    top: "40%",
+  },
+  successMessage: {
+    fontSize: 32,
     fontWeight: "bold",
-    marginBottom: 20,
+    color: "#e0a340",
+    marginBottom: 10,
+    textAlign: "center",
   },
-  input: {
-    height: 40,
-    borderColor: Border.gray,
-    borderWidth: 1,
-    marginBottom: 12,
-    paddingLeft: 10,
-    width: "100%",
-    borderRadius: 5,
+  successDetails: {
+    fontSize: 18,
+    color: "#555",
+    textAlign: "center",
+    marginBottom: 20,
   },
 });
 

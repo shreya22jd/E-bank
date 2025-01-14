@@ -3,6 +3,7 @@ import { Text, StyleSheet, View, Pressable } from "react-native";
 import { Image } from "expo-image";
 import FrameComponent2 from "../components/FrameComponent2";
 import { useNavigation } from "@react-navigation/native";
+import { useSelectedContacts } from "../screens/SelectedContactsContext"; // Import the context
 import {
   FontFamily,
   FontSize,
@@ -14,6 +15,7 @@ import {
 
 const Account = () => {
   const navigation = useNavigation();
+  const { selectedContacts } = useSelectedContacts(); // Access selected contacts
 
   return (
     <View style={styles.account}>
@@ -30,49 +32,24 @@ const Account = () => {
           <Text style={[styles.roomList1, styles.listTypo]}>Room list</Text>
         </Pressable>
       </View>
-      <Pressable
-        style={styles.info}
-        onPress={() => navigation.navigate("Message")}
-      >
-        <Image
-          style={styles.userIcon}
-          contentFit="cover"
-          source={require("../assets/user.png")}
-        />
-        <View>
-          <Text style={styles.reason}>Alex</Text>
-          <Text style={styles.time}>+91-2384659236</Text>
-        </View>
-      </Pressable>
-      <View style={[styles.frameParent, styles.frameParentLayout]}>
-        <View
-          style={[
-            styles.interfaceEssentialsearchLParent,
-            styles.wrapperPosition,
-          ]}
-        >
-          <Image
-            style={[
-              styles.interfaceEssentialsearchL,
-              styles.searchButtonPosition,
-            ]}
-            contentFit="cover"
-            source={require("../assets/interface-essentialsearch-loupe.png")}
-          />
-          <Text style={[styles.searchLanguage, styles.searchLanguageLayout]}>
-            Search....
-          </Text>
-        </View>
-        <View style={[styles.searchButton, styles.searchButtonPosition]} />
+
+      {/* Display selected contacts */}
+      <View style={styles.contactsContainer}>
+        {selectedContacts.map((contact, index) => (
+          <View key={index} style={styles.info}>
+            <Image
+              style={styles.userIcon}
+              contentFit="cover"
+              source={require("../assets/user.png")}
+            />
+            <View>
+              <Text style={styles.reason}>{contact.name}</Text>
+              <Text style={styles.time}>{contact.number}</Text>
+            </View>
+          </View>
+        ))}
       </View>
-      <View style={[styles.statusBarwhite, styles.searchButtonPosition]}>
-        <Image
-          style={[styles.connectionsIcon, styles.searchLanguageLayout]}
-          contentFit="cover"
-          source={require("../assets/connections.png")}
-        />
-        <Text style={styles.time1}>9:41</Text>
-      </View>
+
       <Pressable
         style={[styles.wrapper, styles.wrapperPosition]}
         onPress={() => navigation.navigate("Home")}
@@ -88,6 +65,14 @@ const Account = () => {
 };
 
 const styles = StyleSheet.create({
+  account: {
+    borderRadius: Border.br_5xl,
+    height: 812,
+    overflow: "hidden",
+    width: "100%",
+    flex: 1,
+    backgroundColor: Color.white,
+  },
   newRoomWrapperFlexBox: {
     justifyContent: "center",
     alignItems: "center",
@@ -101,23 +86,6 @@ const styles = StyleSheet.create({
     fontWeight: "700",
     fontSize: FontSize.font_size,
     flex: 1,
-  },
-  frameParentLayout: {
-    height: 42,
-    width: 351,
-  },
-  wrapperPosition: {
-    left: 17,
-    position: "absolute",
-  },
-  searchButtonPosition: {
-    left: 0,
-    top: 0,
-    position: "absolute",
-  },
-  searchLanguageLayout: {
-    height: 16,
-    position: "absolute",
   },
   newRoom: {
     color: Color.white,
@@ -161,6 +129,19 @@ const styles = StyleSheet.create({
     alignItems: "center",
     flexDirection: "row",
   },
+  contactsContainer: {
+    top:300,
+    paddingVertical: Padding.p_base,
+    width: '100%',
+    alignItems: 'center',
+  },
+  info: {
+    flexDirection: "row",
+    alignItems: "center",
+    gap: Gap.gap_md,
+    width: 351,
+    marginVertical: 5,
+  },
   userIcon: {
     width: 43,
     height: 45,
@@ -169,7 +150,6 @@ const styles = StyleSheet.create({
     fontWeight: "600",
     fontFamily: FontFamily.montserratSemiBold,
     color: Color.colorDarkslategray_800,
-    textAlign: "center",
     fontSize: FontSize.font_size,
   },
   time: {
@@ -177,71 +157,10 @@ const styles = StyleSheet.create({
     fontWeight: "500",
     fontFamily: FontFamily.montserratMedium,
     color: Color.darkWhiteGrey60,
-    textAlign: "center",
   },
-  info: {
-    top: 343,
-    left: 22,
-    height: 68,
-    gap: Gap.gap_md,
-    width: 351,
-    alignItems: "center",
-    flexDirection: "row",
+  wrapperPosition: {
+    left: 17,
     position: "absolute",
-  },
-  interfaceEssentialsearchL: {
-    width: 20,
-    height: 20,
-    overflow: "hidden",
-  },
-  searchLanguage: {
-    top: 2,
-    left: 45,
-    fontSize: FontSize.m3LabelLarge_size,
-    lineHeight: 14,
-    fontFamily: FontFamily.mobileBody3Regular,
-    color: Color.colorDarkgray_100,
-    width: 124,
-    textAlign: "left",
-  },
-  interfaceEssentialsearchLParent: {
-    top: 11,
-    width: 152,
-    height: 20,
-  },
-  searchButton: {
-    borderRadius: Border.br_3xs,
-    backgroundColor: Color.colorWhitesmoke_800,
-    height: 42,
-    width: 351,
-  },
-  frameParent: {
-    top: 293,
-    left: 12,
-    position: "absolute",
-    height: 42,
-  },
-  connectionsIcon: {
-    top: 9,
-    right: 23,
-    width: 68,
-  },
-  time1: {
-    marginTop: -10,
-    top: "50%",
-    left: 24,
-    fontSize: FontSize.size_mini,
-    letterSpacing: 0,
-    fontFamily: FontFamily.helvetica,
-    color: Color.lightGray11,
-    textAlign: "center",
-    fontWeight: "700",
-    position: "absolute",
-  },
-  statusBarwhite: {
-    width: 375,
-    height: 36,
-    backgroundColor: Color.colorGoldenrod_100,
   },
   icon: {
     height: "100%",
@@ -251,14 +170,6 @@ const styles = StyleSheet.create({
     top: 48,
     width: 40,
     height: 40,
-  },
-  account: {
-    borderRadius: Border.br_5xl,
-    height: 812,
-    overflow: "hidden",
-    width: "100%",
-    flex: 1,
-    backgroundColor: Color.white,
   },
 });
 

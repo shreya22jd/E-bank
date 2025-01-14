@@ -1,8 +1,9 @@
 import * as React from "react";
-import { StyleSheet, View, Text, Pressable } from "react-native";
+import { StyleSheet, View, Text, Pressable, FlatList } from "react-native";
 import { Image } from "expo-image";
 import FrameComponent2 from "../components/FrameComponent2";
 import { useNavigation } from "@react-navigation/native";
+import { useRooms } from "../screens/RoomContext"; // Import the useRooms hook
 import {
   Padding,
   Color,
@@ -14,59 +15,16 @@ import {
 
 const EmptyRoomlist = () => {
   const navigation = useNavigation();
+  const { rooms } = useRooms(); // Access the rooms from context
 
   return (
     <View style={styles.emptyRoomlist}>
-      <View style={styles.emptyRoomlistChild} />
       <FrameComponent2
         propFontFamily="NotoSansTC-Bold"
         propFontFamily1="NotoSansTC-Bold"
       />
-      <View style={[styles.newRoomWrapper, styles.buttonFlexBox]}>
-        <Text style={[styles.newRoom, styles.textTypo]}>New Room</Text>
-      </View>
-      <View style={[styles.friendListParent, styles.friendListParentFlexBox]}>
-        <Pressable onPress={() => navigation.navigate("Account")}>
-          <Text style={[styles.friendList1, styles.listTypo]}>Friend list</Text>
-        </Pressable>
-        <Text style={[styles.roomList, styles.listTypo]}>Room list</Text>
-      </View>
-      <View style={[styles.statusBarwhite, styles.statusBarwhitePosition]}>
-        <Image
-          style={[styles.connectionsIcon, styles.searchLanguageLayout]}
-          contentFit="cover"
-          source={require("../assets/connections.png")}
-        />
-        <Text style={styles.time}>9:41</Text>
-      </View>
-      <View style={styles.searchButton} />
-      <View
-        style={[styles.interfaceEssentialsearchLParent, styles.interfaceLayout]}
-      >
-        <Image
-          style={[styles.interfaceEssentialsearchL, styles.interfaceLayout]}
-          contentFit="cover"
-          source={require("../assets/interface-essentialsearch-loupe.png")}
-        />
-        <Text style={[styles.searchLanguage, styles.searchLanguageLayout]}>
-          Search....
-        </Text>
-      </View>
-      <View
-        style={[styles.formComponentWrapper, styles.friendListParentFlexBox]}
-      >
-        <View style={[styles.formComponent, styles.formComponentBorder]}>
-          <Text style={[styles.text, styles.textTypo]}>
-            Birthday contribution
-          </Text>
-          <Pressable
-            style={[styles.button, styles.buttonFlexBox]}
-            onPress={() => navigation.navigate("PaymentMethod1")}
-          >
-            <Text style={styles.button1}>PAY</Text>
-          </Pressable>
-        </View>
-      </View>
+
+      {/* Navigation Arrow at the top left corner */}
       <Pressable
         style={styles.wrapper}
         onPress={() => navigation.navigate("Home")}
@@ -77,159 +35,123 @@ const EmptyRoomlist = () => {
           source={require("../assets/group-1272628270.png")}
         />
       </Pressable>
+
+      {/* Friend List and Room List heading */}
+      <View style={[styles.friendListParent1, styles.parentFlexBox]}>
+        <Pressable onPress={() => navigation.navigate("Account")}>
+          <Text style={styles.friendList1}>Friend list</Text>
+        </Pressable>
+        <Text style={styles.roomList}>Room list</Text>
+      </View>
+
+      {/* Room List section */}
+      <View style={styles.roomListContainer}>
+        <FlatList
+          data={rooms} // Use FlatList to display rooms
+          keyExtractor={(item) => item.id.toString()}
+          renderItem={({ item }) => (
+            <View style={styles.roomItemContainer}>
+              <View style={styles.roomInfo}>
+                <Text style={styles.roomName}>{item.name}</Text>
+                <Text style={styles.roomAmount}>Amount: {item.amount}</Text>
+              </View>
+              <Pressable
+                style={styles.button}
+                onPress={() => navigation.navigate("PaymentMethod1",{amount: item.amount})}
+              >
+                <Text style={styles.buttonText}>Pay Now</Text>
+              </Pressable>
+            </View>
+          )}
+          contentContainerStyle={styles.flatListContent}
+          showsVerticalScrollIndicator={false} // Hide vertical scroll indicator
+        />
+      </View>
     </View>
   );
 };
 
 const styles = StyleSheet.create({
-  buttonFlexBox: {
-    padding: Padding.p_3xs,
-    justifyContent: "center",
-    flexDirection: "row",
-    backgroundColor: Color.colorGoldenrod_100,
-    alignItems: "center",
-  },
-  textTypo: {
-    fontFamily: FontFamily.font,
-    fontSize: FontSize.font_size,
-    textAlign: "left",
-    fontWeight: "700",
-  },
-  friendListParentFlexBox: {
-    paddingHorizontal: Padding.p_base,
-    flexDirection: "row",
-    alignItems: "center",
-    position: "absolute",
-  },
-  listTypo: {
-    alignSelf: "stretch",
-    textAlign: "center",
-    fontFamily: FontFamily.font,
-    fontWeight: "700",
-    fontSize: FontSize.font_size,
+  emptyRoomlist: {
+    borderRadius: Border.br_5xl,
+    height: "100%", // Full height
+    overflow: "hidden",
+    width: "100%",
     flex: 1,
+    backgroundColor: Color.white,
+    padding: Padding.p_base,
+    justifyContent: "flex-start", // Adjust vertical centering
+    alignItems: "center", // Center content horizontally
   },
-  statusBarwhitePosition: {
-    left: 0,
-    top: 0,
-  },
-  searchLanguageLayout: {
-    height: 16,
+  wrapper: {
     position: "absolute",
+    left: 20,
+    top: 20, // Position it at the top left corner
+    width: 40,
+    height: 40,
   },
-  interfaceLayout: {
-    height: 20,
-    position: "absolute",
+  icon: {
+    width: '100%',
+    height: '100%',
   },
-  formComponentBorder: {
-    borderWidth: 1,
-    borderColor: Color.textBigTitle,
-    borderStyle: "solid",
-  },
-  emptyRoomlistChild: {
-    top: 339,
-    height: 436,
-    alignItems: "center",
-    left: 16,
-    right: 16,
-    position: "absolute",
-  },
-  newRoom: {
-    textAlign: "left",
-    color: Color.white,
-  },
-  newRoomWrapper: {
-    marginLeft: -178.5,
-    top: 174,
-    left: "50%",
-    borderRadius: Border.br_mini,
-    height: 58,
-    width: 358,
-    position: "absolute",
-  },
+  
   friendList1: {
     color: Color.textDescription,
-    textAlign: "center",
+    fontFamily: FontFamily.font,
+    fontWeight: "700",
+    fontSize: FontSize.font_size,
+    textAlign: "left",
   },
   roomList: {
     color: Color.textBigTitle,
-    textAlign: "center",
-  },
-  friendListParent: {
-    top: 244,
-    borderTopLeftRadius: Border.br_mini,
-    borderTopRightRadius: Border.br_mini,
-    paddingVertical: Padding.p_3xs,
-    gap: Gap.gap_xs,
-    borderWidth: 1,
-    borderColor: Color.textBigTitle,
-    borderStyle: "solid",
-    justifyContent: "center",
-    paddingHorizontal: Padding.p_base,
-    left: 16,
-    right: 16,
-    backgroundColor: Color.white,
-  },
-  connectionsIcon: {
-    top: 9,
-    right: 23,
-    width: 68,
-  },
-  time: {
-    marginTop: -10,
-    top: "50%",
-    left: 24,
-    fontSize: FontSize.size_mini,
-    letterSpacing: 0,
-    fontFamily: FontFamily.helvetica,
-    color: Color.lightGray11,
-    textAlign: "center",
+    fontFamily: FontFamily.font,
     fontWeight: "700",
-    position: "absolute",
+    fontSize: FontSize.font_size,
+    textAlign: "right",
   },
-  statusBarwhite: {
-    width: 375,
-    height: 36,
-    backgroundColor: Color.colorGoldenrod_100,
-    left: 0,
-    top: 0,
-    position: "absolute",
+  roomListContainer: {
+    top:300,
+    height: '50%', // Set height to 50% of the screen
+    width: '100%', // Full width for the room list
   },
-  searchButton: {
-    top: 297,
-    left: 12,
-    backgroundColor: Color.colorWhitesmoke_800,
-    width: 351,
-    height: 42,
+  flatListContent: {
+    paddingTop: 20,
+    alignItems: "center", // Center items in the FlatList
+  },
+  roomItemContainer: {
+    backgroundColor: Color.colorFloralwhite,
+    padding: Padding.p_lg,
     borderRadius: Border.br_3xs,
-    position: "absolute",
+    borderColor: Color.textBigTitle,
+    borderWidth: 1,
+    marginVertical: 5, // Space between room items
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
+    width: '90%', // Set width to control the size
+   
   },
-  interfaceEssentialsearchL: {
-    width: 20,
-    left: 0,
-    top: 0,
-    overflow: "hidden",
+  roomInfo: {
+    flex: 1,
   },
-  searchLanguage: {
-    top: 2,
-    left: 57,
-    lineHeight: 14,
-    fontFamily: FontFamily.mobileBody3Regular,
-    color: Color.colorDarkgray_100,
-    width: 124,
+  roomName: {
+    fontSize: FontSize.font_size,
+    fontWeight: 'bold',
+    color: Color.textBigTitle,
+  },
+  roomAmount: {
     fontSize: FontSize.m3LabelLarge_size,
-    textAlign: "left",
+    color: Color.textDescription,
   },
-  interfaceEssentialsearchLParent: {
-    top: 308,
-    left: 29,
-    width: 152,
+  button: {
+    borderRadius: Border.br_5xs,
+    width: 80,
+    height: 32,
+    justifyContent: "center",
+    alignItems: "center",
+    backgroundColor: Color.colorGoldenrod_100,
   },
-  text: {
-    color: Color.colorDarkslategray_200,
-    textAlign: "left",
-  },
-  button1: {
+  buttonText: {
     textTransform: "uppercase",
     fontWeight: "500",
     fontFamily: FontFamily.m3TitleMedium,
@@ -237,51 +159,47 @@ const styles = StyleSheet.create({
     textAlign: "center",
     color: Color.white,
   },
-  button: {
-    borderRadius: Border.br_5xs,
-    width: 55,
-    height: 32,
+  textTypo: {
+    fontFamily: FontFamily.font,
+    fontSize: FontSize.font_size,
+    textAlign: "left",
+    fontWeight: "700",
   },
-  formComponent: {
-    backgroundColor: Color.colorFloralwhite,
-    height: 56,
-    paddingLeft: Padding.p_lg,
-    paddingTop: Padding.p_mini,
-    paddingRight: Padding.p_4xl,
-    paddingBottom: Padding.p_mini,
-    gap: 25,
-    borderRadius: Border.br_3xs,
+  friendListParent1: {
+    top: 243,
+    right: 17,
+    left: 15,
+    borderTopLeftRadius: Border.br_mini,
+    borderTopRightRadius: Border.br_mini,
     borderColor: Color.textBigTitle,
+    paddingVertical: Padding.p_3xs,
+    gap: Gap.gap_xs,
+    borderWidth: 1,
     borderStyle: "solid",
     flexDirection: "row",
-    alignItems: "center",
-    overflow: "hidden",
-    flex: 1,
-  },
-  formComponentWrapper: {
-    top: 351,
-    left: 9,
-    paddingVertical: 0,
-    width: 358,
-  },
-  icon: {
-    height: "100%",
-    width: "100%",
-  },
-  wrapper: {
-    left: 20,
-    top: 48,
-    width: 40,
-    height: 40,
-    position: "absolute",
-  },
-  emptyRoomlist: {
-    borderRadius: Border.br_5xl,
-    height: 812,
-    overflow: "hidden",
-    width: "100%",
-    flex: 1,
+    paddingHorizontal: Padding.p_base,
     backgroundColor: Color.white,
+  },
+  friendListParent: {
+    top: 43,
+    right: 17,
+    left: 15,
+    borderTopLeftRadius: Border.br_mini,
+    borderTopRightRadius: Border.br_mini,
+    borderColor: Color.textBigTitle,
+    paddingVertical: Padding.p_3xs,
+    gap: Gap.gap_xs,
+    borderWidth: 1,
+    borderStyle: "solid",
+    flexDirection: "row",
+    paddingHorizontal: Padding.p_base,
+    backgroundColor: Color.white,
+  },
+  parentFlexBox: {
+    flexDirection: "row",
+    justifyContent: "center",
+    alignItems: "center",
+    position: "absolute",
   },
 });
 

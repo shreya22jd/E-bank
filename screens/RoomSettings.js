@@ -4,7 +4,6 @@ import { StyleSheet, View, Text, Pressable } from "react-native";
 import FormComponent from "../components/FormComponent";
 import Theme from "../components/Theme";
 import { useNavigation } from "@react-navigation/native";
-import DropdownMenu from "../components/DropdownMenu";
 import {
   Color,
   Padding,
@@ -19,67 +18,30 @@ const RoomSettings = () => {
 
   return (
     <View style={[styles.roomsettings, styles.titleFlexBox]}>
+      <View style={[styles.statusBarwhite,styles.statusBarwhiteFlexBox]}>
+       
+       </View>
       <View style={[styles.content, styles.navbarPosition]}>
         <Image
           style={styles.contentChild}
           contentFit="cover"
-          source={require("../assets/rectangle-591.png")}
+          source={require("../assets/room2.jpeg")}
         />
-        <View style={[styles.formComponentWrapper, styles.formSpaceBlock]}>
-          <FormComponent undefined="Birthday contribution" />
-        </View>
-        <View style={[styles.formComponentContainer, styles.formSpaceBlock]}>
-          <FormComponent undefined="2000 INR" />
-        </View>
-        <View style={[styles.formComponentContainer, styles.formSpaceBlock]}>
-          <Theme />
-        </View>
+         
         <Pressable
           style={[styles.roomMembersParent, styles.parentFlexBox]}
           onPress={() => navigation.navigate("EditMembers")}
         >
-          <Text
-            style={[styles.roomMembers, styles.roomTypo]}
-          >{`Room members            `}</Text>
+          <Text style={[styles.roomMembers, styles.roomTypo]}>
+            {`Room members            `}
+          </Text>
           <Image
             style={styles.frameChild}
             contentFit="cover"
             source={require("../assets/vector-32.png")}
           />
         </Pressable>
-        <View style={styles.contentItem} />
-        <Pressable
-          style={[styles.targetParent, styles.formSpaceBlock]}
-          onPress={() => navigation.navigate("TargetDay")}
-        >
-          <Text style={[styles.target, styles.roomTypo]}>Target</Text>
-          <Image
-            style={styles.frameChild}
-            contentFit="cover"
-            source={require("../assets/vector-32.png")}
-          />
-        </Pressable>
-        <View style={styles.contentItem} />
-        <View style={[styles.reminderParent, styles.parentFlexBox]}>
-          <Text style={[styles.reminder, styles.roomTypo]}>Reminder</Text>
-          <DropdownMenu
-            selectMenu="Select "
-            vector={require("../assets/vector25.png")}
-          />
-        </View>
-      </View>
-      <Image
-        style={styles.materialSymbolseditIcon}
-        contentFit="cover"
-        source={require("../assets/materialsymbolsedit1.png")}
-      />
-      <View style={styles.statusBarwhite}>
-        <Image
-          style={styles.connectionsIcon}
-          contentFit="cover"
-          source={require("../assets/connections.png")}
-        />
-        <Text style={styles.time}>9:41</Text>
+        {/* Removed the line below Room members */}
       </View>
       <View style={[styles.navbar, styles.navbarPosition]}>
         <View style={[styles.title, styles.formSpaceBlock]}>
@@ -93,7 +55,7 @@ const RoomSettings = () => {
               source={require("../assets/group-1272628270.png")}
             />
           </Pressable>
-          <Text style={[styles.roomSettings, styles.roomTypo]}>
+          <Text style={[styles.roomSettings, styles.roomTypo1]}>
             Room Settings
           </Text>
         </View>
@@ -131,16 +93,24 @@ const styles = StyleSheet.create({
     fontWeight: "600",
     textAlign: "center",
   },
+  roomTypo1: {
+    color: Color.white,
+    fontFamily: FontFamily.poppinsSemiBold,
+    fontWeight: "600",
+    textAlign: "center",
+    top:-28,
+  },
   contentChild: {
     maxWidth: "100%",
-    height: 161,
+    height: 250,
     overflow: "hidden",
     alignSelf: "stretch",
     width: "100%",
+    top:40,
   },
   formComponentWrapper: {
     alignSelf: "stretch",
-    backgroundColor: Color.white,
+    
     paddingHorizontal: Padding.p_base,
     flexDirection: "row",
   },
@@ -159,83 +129,18 @@ const styles = StyleSheet.create({
     height: 12,
   },
   roomMembersParent: {
+    top:150,
     width: 473,
     paddingLeft: Padding.p_36xl,
     gap: Gap.gap_2xs,
-  },
-  contentItem: {
-    borderStyle: "solid",
-    borderColor: Color.textBigTitle,
-    borderTopWidth: 1,
-    height: 1,
-    alignSelf: "stretch",
-  },
-  target: {
-    width: 223,
-    textAlign: "center",
-    fontSize: FontSize.font_size,
-    fontFamily: FontFamily.poppinsSemiBold,
-    fontWeight: "600",
-  },
-  targetParent: {
-    width: 461,
-    gap: 72,
-  },
-  reminder: {
-    width: 295,
-    textAlign: "center",
-    fontSize: FontSize.font_size,
-    fontFamily: FontFamily.poppinsSemiBold,
-    fontWeight: "600",
-  },
-  reminderParent: {
-    width: 489,
-    height: 39,
-    paddingLeft: Padding.p_4xs,
-    gap: Gap.gap_5xs,
   },
   content: {
     top: 111,
     height: 699,
     gap: Gap.gap_4xs,
   },
-  materialSymbolseditIcon: {
-    top: 262,
-    left: 351,
-    borderRadius: Border.br_xl,
-    width: 24,
-    height: 24,
-    overflow: "hidden",
-    position: "absolute",
-  },
-  connectionsIcon: {
-    top: 9,
-    right: 23,
-    width: 68,
-    height: 16,
-    position: "absolute",
-  },
-  time: {
-    marginTop: -10,
-    top: "50%",
-    left: 24,
-    fontSize: FontSize.size_mini,
-    letterSpacing: 0,
-    fontWeight: "700",
-    fontFamily: FontFamily.helvetica,
-    color: Color.lightGray11,
-    textAlign: "center",
-    position: "absolute",
-  },
-  statusBarwhite: {
-    top: 0,
-    backgroundColor: Color.colorGoldenrod_100,
-    width: 375,
-    height: 36,
-    left: 0,
-    position: "absolute",
-  },
   icon: {
+    top:-28,
     height: "100%",
     width: "100%",
   },
@@ -252,7 +157,7 @@ const styles = StyleSheet.create({
     justifyContent: "space-between",
     alignSelf: "stretch",
     flex: 1,
-    backgroundColor: Color.white,
+    
   },
   navbarChild: {
     height: 0,
@@ -268,6 +173,20 @@ const styles = StyleSheet.create({
     height: 812,
     width: "100%",
   },
+  statusBarwhite: {
+    width: 400,
+    height: 80,
+    backgroundColor: Color.colorGoldenrod_100,
+    left: 0,
+    top: 0,
+    bottom:500,
+    position: "absolute",
+  },
+  statusBarwhiteFlexBox: {
+    flexDirection: "row",
+    position: "absolute",
+  },
+
 });
 
 export default RoomSettings;

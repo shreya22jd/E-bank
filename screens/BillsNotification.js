@@ -13,7 +13,6 @@ const BillsNotification = () => {
       water: 'https://api.example.com/water-bill',
       dth: 'https://api.example.com/dth-recharge',
       gas: 'https://api.example.com/gas-bill',
-      rent: 'https://api.example.com/rent-payment',
     };
 
     try {
@@ -64,7 +63,7 @@ const BillsNotification = () => {
           >
             <Image
               style={styles.icon}
-              source={require("../assets/group-1272628293.png")}
+              source={require("../assets/mobile-img.png")}
             />
             <Text style={styles.iconLabel}>Mobile Recharge</Text>
           </TouchableOpacity>
@@ -75,7 +74,7 @@ const BillsNotification = () => {
           >
             <Image
               style={styles.icon}
-              source={require("../assets/group-1272628298.png")}
+              source={require("../assets/electricity-img.png")}
             />
             <Text style={styles.iconLabel}>Electric Bill</Text>
           </TouchableOpacity>
@@ -86,7 +85,7 @@ const BillsNotification = () => {
           >
             <Image
               style={styles.icon}
-              source={require("../assets/ionwatersharp.png")}
+              source={require("../assets/water-img.png")}
             />
             <Text style={styles.iconLabel}>Water</Text>
           </TouchableOpacity>
@@ -99,7 +98,7 @@ const BillsNotification = () => {
           >
             <Image
               style={styles.icon}
-              source={require("../assets/cryptocurrencydth.png")}
+              source={require("../assets/dth-img.png")}
             />
             <Text style={styles.iconLabel}>DTH</Text>
           </TouchableOpacity>
@@ -110,14 +109,14 @@ const BillsNotification = () => {
           >
             <Image
               style={styles.icon}
-              source={require("../assets/iconoirgas.png")}
+              source={require("../assets/gas-img.png")}
             />
             <Text style={styles.iconLabel}>Gas</Text>
           </TouchableOpacity>
 
           <TouchableOpacity
             style={styles.iconButton}
-            onPress={() => fetchUtilityBill('rent')}
+            onPress={() => navigation.navigate('SendMoney')}
           >
             <Image
               style={styles.icon}

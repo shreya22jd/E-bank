@@ -86,12 +86,7 @@ const UPIPIN1 = () => {
         <Text style={styles.text}>Proceed to Pay</Text>
       </Pressable>
       <View style={[styles.statusBarwhite, styles.signIn1Position]}>
-        <Image
-          style={styles.connectionsIcon}
-          contentFit="cover"
-          source={require("../assets/connections.png")}
-        />
-        <Text style={[styles.time, styles.timePosition]}>9:41</Text>
+        
       </View>
       <Pressable
         style={[styles.wrapper, styles.timePosition]}
@@ -238,7 +233,7 @@ const styles = StyleSheet.create({
   },
   statusBarwhite: {
     height: 36,
-    width: 375,
+    width: 400,
   },
   icon: {
     height: "100%",

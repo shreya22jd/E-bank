@@ -1,309 +1,142 @@
-import * as React from "react";
-import { Text, StyleSheet, View, Pressable } from "react-native";
+import React from 'react';
+import { View, Text, TouchableOpacity, StyleSheet, Pressable } from 'react-native';
+import { useNavigation } from '@react-navigation/native';
+import StatusBar1 from "../components/StatusBar1";
 import { Image } from "expo-image";
-import Provider from "../components/Provider";
-import FrameComponent1 from "../components/FrameComponent1";
-import Card4 from "../components/Card4";
-import { useNavigation } from "@react-navigation/native";
 import {
-  FontFamily,
-  FontSize,
   Color,
-  Gap,
   Border,
+  Gap,
   Padding,
+  FontSize,
+  FontFamily,
 } from "../GlobalStyles";
 
 const PaymentMethod = () => {
   const navigation = useNavigation();
 
   return (
-    <View style={styles.paymentMethod}>
-      <Text style={[styles.paymentMethod1, styles.paymentFlexBox]}>
-        Payment Method
-      </Text>
-      <View style={styles.savedPayment}>
-        <View style={[styles.method, styles.methodFlexBox]}>
-          <Image
-            style={styles.icon}
-            contentFit="cover"
-            source={require("../assets/icon21.png")}
-          />
-          <Provider
-            image19={require("../assets/image-19.png")}
-            image22={require("../assets/image-22.png")}
-          />
-        </View>
-        <View style={[styles.method, styles.methodFlexBox]}>
-          <Image
-            style={styles.icon}
-            contentFit="cover"
-            source={require("../assets/icon22.png")}
-          />
-          <View style={[styles.provider, styles.methodFlexBox]}>
-            <View style={styles.payment}>
-              <Text style={[styles.upiPaypal, styles.upiPaypalTypo]}>
-                UPI_Paypal
-              </Text>
-              <Text style={[styles.paypal, styles.paypalFlexBox]}>
-                **** **** 889@paypal
-              </Text>
-            </View>
-          </View>
-          <View style={[styles.iconPaymentPaypal, styles.paymentFlexBox]}>
-            <Image
-              style={styles.image20Icon}
-              contentFit="cover"
-              source={require("../assets/image-20.png")}
-            />
-          </View>
-        </View>
-        <View style={[styles.method, styles.methodFlexBox]}>
-          <Image
-            style={styles.icon}
-            contentFit="cover"
-            source={require("../assets/icon23.png")}
-          />
-          <View style={[styles.provider, styles.methodFlexBox]}>
-            <View style={styles.payment}>
-              <Text style={[styles.upiPaypal, styles.upiPaypalTypo]}>
-                Paytm
-              </Text>
-              <Text style={[styles.paypal, styles.paypalFlexBox]}>
-                **** **** 0582 4672
-              </Text>
-            </View>
-          </View>
-          <Image
-            style={styles.paytmLogosvgIcon}
-            contentFit="cover"
-            source={require("../assets/paytm-logosvg.png")}
-          />
-        </View>
-      </View>
-      <Text style={[styles.selectAmount, styles.continueClr]}>
-        Select Amount
-      </Text>
-      <FrameComponent1 prop="500" />
-      <Card4 />
-      <Pressable
-        style={[styles.paymentMethodInner, styles.paymentFlexBox]}
-        onPress={() => navigation.navigate("UPIPIN")}
+    <View style={styles.container}>
+      {/* <Text style={styles.header}>Select Payment Method</Text> */}
+
+      {/* UPI Payment Option */}
+      <TouchableOpacity
+        style={styles.optionButton}
+        onPress={() => navigation.navigate('UPIPIN')}
       >
-        <View style={styles.rectangleParent}>
-          <View style={[styles.groupChild, styles.groupChildBg]} />
-          <Text style={[styles.continue, styles.continueClr]}>continue</Text>
-        </View>
-      </Pressable>
-      <Pressable
-        style={styles.wrapper}
-        onPress={() => navigation.navigate("QRCode")}
+        <Text style={styles.optionText}>Pay with UPI</Text>
+      </TouchableOpacity>
+
+      {/* Credit/Debit Card Payment Option */}
+      <TouchableOpacity
+        style={styles.optionButton}
+        onPress={() => navigation.navigate('CardPayment')}
       >
-        <Image
-          style={styles.icon3Layout}
-          contentFit="cover"
-          source={require("../assets/group-1272628274.png")}
-        />
-      </Pressable>
-      <View style={[styles.statusBarwhite, styles.groupChildBg]}>
-        <Text style={styles.time}>9:41</Text>
-        <Image
-          style={styles.connectionsIcon}
-          contentFit="cover"
-          source={require("../assets/connections.png")}
+        <Text style={styles.optionText}>Pay with Credit/Debit Card</Text>
+      </TouchableOpacity>
+
+      {/* Net Banking Payment Option */}
+      <TouchableOpacity
+        style={styles.optionButton}
+        onPress={() => navigation.navigate('NetBanking')}
+      >
+        <Text style={styles.optionText}>Pay with Net Banking</Text>
+      </TouchableOpacity>
+      
+      <View style={[styles.statusBarParent, styles.timeLightPosition]}>
+      <StatusBar1
+          statusBarPosition="absolute"
+          statusBarWidth={450}
+          statusBarHeight={95}
+          statusBarTop={0.5}
+          statusBarLeft={0.5}
+          statusBarBackgroundColor="#e0a340"
+          statusBarRight="unset"
+          statusBarBottom="unset"
+          notch={require("../assets/notch.png")}
+          statusIconsWidth={69}
+          statusIconsHeight={14}
+          showNetworkSignalLight={false}
+          wiFiSignalLight={require("../assets/wifi-signal--light.png")}
+          showWiFiSignalLight={false}
+          showBatteryLight={false}
+          showTimeLight={false}
         />
       </View>
+      <Text style={styles.insurance}>Slect Payment Method</Text>
+      <Pressable
+        style={styles.container1}
+        onPress={() => navigation.navigate("AmountEntry")}
+      >
+        <Image
+          style={[styles.icon2, styles.iconLayout]}
+          contentFit="cover"
+          source={require("../assets/group-1272628259.png")}
+        />
+      </Pressable>      
     </View>
+    
   );
 };
 
 const styles = StyleSheet.create({
-  paymentFlexBox: {
-    justifyContent: "center",
-    alignItems: "center",
-  },
-  methodFlexBox: {
-    flexDirection: "row",
-    alignItems: "center",
-  },
-  upiPaypalTypo: {
-    fontFamily: FontFamily.interSemiBold,
-    lineHeight: 18,
-    fontSize: FontSize.size_smi_5,
-    fontWeight: "600",
-  },
-  paypalFlexBox: {
-    alignSelf: "stretch",
-    textAlign: "left",
-    color: Color.lightGray11,
-  },
-  continueClr: {
-    color: Color.white,
-    position: "absolute",
-  },
-  groupChildBg: {
-    backgroundColor: Color.colorGoldenrod_100,
-    position: "absolute",
-  },
-  paymentMethod1: {
-    top: 61,
-    fontSize: FontSize.size_5xl,
-    fontFamily: FontFamily.poppinsSemiBold,
-    width: 286,
-    height: 31,
-    display: "flex",
-    alignItems: "center",
-    textAlign: "center",
-    color: Color.lightGray11,
-    fontWeight: "600",
-    left: 49,
-    position: "absolute",
-  },
-  icon: {
-    width: 21,
-    height: 21,
-    overflow: "hidden",
-  },
-  method: {
-    borderRadius: 14,
-    borderStyle: "solid",
-    borderColor: Color.lightGray11,
-    borderWidth: 0.9,
-    width: 293,
-    padding: 14,
-    gap: Gap.gap_6xs,
-  },
-  upiPaypal: {
-    textAlign: "left",
-    alignSelf: "stretch",
-    color: Color.lightGray11,
-  },
-  paypal: {
-    fontSize: FontSize.size_2xs_7,
-    lineHeight: 14,
-    fontFamily: FontFamily.interRegular,
-    textAlign: "left",
-  },
-  payment: {
-    gap: Gap.gap_14xs,
+  container: {
     flex: 1,
+    paddingTop: 120,
+    paddingHorizontal: 50,
+    backgroundColor: '#fff',
   },
-  provider: {
-    flex: 1,
+  optionButton: {
+    padding: 15,
+    borderRadius: 8,
+    backgroundColor: '#e0a340',
+    alignItems: 'center',
+    marginBottom: 15,
   },
-  image20Icon: {
-    height: 7,
-    width: 29,
+  optionText: {
+    color: '#fff',
+    fontSize: 16,
   },
-  iconPaymentPaypal: {
-    height: 29,
-    width: 29,
-    overflow: "hidden",
-  },
-  paytmLogosvgIcon: {
-    width: 31,
-    height: 9,
-    overflow: "hidden",
-  },
-  savedPayment: {
-    top: 372,
-    gap: Gap.gap_3xs,
-    left: 49,
-    position: "absolute",
-  },
-  selectAmount: {
-    top: 662,
-    left: 149,
-    width: 94,
-    fontFamily: FontFamily.interSemiBold,
-    lineHeight: 18,
-    fontSize: FontSize.size_smi_5,
-    fontWeight: "600",
-    justifyContent: "center",
-    alignItems: "center",
-    display: "flex",
-    textAlign: "center",
-  },
-  groupChild: {
-    top: "0%",
-    right: "0%",
-    bottom: "0%",
-    left: "0%",
-    shadowColor: "rgba(0, 0, 0, 0.41)",
-    shadowOffset: {
-      width: 0,
-      height: 1,
-    },
-    shadowRadius: 3,
-    elevation: 3,
-    shadowOpacity: 1,
-    height: "100%",
-    width: "100%",
-    borderRadius: Border.br_base,
-  },
-  continue: {
-    height: "33.33%",
-    width: "44.97%",
-    top: "33.33%",
-    left: "27.51%",
-    fontSize: FontSize.font_size,
-    fontFamily: FontFamily.montserratBold,
-    fontWeight: "700",
-    textAlign: "left",
-  },
-  rectangleParent: {
-    height: 54,
-    width: 189,
-  },
-  paymentMethodInner: {
-    top: 705,
-    left: 100,
-    width: 189,
-    borderRadius: Border.br_base,
-    position: "absolute",
-  },
-  icon3Layout: {
-    height: "100%",
-    width: "100%",
-  },
-  wrapper: {
-    left: 16,
-    top: 57,
-    width: 40,
-    height: 40,
-    position: "absolute",
-  },
-  time: {
-    fontSize: FontSize.size_mini,
-    letterSpacing: 0,
-    fontFamily: FontFamily.helvetica,
-    fontWeight: "700",
-    textAlign: "center",
-    color: Color.lightGray11,
-  },
-  connectionsIcon: {
-    width: 68,
-    height: 16,
-  },
-  statusBarwhite: {
+  statusBarParent: {
     top: 0,
+    width: 600,
+    height: 100,
+  },
+  timeLightPosition: {
     left: 0,
-    width: 375,
-    height: 36,
-    paddingLeft: Padding.p_5xl,
-    paddingRight: Padding.p_4xl,
-    gap: Gap.gap_20xl,
-    flexDirection: "row",
-    alignItems: "center",
+    position: "absolute",
   },
-  paymentMethod: {
-    borderRadius: Border.br_5xl,
-    backgroundColor: Color.white,
-    height: 812,
+  insurance: {
+    height: "6.84%",
+    width: "75.28%",
+    top: "5%",
+    left: "32.27%",
+    fontSize: FontSize.size_5xl,
+    fontWeight: "800",
+    fontFamily: FontFamily.interExtraBold,
+    color: Color.white,
+    textAlign: "left",
+    position: "absolute",
+  },  
+  container1: {
+    left: "8.27%",
+    top: "5%",
+    right: "80.53%",
+    bottom: "91.01%",
+    width: "11.95%",
+    height: "6.45%",
+    position: "absolute",
+  },
+  icon2: {
+    maxHeight: "130%",
+    maxWidth: "135%",
     overflow: "hidden",
-    width: "100%",
-    flex: 1,
   },
+  iconLayout: {
+    height: "60%",
+    width: "90%",
+    top:0,
+  },  
 });
 
 export default PaymentMethod;

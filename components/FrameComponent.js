@@ -1,12 +1,12 @@
 import React, { useMemo } from "react";
 import { StyleSheet, View, Text, Pressable } from "react-native";
-import { useNavigation } from "@react-navigation/native";
 import { Border, Color, FontSize, FontFamily } from "../GlobalStyles";
 
 const getStyleValue = (key, value) => {
   if (value === undefined) return;
   return { [key]: value === "unset" ? undefined : value };
 };
+
 const FrameComponent = ({ onFramePressablePress, propTop, propLeft, save }) => {
   const framePressableStyle = useMemo(() => {
     return {
@@ -15,15 +15,13 @@ const FrameComponent = ({ onFramePressablePress, propTop, propLeft, save }) => {
     };
   }, [propTop, propLeft]);
 
-  const navigation = useNavigation();
-
   return (
     <Pressable
-      style={[styles.qrCodeInner, styles.groupChildLayout, framePressableStyle]}
+      style={[styles.qrCodeInner, framePressableStyle]}
       onPress={onFramePressablePress}
     >
       <View style={styles.rectangleParent}>
-        <View style={[styles.groupChild, styles.groupChildLayout]} />
+        <View style={styles.groupChild} />
         <Text style={styles.scan}>{save}</Text>
       </View>
     </Pressable>
@@ -31,46 +29,48 @@ const FrameComponent = ({ onFramePressablePress, propTop, propLeft, save }) => {
 };
 
 const styles = StyleSheet.create({
-  groupChildLayout: {
-    borderRadius: Border.br_base,
-    position: "absolute",
-  },
   groupChild: {
+   
     height: "100%",
     width: "100%",
-    top: "0%",
-    right: "0%",
-    bottom: "0%",
-    left: "0%",
+    borderRadius: Border.br_base,
+    backgroundColor: Color.colorGoldenrod_100,
+    position: "absolute",
     shadowColor: "rgba(0, 0, 0, 0.41)",
-    shadowOffset: {
-      width: 0,
-      height: 1,
-    },
+    shadowOffset: { width: 0, height: 1 },
     shadowRadius: 3,
     elevation: 3,
     shadowOpacity: 1,
-    backgroundColor: Color.colorGoldenrod_100,
+    textAlign:"center",
   },
   scan: {
-    height: "33.33%",
-    width: "34.23%",
-    top: "33.33%",
-    left: "35.45%",
+    left:50,
     fontSize: FontSize.font_size,
     fontWeight: "700",
     fontFamily: FontFamily.montserratBold,
     color: Color.white,
-    textAlign: "left",
+    textAlign: "center",
     position: "absolute",
+    top: "50%", // Vertically center text
+    left: "70%", // Horizontally center text
+    transform: [{ translateX: -50 }, { translateY: -10 }], // Center align the text
   },
   rectangleParent: {
     height: 54,
-    width: 189,
+    width: 140,
+    justifyContent: "center", // Center text vertically
+    alignItems: "center", // Center text horizontally
+    backgroundColor: Color.colorGoldenrod_100,
+    borderRadius: Border.br_base,
+    shadowColor: "rgba(0, 0, 0, 0.41)",
+    shadowOffset: { width: 0, height: 1 },
+    shadowRadius: 3,
+    elevation: 3,
+    shadowOpacity: 1,
+    top:-210,
   },
   qrCodeInner: {
-    top: 607,
-    left: 92,
+   
     alignItems: "center",
     justifyContent: "center",
     width: 189,

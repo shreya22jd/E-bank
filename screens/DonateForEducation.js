@@ -12,8 +12,7 @@ const DonateForEducation = () => {
   return (
     <View style={styles.donateForEducation}>
       <View style={styles.education}>
-        <Text style={[styles.education1, styles.educationTypo]}>{`Education
-`}</Text>
+        
         <Text
           style={[styles.educationDonationForContainer, styles.educationTypo]}
         >
@@ -54,12 +53,7 @@ poor child
         <View style={[styles.objects, styles.objectsLayout]} />
       </View>
       <View style={[styles.statusBarwhite, styles.objectsPosition]}>
-        <Image
-          style={styles.connectionsIcon}
-          contentFit="cover"
-          source={require("../assets/connections.png")}
-        />
-        <Text style={[styles.time, styles.timeTypo]}>9:41</Text>
+        
       </View>
       <Pressable
         style={[styles.wrapper, styles.wrapperPosition]}
@@ -92,7 +86,7 @@ const styles = StyleSheet.create({
     fontWeight: "600",
     textTransform: "uppercase",
     lineHeight: 24,
-    left: 0,
+    left: 20,
     position: "absolute",
   },
   wrapperPosition: {
@@ -120,7 +114,7 @@ const styles = StyleSheet.create({
     width: 123,
     height: 56,
     fontSize: FontSize.m3LabelLarge_size,
-    top: 0,
+    top: 5,
     textAlign: "left",
     fontFamily: FontFamily.interSemiBold,
     fontWeight: "600",
@@ -164,9 +158,9 @@ const styles = StyleSheet.create({
   },
   backAndShareChild: {
     top: 11,
-    left: 3,
-    width: 320,
-    height: 210,
+    left: 10,
+    width: 330,
+    height: 230,
   },
   objects: {
     width: 307,
@@ -198,8 +192,8 @@ const styles = StyleSheet.create({
   },
   statusBarwhite: {
     backgroundColor: Color.colorGoldenrod_100,
-    width: 375,
-    height: 36,
+    width: 400,
+    height: 40,
     position: "absolute",
   },
   wrapper: {

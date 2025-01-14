@@ -1,357 +1,189 @@
 import * as React from "react";
 import { Image } from "expo-image";
-import { StyleSheet, View, Text, Pressable } from "react-native";
+import { StyleSheet, View, Text, ScrollView, Pressable } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import StatusBar1 from "../components/StatusBar1";
 import { Border, Color, FontSize, FontFamily } from "../GlobalStyles";
 
-const ChildScheme = () => {
+const childScheme = () => {
   const navigation = useNavigation();
 
   return (
-    <View style={[styles.childScheme, styles.timeLightLayout]}>
-      <Image
-        style={[styles.vectorIcon, styles.iconLayout]}
-        contentFit="cover"
-        source={require("../assets/vector2.png")}
-      />
-      <View style={[styles.childSchemeChild, styles.childPosition]} />
-      <Text style={[styles.childPlanWith, styles.yearsFlexBox]}>
-        Child Plan with Profits
-      </Text>
-      <View style={styles.childSchemeItem} />
-      <Image
-        style={styles.maskGroupIcon}
-        contentFit="cover"
-        source={require("../assets/mask-group.png")}
-      />
-      <View style={[styles.rectangleParent, styles.rectangleLayout]}>
-        <View style={[styles.groupChild, styles.groupLayout]} />
-        <Text style={[styles.details, styles.detailsClr]}>Details</Text>
-      </View>
-      <Pressable
-        style={[styles.rectangleGroup, styles.rectangleLayout]}
-        onPress={() => navigation.navigate("ApplyForPolicy3")}
-      >
-        <View style={[styles.groupItem, styles.groupLayout]} />
-        <Text style={[styles.applyForPolicy, styles.detailsClr]}>
-          Apply for Policy
-        </Text>
-      </Pressable>
-      <Text style={[styles.termOfThe, styles.inCaseOfTypo]}>
-        Term of the Policy
-      </Text>
-      <Text style={[styles.supplementaryCover, styles.inCaseOfTypo]}>
-        Supplementary Cover
-      </Text>
-      <Text style={[styles.onMaturity, styles.inCaseOfTypo]}>On Maturity</Text>
-      <Text style={[styles.inCaseOf, styles.inCaseOfTypo]}>
-        In case of assured’s death during policy term
-      </Text>
-      <Text style={[styles.specialBenefits, styles.inCaseOfTypo]}>
-        Special Benefits
-      </Text>
-      <Text
-        style={[styles.years, styles.yearsFlexBox]}
-      >{`10, 11, 12, 13, 14, & 15 Years`}</Text>
-      <Image
-        style={styles.connectionsIcon}
-        contentFit="cover"
-        source={require("../assets/connections5.png")}
-      />
-      <Text style={[styles.time, styles.timeTypo]}>9:41</Text>
-      <View style={[styles.statusBarParent, styles.timeLightPosition]}>
+    <ScrollView contentContainerStyle={styles.scrollContainer}>
+      <View style={[styles.childScheme, styles.timeLightLayout]}>
+        {/* Status Bar */}
         <StatusBar1
           statusBarPosition="absolute"
-          statusBarWidth={390}
+          statusBarWidth={450}
           statusBarHeight={95}
           statusBarTop={0}
-          statusBarLeft={0}
+          statusBarLeft={0.5}
           statusBarBackgroundColor="#e0a340"
           statusBarRight="unset"
           statusBarBottom="unset"
           notch={require("../assets/notch.png")}
-          statusIconsWidth={69}
-          statusIconsHeight={14}
+          statusIconsWidth={80}
+          statusIconsHeight={20}
           showNetworkSignalLight={false}
-          wiFiSignalLight={require("../assets/wifi-signal--light3.png")}
+          wiFiSignalLight={require("../assets/wifi-signal--light.png")}
           showWiFiSignalLight={false}
           showBatteryLight={false}
           showTimeLight={false}
         />
+
+        {/* Header and Buttons */}
+        <View style={styles.headerContainer}>
+          <Pressable
+            style={styles.backButton}
+            onPress={() => navigation.navigate("Insuarance")}
+          >
+            <Image
+              style={styles.backIcon}
+              contentFit="cover"
+              source={require("../assets/group-1272628274.png")}
+            />
+          </Pressable>
+          <Text style={styles.policyDetails}> Life Insurance</Text>
+        </View>
+
+        {/* Buttons */}
+        <View style={styles.buttonContainer}>
+          <Pressable
+            style={[styles.button, styles.applyButton]}
+            onPress={() => navigation.navigate("ApplyForPolicy3")}
+          >
+            <Text style={styles.buttonText}>Apply for Policy</Text>
+          </Pressable>
+
+          <Pressable
+            style={[styles.button, styles.payButton]}
+            onPress={() => navigation.navigate("AmountEntry")}
+          >
+            <Text style={styles.buttonText}>Pay Premium</Text>
+          </Pressable>
+
+          <Pressable
+            style={[styles.button, styles.claimButton]}
+            onPress={() => navigation.navigate("LifeInsuranceClaimForm")}
+          >
+            <Text style={styles.buttonText}>Claim Policy</Text>
+          </Pressable>
+        </View>
+
+        {/* Main Image */}
         <Image
-          style={[styles.batteryLight, styles.lightPosition]}
+          style={styles.vectorIcon}
           contentFit="cover"
-          source={require("../assets/battery--light1.png")}
+         // source={require("../assets/LifeInsuranceImg01.png")}
         />
-        <Image
-          style={[styles.networkSignalLight, styles.lightPosition]}
-          contentFit="cover"
-          source={require("../assets/network-signal-light1.png")}
-        />
-        <Image
-          style={[styles.wifiSignalLight, styles.lightPosition]}
-          contentFit="cover"
-          source={require("../assets/wifi-signal--light1.png")}
-        />
-        <Image
-          style={[styles.timeLight, styles.timeLightPosition]}
-          contentFit="cover"
-          source={require("../assets/time--light1.png")}
-        />
+
+        {/* Key Features */}
+        <Text style={styles.eligibility}>Eligibility & Benefits</Text>
+        <Text style={styles.details}>
+          * Provides Guaranteed Return & Financial Protection. {"\n"}
+          * Individuals get 5 - 5.50% discount at the end of each policy{"\t"} year. {"\n"}
+          * Limited Premim Tenure. {"\n\n"}
+          ELIGIBILITY: {"\n"}
+          {"\t\t"}Entry age: 18 - 50 years. {"\n"}
+          {"\t\t"}Maturity age: 65 years. {"\n"}
+          {"\t\t"}Policy Tenure: 12 & 15 years. {"\n\n"}
+          HIGHLIGHTS:{"\n"}
+          {"\t\t"}ULIP {"\n"}
+          {"\t\t"}SBI LIFE-SMART SCHOLAR PLUS{"\n"}
+          {"\t\t"}PROTECTION{"\n"}
+          {"\t\t"}SECURITY{"\n"}
+
+
+          </Text>          
       </View>
-      <Pressable
-        style={styles.wrapper}
-        onPress={() => navigation.navigate("Products")}
-      >
-        <Image
-          style={[styles.icon, styles.iconLayout]}
-          contentFit="cover"
-          source={require("../assets/group-1272628274.png")}
-        />
-      </Pressable>
-      <Text style={[styles.policyDetails, styles.timeTypo]}>
-        Policy Details
-      </Text>
-    </View>
+    </ScrollView>
   );
 };
 
 const styles = StyleSheet.create({
+  scrollContainer: {
+    flexGrow: 1,
+    backgroundColor: Color.white,
+  },
+  childScheme: {
+    flex: 1,
+    padding: 15,
+    paddingTop: 53, // Adjust padding to accommodate StatusBar
+    
+  },
   timeLightLayout: {
     overflow: "hidden",
     borderRadius: Border.br_xl,
   },
-  iconLayout: {
-    maxHeight: "100%",
-    maxWidth: "100%",
-    overflow: "hidden",
-    width: "100%",
+  headerContainer: {
+    flexDirection: "row",
+    alignItems: "center",
+    marginBottom: 20,
   },
-  childPosition: {
-    left: "0.27%",
-    right: "-0.27%",
-    position: "absolute",
+  backButton: {
+    marginRight: 5,
   },
-  yearsFlexBox: {
-    textAlign: "left",
-    color: Color.lightGray11,
-    position: "absolute",
-  },
-  rectangleLayout: {
-    height: 35,
-    width: 160,
-    top: 281,
-    position: "absolute",
-  },
-  groupLayout: {
-    borderRadius: Border.br_8xs,
-    shadowOpacity: 1,
-    shadowOffset: {
-      width: 0,
-      height: 1,
-    },
-    left: 0,
-    top: 0,
-    height: 35,
-    width: 160,
-    position: "absolute",
-  },
-  detailsClr: {
-    color: Color.white,
-    textAlign: "left",
-  },
-  inCaseOfTypo: {
-    fontSize: FontSize.mobileBody3Regular_size,
-    fontFamily: FontFamily.interSemiBold,
-    fontWeight: "600",
-    left: 29,
-    textAlign: "left",
-    color: Color.lightGray11,
-    position: "absolute",
-  },
-  timeTypo: {
-    fontWeight: "700",
-    position: "absolute",
-  },
-  timeLightPosition: {
-    left: 0,
-    position: "absolute",
-  },
-  lightPosition: {
-    height: 13,
-    top: 7,
-    position: "absolute",
-  },
-  vectorIcon: {
-    height: "111.01%",
-    top: "0%",
-    bottom: "-11.01%",
-    left: "0.27%",
-    right: "-0.27%",
-    position: "absolute",
-  },
-  childSchemeChild: {
-    height: "101.71%",
-    top: "11.39%",
-    bottom: "-13.1%",
-    width: "100%",
-    backgroundColor: Color.white,
-  },
-  childPlanWith: {
-    top: 119,
-    left: 16,
-    fontSize: FontSize.font_size,
-    fontWeight: "800",
-    fontFamily: FontFamily.interExtraBold,
-  },
-  childSchemeItem: {
-    top: 156,
-    left: 24,
-    backgroundColor: "rgba(224, 163, 64, 0.62)",
-    width: 329,
-    height: 110,
-    position: "absolute",
-  },
-  maskGroupIcon: {
-    top: 176,
-    left: 154,
-    width: 70,
-    height: 70,
-    position: "absolute",
-  },
-  groupChild: {
-    shadowColor: "rgba(0, 0, 0, 0.41)",
-    shadowRadius: 3,
-    elevation: 3,
-    backgroundColor: Color.colorPeru_200,
-  },
-  details: {
-    top: 9,
-    left: 51,
-    fontFamily: FontFamily.interSemiBold,
-    fontWeight: "600",
-    color: Color.white,
-    fontSize: FontSize.size_mini,
-    position: "absolute",
-  },
-  rectangleParent: {
-    left: 29,
-    width: 160,
-    top: 281,
-  },
-  groupItem: {
-    shadowColor: "rgba(0, 0, 0, 0.32)",
-    shadowRadius: 2,
-    elevation: 2,
-    backgroundColor: Color.colorGoldenrod_100,
-  },
-  applyForPolicy: {
-    top: 8,
-    left: 23,
-    fontFamily: FontFamily.interSemiBold,
-    fontWeight: "600",
-    color: Color.white,
-    fontSize: FontSize.size_mini,
-    position: "absolute",
-  },
-  rectangleGroup: {
-    left: 198,
-    width: 160,
-    top: 281,
-  },
-  termOfThe: {
-    top: 331,
-  },
-  supplementaryCover: {
-    top: 396,
-  },
-  onMaturity: {
-    top: 461,
-  },
-  inCaseOf: {
-    top: 526,
-  },
-  specialBenefits: {
-    top: 591,
-  },
-  years: {
-    top: 349,
-    left: 38,
-    fontSize: FontSize.size_3xs,
-    fontFamily: FontFamily.interRegular,
-  },
-  connectionsIcon: {
-    top: 12,
-    right: 22,
-    width: 68,
-    height: 16,
-    position: "absolute",
-  },
-  time: {
-    marginTop: -401,
-    top: "50%",
-    left: 31,
-    letterSpacing: 0,
-    fontFamily: FontFamily.helvetica,
-    textAlign: "center",
-    fontSize: FontSize.size_mini,
-    fontWeight: "700",
-    color: Color.lightGray11,
-  },
-  batteryLight: {
-    left: 334,
-    width: 25,
-  },
-  networkSignalLight: {
-    left: 292,
-    width: 20,
-  },
-  wifiSignalLight: {
-    left: 315,
-    width: 16,
-  },
-  timeLight: {
-    top: 4,
-    width: 54,
-    height: 19,
-    overflow: "hidden",
-    borderRadius: Border.br_xl,
-  },
-  statusBarParent: {
-    width: 390,
-    height: 95,
-    top: 0,
-    left: 0,
-  },
-  icon: {
-    height: "100%",
-  },
-  wrapper: {
-    left: "7.2%",
-    top: "3.69%",
-    right: "82.13%",
-    bottom: "91.38%",
-    width: "10.67%",
-    height: "4.93%",
-    position: "absolute",
+  backIcon: {
+    width: 40,
+    height: 40,
+    left: 25,
   },
   policyDetails: {
-    height: "4.84%",
-    width: "43.89%",
-    top: "4.43%",
-    left: "29.07%",
     fontSize: FontSize.m3TitleLarge_size,
     fontFamily: FontFamily.poppinsBold,
     color: Color.white,
-    textAlign: "left",
+    textAlign: "center",
+    flex: 2,
+    
   },
-  childScheme: {
-    flex: 1,
-    height: 812,
+  buttonContainer: {
+    flexDirection: "row",
+    justifyContent: "space-around",
+    marginBottom: 30,
+  },
+  button: {
+    height: 40,
+    width: 120,
+    borderRadius: Border.br_8xs,
+    justifyContent: "center",
+    alignItems: "center",
+    shadowColor: "rgba(0, 0, 0, 0.32)",
+    shadowRadius: 2,
+    elevation: 2,
+  },
+  applyButton: {
+    backgroundColor: Color.colorGoldenrod_100,
+  },
+  payButton: {
+    backgroundColor: Color.colorGoldenrod_100,
+  },
+  claimButton: {
+    backgroundColor: Color.colorGoldenrod_100,
+  },
+  buttonText: {
+    color: Color.white,
+    fontFamily: FontFamily.interSemiBold,
+    fontWeight: "600",
+    fontSize: FontSize.size_mini,
+    textAlign: "center",
+  },
+  vectorIcon: {
     width: "100%",
-    backgroundColor: Color.white,
+    height: 220,
+    resizeMode: "contain",
+    marginBottom: 20,
+    borderRadius: 20, 
+  },
+  eligibility: {
+    fontFamily: FontFamily.interSemiBold,
+    fontSize: FontSize.size_xl,
+    marginBottom: 10,
+  },
+  details: {
+    fontSize: 16,
+    lineHeight: 24,
+    color: Color.black,
   },
 });
 
-export default ChildScheme;
+export default childScheme;

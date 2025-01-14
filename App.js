@@ -4,6 +4,8 @@ import { NavigationContainer } from "@react-navigation/native";
 import { useFonts } from "expo-font";
 import AkarIconsxFill from "./components/AkarIconsxFill";
 import Home from "./screens/Home";
+import { SelectedContactsProvider } from './screens/SelectedContactsContext';
+import { RoomProvider } from './screens/RoomContext';
 import PaymentMethod5 from "./screens/PaymentMethod5";
 import UPIPIN from "./screens/UPIPIN";
 import SavingPlan from "./screens/SavingPlan";
@@ -135,9 +137,46 @@ import { TransactionProvider } from './screens/TransactionContext';
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { View, Text, Pressable, TouchableOpacity } from "react-native";
 import MiniStatement from "./screens/MiniStatement";
+import News from "./screens/News";
+
+import FixedDepositScreen from "./screens/FixeddDepositScreen";
+
+//import AUTHYVerification from "./screens/AUTHYVerification";
+
+import LifeInsuranceClaimForm from './screens/LifeInsuranceClaimForm';
+
+import NetBanking from './screens/NetWorking';
+import AmountEntry from './screens/AmountEntry';
+import PaymentSuccess from './screens/PaymentSuccess';
+import HealthInsuranceApplicationForm from "./screens/HealthInsuranceApplicationForm";
+import VehicleInsuranceForm from "./screens/VehicleInsuranceForm";
+import HomeInsuranceForm from "./screens/HomeInsuranceForm";
+import HomeInsuranceScreen2 from "./screens/HomeInsuranceScreen2";
+import HomeClaimForm from "./screens/HomeClaimForm";
+import HealthClaimForm from "./screens/HealthClaimForm";
+import VehicleClaimForm from "./screens/VehicleClaimForm";
+import HealthInsuranceScreen2 from "./screens/HealthInsuranceScreen2";
+import VehicleInsuranceScreen2 from "./screens/VehicleInsuranceScreen2";
+import HomeLoanForm from "./screens/HomeLoanForm";
+import VehicleLoanForm from "./screens/VehicleLoanForm";
+import LoanCalculator from "./screens/LoanCalculator";
+import EducationLoanForm from "./screens/EducationLoanForm";
+import SeniorCitizenSavingsScheme from "./screens/SeniorCitizenSavingsScheme";
+import ApplyScheme from "./screens/ApplyScheme";
+import SchemesOptions from "./screens/SchemesOptions";
+import FixedDepositScheme from "./screens/FixedDepositScheme";
+import PPFScheme from "./screens/PPFScheme"; 
+import ApplySchemeTemplate from "./screens/ApplySchemeTemplete";
+import SukanyaSamriddhi from "./screens/SukanyaSamriddhi";
+import AtalPensionYojana from "./screens/AtalPensionYojana";
+import ApplyFDScreen from "./screens/ApplyFDScreen";
+import { requestCameraPermission } from "./screens/requestCameraPermission";
 const App = () => {
   const [hideSplashScreen, setHideSplashScreen] = React.useState(true);
-
+  const [fdHistory, setFdHistory] = React.useState([]); // Correct initialization
+  React.useEffect(() => {
+    requestCameraPermission(); // Request permissions on app start
+  }, []);
   const [fontsLoaded, error] = useFonts({
     "DMSans-Regular": require("./assets/fonts/DMSans-Regular.ttf"),
     "DMSans-Medium": require("./assets/fonts/DMSans-Medium.ttf"),
@@ -183,6 +222,8 @@ const App = () => {
   return (
     <>
     <TransactionProvider>
+    <SelectedContactsProvider>
+    <RoomProvider>
       <NavigationContainer>
         {hideSplashScreen ? (
           <Stack.Navigator 
@@ -217,6 +258,11 @@ const App = () => {
             <Stack.Screen
               name="Livechat2"
               component={Livechat2}
+              options={{ headerShown: false }}
+            />
+            <Stack.Screen
+              name="News"
+              component={News}
               options={{ headerShown: false }}
             />
             <Stack.Screen
@@ -829,9 +875,122 @@ const App = () => {
               component={HomeNav1}
               options={{ headerShown: false }}
             />
+
+ <Stack.Screen name="PaymentSuccess" component={PaymentSuccess} />
+           
+           
+            <Stack.Screen name="HealthClaimForm" component={HealthClaimForm} />
+            <Stack.Screen name="HealthInsuranceScreen2" component={HealthInsuranceScreen2} />
+            <Stack.Screen name="VehicleInsuranceForm" component={VehicleInsuranceForm} />
+            <Stack.Screen name="VehicleClaimForm" component={VehicleClaimForm} />
+            <Stack.Screen name="VehicleInsuranceScreen2" component={VehicleInsuranceScreen2} />
+            <Stack.Screen name="HomeInsuranceForm" component={HomeInsuranceForm} />
+            <Stack.Screen name="HomeClaimForm" component={HomeClaimForm} />
+            <Stack.Screen name="HomeInsuranceScreen2" component={HomeInsuranceScreen2} />
+
+            <Stack.Screen
+              name="SchemesOptions"
+              component={SchemesOptions}
+              options={{ headerShown: false }}
+            />
+            <Stack.Screen
+              name="SeniorCitizenSavingsScheme"
+              component={SeniorCitizenSavingsScheme}
+              options={{ headerShown: false }}
+            />
+             <Stack.Screen
+              name="ApplyScheme"
+              component={ApplyScheme}
+              options={{ headerShown: false }}
+            />
+            <Stack.Screen
+              name="FixedDepositScheme"
+              component={FixedDepositScheme}
+              options={{ headerShown: false }}
+            />
+            <Stack.Screen
+              name="PPFScheme"
+              component={PPFScheme}
+              options={{ headerShown: false }}
+            />
+            <Stack.Screen
+              name="SukanyaSamriddhi"
+              component={SukanyaSamriddhi}
+              options={{ headerShown: false }}
+            />
+            <Stack.Screen
+              name="AtalPensionYojana"
+              component={AtalPensionYojana}
+              options={{ headerShown: false }}
+            />
+             <Stack.Screen
+              name="NetBanking"
+              component={NetBanking}
+              options={{ headerShown: false }}
+            />
+             <Stack.Screen
+              name="LifeInsuranceClaimForm"
+              component={LifeInsuranceClaimForm}
+              options={{ headerShown: false }}
+            />
+            
+              <Stack.Screen
+              name="HealthInsuranceApplicationForm"
+              component={HealthInsuranceApplicationForm}
+              options={{ headerShown: false }}
+            />
+            
+            <Stack.Screen
+              name="ApplySchemeTemplate"
+              component={ApplySchemeTemplate}
+              options={{ headerShown: false }}
+            />
+              
+        {/* FD History Screen */}
+        <Stack.Screen name="FixedDepositScreen">
+          {props => <FixedDepositScreen {...props} fdHistory={fdHistory} />}
+        </Stack.Screen>
+
+        {/* Apply FD Screen */}
+        <Stack.Screen name="ApplyFDScreen">
+          {props => <ApplyFDScreen {...props} setFdHistory={setFdHistory} />}
+        </Stack.Screen>
+
+<Stack.Screen name="AmountEntry" component={AmountEntry} />
+           
+
+
+<Stack.Screen
+        name="requestCameraPermission"
+        component={requestCameraPermission}
+        options={{ title: 'Scan QR Code' }}
+      />
+
+<Stack.Screen
+              name="HomeLoanForm"
+              component={HomeLoanForm}
+              options={{ headerShown: false }}
+            />
+              <Stack.Screen
+              name="VehicleLoanForm"
+              component={VehicleLoanForm}
+              options={{ headerShown: false }}
+            />
+            <Stack.Screen
+              name="EducationLoanForm"
+              component={EducationLoanForm}
+              options={{ headerShown: false }}
+            />
+            <Stack.Screen
+              name="LoanCalculator"
+              component={LoanCalculator}
+              options={{ headerShown: false }}
+            />
           </Stack.Navigator>
         ) : null}
       </NavigationContainer>
+      </RoomProvider>
+      </SelectedContactsProvider>
       </TransactionProvider>
     </>
   );

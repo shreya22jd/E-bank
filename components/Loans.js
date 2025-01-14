@@ -1,5 +1,3 @@
-//changed made
-
 import React, { useMemo } from "react";
 import { Text, StyleSheet, View, Pressable } from "react-native";
 import { Image } from "expo-image";
@@ -10,6 +8,7 @@ const getStyleValue = (key, value) => {
   if (value === undefined) return;
   return { [key]: value === "unset" ? undefined : value };
 };
+
 const Loans = ({ propTop, propLeft }) => {
   const loansStyle = useMemo(() => {
     return {
@@ -37,9 +36,10 @@ const Loans = ({ propTop, propLeft }) => {
           />
           <Text style={[styles.name, styles.nameTypo]}>Insurance</Text>
         </Pressable>
+
         <Pressable
           style={[styles.loan, styles.loanLayout]}
-          onPress={() => navigation.navigate("Loan")}
+          onPress={() => navigation.navigate("LoanApply")}
         >
           <Image
             style={styles.insuranceIcon}
@@ -48,23 +48,30 @@ const Loans = ({ propTop, propLeft }) => {
           />
           <Text style={[styles.name1, styles.nameTypo]}>Loans</Text>
         </Pressable>
-        <View style={[styles.schemes, styles.schemesLayout]}>
+
+        <Pressable
+          style={[styles.schemes, styles.schemesLayout]}
+          onPress={() => navigation.navigate("SchemesOptions")}
+        >
           <Image
             style={styles.vectorIcon}
             contentFit="cover"
             source={require("../assets/vector22.png")}
           />
           <Text style={[styles.name2, styles.schemesLayout]}>Scheme</Text>
-        </View>
-        <View style={[styles.schemes1, styles.schemesLayout]}>
+        </Pressable>
+
+        <Pressable
+          style={[styles.schemes1, styles.schemesLayout]}
+          onPress={() => navigation.navigate("FixedDepositScreen")}
+        >
           <Image
             style={styles.vectorIcon1}
             contentFit="cover"
             source={require("../assets/vector23.png")}
           />
-          <Text style={[styles.name, styles.nameTypo]}>{`Check 
-deposit`}</Text>
-        </View>
+          <Text style={[styles.name, styles.nameTypo]}>{`Check \nDeposit`}</Text>
+        </Pressable>
       </View>
     </View>
   );
@@ -80,14 +87,14 @@ const styles = StyleSheet.create({
     fontFamily: FontFamily.montserratMedium,
     fontWeight: "500",
     textAlign: "center",
-    width:70,
+    width:100,
   },
   schemesLayout: {
     width: 56,
     alignItems: "center",
   },
   label: {
-    fontSize: 19,
+    fontSize: FontSize.size_xl,
     fontWeight: "600",
     fontFamily: FontFamily.montserratSemiBold,
     color: Color.lightGray11,
@@ -104,29 +111,27 @@ const styles = StyleSheet.create({
     overflow: "hidden",
   },
   name: {
-    fontSize: FontSize.mobileBody3Regular_size,
+    fontSize: 11,
     color: Color.colorDarkslategray_800,
     fontFamily: FontFamily.montserratMedium,
     fontWeight: "500",
-    alignSelf: "stretch",
-    fontSize:11,
   },
   insuarance: {
     width: 60,
-    gap: Gap.gap_12xs,
+    gap: Gap.gap_14xs,
   },
   name1: {
     fontSize: 11,
   },
   loan: {
     width: 54,
-    gap: Gap.gap_10xs,
+    gap: Gap.gap_14xs,
   },
   vectorIcon: {
     width: 30,
     height: 38,
   },
-  name2: {  //schemes icon name styling
+  name2: {
     display: "flex",
     justifyContent: "center",
     height: 28,
@@ -138,17 +143,17 @@ const styles = StyleSheet.create({
   },
   schemes: {
     height: 80,
-    gap: Gap.gap_8xs,
+    gap: Gap.gap_14xs,
   },
   vectorIcon1: {
     width: 38,
     height: 38,
   },
   schemes1: {
-    gap: Gap.gap_9xs, //check deposit image and text gap
+    gap: Gap.gap_14xs,
   },
   users: {
-    gap: Gap.gap_3xl,
+    gap: Gap.gap_5xl,
     flexDirection: "row",
   },
   loans: {

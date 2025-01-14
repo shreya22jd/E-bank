@@ -1,3 +1,4 @@
+
 import * as React from "react";
 import { Image } from "expo-image";
 import { StyleSheet, View, Pressable, Text } from "react-native";
@@ -16,53 +17,14 @@ import {
 const Insuarance = () => {
   const navigation = useNavigation();
 
-  return (
+  return (  
     <View style={styles.insuarance}>
-      <Image
-        style={[styles.vectorIcon, styles.iconLayout2]}
-        contentFit="cover"
-        source={require("../assets/vector2.png")}
-      />
-      <View style={[styles.insuaranceChild, styles.vectorIconPosition]} />
-      <View style={[styles.chatsParent, styles.chatsFlexBox]}>
-        <View style={[styles.chats, styles.chatsFlexBox]}>
-          <Image
-            style={styles.iconLayout1}
-            contentFit="cover"
-            source={require("../assets/chats1.png")}
-          />
-          <View style={styles.line} />
-        </View>
-        <Pressable
-          style={styles.wrapper}
-          onPress={() => navigation.navigate("QRCode")}
-        >
-          <Image
-            style={styles.iconLayout}
-            contentFit="cover"
-            source={require("../assets/group-51.png")}
-          />
-        </Pressable>
-        <Image
-          style={[styles.weuilocationFilledIcon, styles.iconLayout1]}
-          contentFit="cover"
-          source={require("../assets/weuilocationfilled1.png")}
-        />
-        <Pressable
-          style={styles.iconLayout1}
-          onPress={() => navigation.navigate("Profile2")}
-        >
-          <Image
-            style={styles.iconLayout}
-            contentFit="cover"
-            source={require("../assets/profile1.png")}
-          />
-        </Pressable>
-      </View>
+      
       <View style={[styles.statusBarParent, styles.timeLightPosition]}>
-        <StatusBar1
+      <StatusBar1
+
           statusBarPosition="absolute"
-          statusBarWidth={390}
+          statusBarWidth={450}
           statusBarHeight={95}
           statusBarTop={0}
           statusBarLeft={0}
@@ -73,30 +35,10 @@ const Insuarance = () => {
           statusIconsWidth={69}
           statusIconsHeight={14}
           showNetworkSignalLight={false}
-          wiFiSignalLight={require("../assets/wifi-signal--light3.png")}
+          wiFiSignalLight={require("../assets/wifi-signal--light.png")}
           showWiFiSignalLight={false}
           showBatteryLight={false}
           showTimeLight={false}
-        />
-        <Image
-          style={[styles.batteryLight, styles.lightPosition]}
-          contentFit="cover"
-          source={require("../assets/battery--light1.png")}
-        />
-        <Image
-          style={[styles.networkSignalLight, styles.lightPosition]}
-          contentFit="cover"
-          source={require("../assets/network-signal-light1.png")}
-        />
-        <Image
-          style={[styles.wifiSignalLight, styles.lightPosition]}
-          contentFit="cover"
-          source={require("../assets/wifi-signal--light1.png")}
-        />
-        <Image
-          style={[styles.timeLight, styles.timeLightPosition]}
-          contentFit="cover"
-          source={require("../assets/time--light1.png")}
         />
       </View>
       <Text style={styles.insurance}>Insurance</Text>
@@ -114,7 +56,7 @@ const Insuarance = () => {
       <Image
         style={styles.image141Icon}
         contentFit="cover"
-        source={require("../assets/image-141.png")}
+       source={require("../assets/Insurance.png")}
       />
     </View>
   );
@@ -128,9 +70,9 @@ const styles = StyleSheet.create({
   },
   vectorIconPosition: {
     left: "0.27%",
-    right: "-0.27%",
+    right: "-5.37%",
     position: "absolute",
-    width: "100%",
+    width: "95%",  
   },
   chatsFlexBox: {
     justifyContent: "center",
@@ -150,8 +92,9 @@ const styles = StyleSheet.create({
     position: "absolute",
   },
   iconLayout: {
-    height: "100%",
-    width: "100%",
+    height: "70%",
+    width: "70%",
+    top:9,
   },
   vectorIcon: {
     height: "111.01%",
@@ -230,13 +173,13 @@ const styles = StyleSheet.create({
   },
   statusBarParent: {
     top: 0,
-    width: 390,
-    height: 95,
+    width: 600,
+    height: 100,
   },
   insurance: {
-    height: "4.84%",
+    height: "5.84%",
     width: "55.28%",
-    top: "4.8%",
+    top: "5%",
     left: "32.27%",
     fontSize: FontSize.size_5xl,
     fontWeight: "800",
@@ -246,8 +189,8 @@ const styles = StyleSheet.create({
     position: "absolute",
   },
   icon2: {
-    maxHeight: "100%",
-    maxWidth: "100%",
+    maxHeight: "120%",
+    maxWidth: "135%",
     overflow: "hidden",
   },
   container: {
@@ -260,10 +203,10 @@ const styles = StyleSheet.create({
     position: "absolute",
   },
   image141Icon: {
-    top: 136,
-    left: 12,
-    width: 336,
-    height: 206,
+    top: 116,
+    left: 40,
+    width: 346,
+    height: 396,
     position: "absolute",
   },
   insuarance: {

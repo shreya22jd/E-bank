@@ -1,3 +1,4 @@
+
 import * as React from "react";
 import { Text, StyleSheet, View, Pressable } from "react-native";
 import { Image } from "expo-image";
@@ -11,108 +12,7 @@ const Info1 = () => {
 
   return (
     <View style={styles.info11}>
-      <Text
-        style={styles.loremIpsumDolor}
-      >{`Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua
-`}</Text>
-      <Section1 />
-      <View style={styles.info11Inner}>
-        <View style={styles.rectangleParent}>
-          <View style={[styles.groupChild, styles.groupPosition]} />
-          <Text style={[styles.calculate, styles.calculateClr]}>Calculate</Text>
-        </View>
-      </View>
-      <View style={[styles.statusBarParent, styles.statusBarParentPosition]}>
-        <StatusBar1
-          statusBarPosition="absolute"
-          statusBarWidth={390}
-          statusBarHeight={95}
-          statusBarTop={0}
-          statusBarLeft={0}
-          statusBarBackgroundColor="#e0a340"
-          statusBarRight="unset"
-          statusBarBottom="unset"
-          notch={require("../assets/notch.png")}
-          statusIconsWidth={69}
-          statusIconsHeight={14}
-          showNetworkSignalLight={false}
-          wiFiSignalLight={require("../assets/wifi-signal--light.png")}
-          showWiFiSignalLight={false}
-          showBatteryLight={false}
-          showTimeLight={false}
-        />
-        <Image
-          style={[styles.batteryLight, styles.lightPosition]}
-          contentFit="cover"
-          source={require("../assets/battery--light1.png")}
-        />
-        <Image
-          style={[styles.networkSignalLight, styles.lightPosition]}
-          contentFit="cover"
-          source={require("../assets/network-signal-light1.png")}
-        />
-        <Image
-          style={[styles.wifiSignalLight, styles.lightPosition]}
-          contentFit="cover"
-          source={require("../assets/wifi-signal--light2.png")}
-        />
-        <Image
-          style={[styles.timeLight, styles.timeLightPosition]}
-          contentFit="cover"
-          source={require("../assets/time--light1.png")}
-        />
-      </View>
-      <Pressable
-        style={styles.wrapper}
-        onPress={() => navigation.navigate("Loan")}
-      >
-        <Image
-          style={styles.icon}
-          contentFit="cover"
-          source={require("../assets/group-1272628274.png")}
-        />
-      </Pressable>
-      <View style={[styles.rectangleGroup, styles.groupPosition]}>
-        <View style={[styles.groupItem, styles.groupPosition]} />
-        <View
-          style={[styles.homeIndicatorwhite, styles.statusBarParentPosition]}
-        >
-          <View style={styles.shape} />
-        </View>
-        <View style={[styles.iconoutlinehomeParent, styles.parentFlexBox]}>
-          <Image
-            style={styles.iconoutlinehome}
-            contentFit="cover"
-            source={require("../assets/iconoutlinehome.png")}
-          />
-          <View style={styles.groupInnerLayout}>
-            <View style={[styles.groupInner, styles.groupInnerLayout]} />
-            <View style={[styles.ioncarSportParent, styles.parentFlexBox]}>
-              <Image
-                style={styles.iconoutlinehome}
-                contentFit="cover"
-                source={require("../assets/ioncarsport1.png")}
-              />
-              <Text style={[styles.insurance, styles.insuranceTypo]}>
-                Insurance
-              </Text>
-            </View>
-          </View>
-          <Image
-            style={styles.iconoutlinehome}
-            contentFit="cover"
-            source={require("../assets/iconoutlinesmviewgridadd.png")}
-          />
-          <Image
-            style={styles.iconoutlinehome}
-            contentFit="cover"
-            source={require("../assets/iconoutlinequestionmarkcircle1.png")}
-          />
-        </View>
-      </View>
-      <Text style={[styles.loanCalculator, styles.insuranceTypo]}>
-        Loan Calculator
-      </Text>
+     
     </View>
   );
 };

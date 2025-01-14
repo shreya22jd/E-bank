@@ -1,11 +1,37 @@
-import * as React from "react";
+import React, { useState } from "react";
 import { Image } from "expo-image";
-import { StyleSheet, View, Text, Pressable } from "react-native";
+import { StyleSheet, View, Text, TextInput, Pressable } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import { Border, FontFamily, FontSize, Color } from "../GlobalStyles";
 
+const mockDB = []; // Simulated backend
+
 const ChooseAmount = () => {
   const navigation = useNavigation();
+  const [amount, setAmount] = useState(""); // State for amount input
+  const [name, setName] = useState(""); // State for name input
+
+  const handlePayNow = () => {
+    if (!amount || !name) {
+      alert("Please enter both name and amount!");
+      return;
+    }
+
+    // Store data in the mock database
+    const transaction = { 
+      name, 
+      amount: parseFloat(amount), 
+      timestamp: new Date().toISOString() 
+    };
+    mockDB.push(transaction);
+
+    // Log the transaction and the database to the console
+    console.log("Transaction Stored:", transaction);
+    console.log("MockDB:", mockDB);
+
+    // Navigate to the PaymentMethod1 screen with the transaction details
+    navigation.navigate("PaymentMethod1", { name, amount });
+  };
 
   return (
     <View style={styles.chooseAmount}>
@@ -19,12 +45,11 @@ const ChooseAmount = () => {
       </View>
       <View style={[styles.donate, styles.donateLayout]}>
         <View style={[styles.donateChild, styles.donateLayout]} />
+
         <Text style={[styles.howMuchYou, styles.textTypo1]}>
           how much you want to donate?
         </Text>
-        <View style={[styles.donateItem, styles.donateChildShadowBox]} />
-        <Text style={[styles.text, styles.textTypo1]}>{`₹50
-`}</Text>
+
         <View style={[styles.donateInner, styles.donateChildShadowBox]} />
         <Text style={[styles.text1, styles.textTypo]}>₹100</Text>
         <View style={[styles.rectangleView, styles.donateChildShadowBox]} />
@@ -33,17 +58,28 @@ const ChooseAmount = () => {
         <Text style={[styles.text3, styles.textTypo1]}>₹200</Text>
         <Text style={[styles.or, styles.orTypo]}>or</Text>
         <View style={[styles.donateChild2, styles.donateChildShadowBox]} />
-        <Text style={[styles.enterHere, styles.orTypo]}>{`Enter here
-`}</Text>
-      </View>
-      <View style={styles.statusBarwhite}>
-        <Image
-          style={styles.connectionsIcon}
-          contentFit="cover"
-          source={require("../assets/connections.png")}
+
+        {/* Input for Amount */}
+        <TextInput
+          style={styles.input}
+          placeholder="Enter amount"
+          placeholderTextColor={Color.white}
+          keyboardType="numeric"
+          value={amount}
+          onChangeText={setAmount} // Update state with user input
         />
-        <Text style={styles.time}>9:41</Text>
+
+        {/* Input for Name */}
+        <TextInput
+          style={styles.input1}
+          placeholder="Enter name"
+          placeholderTextColor={Color.white}
+          value={name}
+          onChangeText={setName} // Update state with user input
+        />
       </View>
+
+      <View style={styles.statusBarwhite}></View>
       <Pressable
         style={styles.wrapper}
         onPress={() => navigation.navigate("DonateForEducation")}
@@ -53,6 +89,11 @@ const ChooseAmount = () => {
           contentFit="cover"
           source={require("../assets/group-1272628274.png")}
         />
+      </Pressable>
+
+      {/* Pay Now Button */}
+      <Pressable style={styles.button} onPress={handlePayNow}>
+        <Text style={styles.buttonText}>Pay Now</Text>
       </Pressable>
     </View>
   );
@@ -138,22 +179,13 @@ const styles = StyleSheet.create({
   donateChild: {
     borderRadius: Border.br_21xl,
     backgroundColor: Color.white,
-    left: 0,
+    left: 10,
     top: 0,
   },
   howMuchYou: {
-    top: 41,
+    top: 125,
     left: 26,
     color: Color.lightGray11,
-  },
-  donateItem: {
-    top: 81,
-    left: 24,
-  },
-  text: {
-    top: 98,
-    left: 158,
-    color: Color.white,
   },
   donateInner: {
     top: 160,
@@ -187,36 +219,12 @@ const styles = StyleSheet.create({
     top: 439,
     left: 23,
   },
-  enterHere: {
-    top: 455,
-    left: 133,
-    color: Color.white,
-  },
   donate: {
     top: 235,
     left: 8,
   },
-  connectionsIcon: {
-    top: 9,
-    right: 23,
-    width: 68,
-    height: 16,
-    position: "absolute",
-  },
-  time: {
-    marginTop: -10,
-    top: "50%",
-    fontSize: FontSize.size_mini,
-    letterSpacing: 0,
-    fontWeight: "700",
-    fontFamily: FontFamily.helvetica,
-    textAlign: "center",
-    left: 24,
-    color: Color.lightGray11,
-    position: "absolute",
-  },
   statusBarwhite: {
-    width: 375,
+    width: 400,
     height: 36,
     backgroundColor: Color.colorGoldenrod_100,
     left: 0,
@@ -241,6 +249,53 @@ const styles = StyleSheet.create({
     height: 812,
     overflow: "hidden",
     width: "100%",
+  },
+  input: {
+    top: 415,
+    left: 24,
+    width: 327,
+    height: 54,
+    borderRadius: Border.br_base,
+    backgroundColor: Color.colorGoldenrod_100,
+    paddingLeft: 20,
+    fontSize: FontSize.m3TitleMedium_size,
+    color: Color.white,
+    marginTop: 20,
+    fontFamily: FontFamily.interSemiBold,
+    textAlign: "center",
+  },
+  input1: {
+    top: -40,
+    left: 24,
+    width: 327,
+    height: 54,
+    borderRadius: Border.br_base,
+    backgroundColor: Color.colorGoldenrod_100,
+    paddingLeft: 20,
+    fontSize: FontSize.m3TitleMedium_size,
+    color: Color.white,
+    marginTop: 20,
+    fontFamily: FontFamily.interSemiBold,
+    textAlign: "center",
+  },
+  button: {
+    top: 720,
+    left: 30,
+    width: 327,
+    height: 54,
+    borderRadius: Border.br_base,
+    backgroundColor: Color.colorGoldenrod_100,
+    justifyContent: "center",
+    alignItems: "center",
+    marginTop: 20,
+    position: "absolute",
+  },
+  buttonText: {
+    color: Color.white,
+    fontFamily: FontFamily.interSemiBold,
+    fontWeight: "600",
+    textTransform: "uppercase",
+    fontSize: FontSize.m3TitleMedium_size,
   },
 });
 

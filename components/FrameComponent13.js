@@ -34,11 +34,16 @@ const FrameComponent13 = () => {
           source={require("../assets/weuilocationfilled.png")}
         />
       </Pressable>
-      <Image
-        style={styles.chatsIcon}
-        contentFit="cover"
-        source={require("../assets/profile.png")}
-      />
+             <Pressable
+                   style={styles.chatsIcon}
+                   onPress={() => navigation.navigate("Profile2")}
+                 >
+                   <Image
+                     style={styles.profile}
+                     contentFit="cover"
+                     source={require("../assets/profile.png")}
+                   />
+                 </Pressable>
       <Image
         style={styles.chatsIcon}
         contentFit="cover"
@@ -87,6 +92,10 @@ const styles = StyleSheet.create({
   componentChild: {
     width: 17,
     height: 16,
+  },
+  profile: {
+    width: 25,
+    height: 25,
   },
   icon: {
     width: "100%",

@@ -20,7 +20,7 @@ const Info3 = () => {
       <View style={[styles.info18Item, styles.info18Bg]} />
       <Pressable
         style={[styles.info18Inner, styles.parentFlexBox]}
-        onPress={() => navigation.navigate("EmptyRoomlist")}
+        onPress={() => navigation.navigate("Home")}
       >
         <Image
           style={styles.frameChild}
@@ -66,12 +66,7 @@ const Info3 = () => {
         </View>
       </View>
       <View style={[styles.statusBarwhite, styles.rectangleViewPosition]}>
-        <Text style={styles.time}>9:41</Text>
-        <Image
-          style={styles.connectionsIcon}
-          contentFit="cover"
-          source={require("../assets/connections.png")}
-        />
+       
       </View>
       <View style={[styles.groupParent, styles.groupLayout]}>
         <Image
@@ -239,7 +234,7 @@ const styles = StyleSheet.create({
     height: 36,
     alignItems: "center",
     flexDirection: "row",
-    width: 375,
+    width: 450,
   },
   groupInner: {
     height: 112,

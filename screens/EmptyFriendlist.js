@@ -47,58 +47,10 @@ const EmptyFriendlist = () => {
         </Pressable>
       </View>
       <View style={[styles.statusBarwhite, styles.searchButtonPosition]}>
-        <Image
-          style={styles.connectionsIcon}
-          contentFit="cover"
-          source={require("../assets/connections.png")}
-        />
-        <Text style={[styles.time, styles.timeTypo]}>9:41</Text>
+        
       </View>
-      <View style={[styles.chatsParent, styles.parentFlexBox]}>
-        <View style={[styles.chats, styles.chatsFlexBox]}>
-          <Image
-            style={styles.iconLayout}
-            contentFit="cover"
-            source={require("../assets/chats1.png")}
-          />
-          <View style={styles.line} />
-        </View>
-        <Pressable
-          style={styles.wrapper}
-          onPress={() => navigation.navigate("QRCode")}
-        >
-          <Image
-            style={styles.icon}
-            contentFit="cover"
-            source={require("../assets/group-51.png")}
-          />
-        </Pressable>
-        <Image
-          style={[styles.weuilocationFilledIcon, styles.iconLayout]}
-          contentFit="cover"
-          source={require("../assets/weuilocationfilled1.png")}
-        />
-        <Pressable
-          style={styles.iconLayout}
-          onPress={() => navigation.navigate("Profile2")}
-        >
-          <Image
-            style={styles.icon}
-            contentFit="cover"
-            source={require("../assets/profile1.png")}
-          />
-        </Pressable>
-      </View>
-      <Pressable
-        style={styles.container}
-        onPress={() => navigation.navigate("Home")}
-      >
-        <Image
-          style={styles.icon}
-          contentFit="cover"
-          source={require("../assets/group-1272628270.png")}
-        />
-      </Pressable>
+     
+      
       <View style={[styles.searchButtonParent, styles.searchLayout]}>
         <View style={[styles.searchButton, styles.searchLayout]} />
         <View
@@ -250,7 +202,7 @@ const styles = StyleSheet.create({
     position: "absolute",
   },
   statusBarwhite: {
-    width: 375,
+    width: 400,
     height: 36,
     backgroundColor: Color.colorGoldenrod_100,
     position: "absolute",
@@ -307,7 +259,7 @@ const styles = StyleSheet.create({
   searchButton: {
     backgroundColor: Color.colorWhitesmoke_800,
     borderRadius: Border.br_3xs,
-    left: 0,
+    left: 10,
     top: 0,
   },
   interfaceEssentialsearchL: {
@@ -317,17 +269,18 @@ const styles = StyleSheet.create({
     overflow: "hidden",
   },
   searchLanguage: {
-    top: 2,
+    top: 5,
     left: 28,
-    lineHeight: 14,
+    lineHeight: 18,  // Adjusted lineHeight for more space
     fontFamily: FontFamily.mobileBody3Regular,
     color: Color.colorDarkgray_100,
-    width: 124,
-    height: 16,
+    width: 140,  // Increased width to avoid clipping
+    height: 18,  // Adjusted height to match lineHeight
     textAlign: "left",
     fontSize: FontSize.m3LabelLarge_size,
     position: "absolute",
   },
+  
   interfaceEssentialsearchLParent: {
     top: 11,
     left: 17,

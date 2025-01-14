@@ -1,11 +1,17 @@
 import * as React from "react";
 import { Image } from "expo-image";
-import { StyleSheet, View, Text, Pressable } from "react-native";
+import { StyleSheet, View, Text, Pressable ,Linking,ScrollView} from "react-native";
 import StatusBar1 from "../components/StatusBar1";
 import { useNavigation } from "@react-navigation/native";
 import { Border, Color, FontFamily, FontSize } from "../GlobalStyles";
 
 const Donate = () => {
+  const opendonate = () => {
+    Linking.openURL('https://www.indiancancersociety.org/how-you-can-help/donate');
+  };
+  const opensmile = () => {
+    Linking.openURL('https://www.smilefoundationindia.org/individual-support/');
+  };
   const navigation = useNavigation();
 
   return (
@@ -30,26 +36,7 @@ const Donate = () => {
             showBatteryLight={false}
             showTimeLight={false}
           />
-          <Image
-            style={[styles.batteryLight, styles.lightPosition]}
-            contentFit="cover"
-            source={require("../assets/battery--light1.png")}
-          />
-          <Image
-            style={[styles.networkSignalLight, styles.lightPosition]}
-            contentFit="cover"
-            source={require("../assets/network-signal-light1.png")}
-          />
-          <Image
-            style={[styles.wifiSignalLight, styles.lightPosition]}
-            contentFit="cover"
-            source={require("../assets/wifi-signal--light1.png")}
-          />
-          <Image
-            style={[styles.timeLight, styles.donate2Layout]}
-            contentFit="cover"
-            source={require("../assets/time--light1.png")}
-          />
+          
         </View>
       </View>
       <View style={styles.header}>
@@ -111,46 +98,21 @@ const Donate = () => {
           contentFit="cover"
           source={require("../assets/image-126.png")}
         />
-        <Image
-          style={[styles.image128Icon, styles.wrapperPosition]}
-          contentFit="cover"
-          source={require("../assets/image-128.png")}
-        />
+       
         <Text style={[styles.ngo, styles.ngoTypo]}>NGO</Text>
-        <Text style={[styles.institutions, styles.ngoTypo]}>Institutions</Text>
-        <Image
-          style={[styles.image130Icon, styles.iconPosition]}
-          contentFit="cover"
-          source={require("../assets/image-130.png")}
-        />
-        <Text style={[styles.smileFoundation, styles.sponsorPosition]}>
-          Smile Foundation
-        </Text>
+        
         <Text style={[styles.sponsorAMeal, styles.sponsorPosition]}>
           Sponsor a meal
         </Text>
         <Text style={[styles.donateToSponsor, styles.donateTypo]}>
           Donate to Sponsor a Meal
         </Text>
-        <Text style={[styles.donateToIndian, styles.donateTypo]}>
-          Donate to Indian cancer society
-        </Text>
-        <Text style={[styles.helpAPoor, styles.sponsorPosition]}>
-          Help a poor child fight cancer
-        </Text>
+        
         <Text style={[styles.careIndia, styles.sponsorPosition]}>
           Care India
         </Text>
         <Text style={[styles.pratham, styles.sponsorPosition]}>Pratham</Text>
-        <Text style={[styles.jyotibaTemple, styles.sponsorPosition]}>
-          Jyotiba Temple
-        </Text>
-        <Text style={[styles.shriAiyappaSwami, styles.sponsorPosition]}>
-          Shri Aiyappa Swami Temple
-        </Text>
-        <Text style={[styles.shriSiddivinayakTemple, styles.sponsorPosition]}>
-          Shri Siddivinayak Temple
-        </Text>
+        
         <Image
           style={styles.image131Icon}
           contentFit="cover"
@@ -161,21 +123,32 @@ const Donate = () => {
           contentFit="cover"
           source={require("../assets/image-132.png")}
         />
-        <Image
-          style={[styles.image133Icon, styles.iconLayout]}
-          contentFit="cover"
-          source={require("../assets/image-133.png")}
-        />
-        <Image
-          style={styles.image134Icon}
-          contentFit="cover"
-          source={require("../assets/image-134.png")}
-        />
+       
         <Image
           style={[styles.image135Icon, styles.iconPosition]}
           contentFit="cover"
           source={require("../assets/image-135.png")}
         />
+        <Pressable 
+        style={[styles.searchButtonParent1, styles.searchLayout]}
+        onPress={opendonate}
+        >
+          
+        <Text style={[styles.donateToIndian, styles.donateTypo]}>
+          Donate to Indian cancer society
+        </Text>
+        <Text style={[styles.helpAPoor, styles.sponsorPosition]}>
+          Help a poor child fight cancer
+        </Text>
+        <Image
+          style={[styles.image128Icon, styles.wrapperPosition]}
+          contentFit="cover"
+          source={require("../assets/image-128.png")}
+        />
+
+        </Pressable>
+
+
         <Pressable
           style={[styles.searchButtonParent, styles.searchLayout]}
           onPress={() => navigation.navigate("DonateForEducation")}
@@ -193,8 +166,22 @@ const Donate = () => {
             source={require("../assets/image-136.png")}
           />
         </Pressable>
+        <Pressable
+        style={[styles.searchButtonParent2, styles.searchLayout]}
+        onPress={opensmile}
+        >
+        <Image
+          style={[styles.image130Icon, styles.iconPosition]}
+          contentFit="cover"
+          source={require("../assets/image-130.png")}
+        />
+        <Text style={[styles.smileFoundation, styles.sponsorPosition]}>
+          Smile Foundation
+        </Text>
+        </Pressable>
       </View>
     </View>
+    
   );
 };
 
@@ -227,7 +214,7 @@ const styles = StyleSheet.create({
     fontSize: FontSize.m3TitleMedium_size,
     left: 21,
     textAlign: "left",
-    lineHeight: 14,
+    lineHeight: 18,
     position: "absolute",
   },
   donateChildLayout: {
@@ -237,6 +224,7 @@ const styles = StyleSheet.create({
     borderColor: Color.colorWhitesmoke_800,
     borderStyle: "solid",
     left: 0,
+    right: 0,
     position: "absolute",
   },
   searchLayout: {
@@ -272,25 +260,7 @@ const styles = StyleSheet.create({
     fontSize: FontSize.m3LabelLarge_size,
     position: "absolute",
   },
-  batteryLight: {
-    left: 334,
-    width: 25,
-  },
-  networkSignalLight: {
-    left: 292,
-    width: 20,
-  },
-  wifiSignalLight: {
-    left: 315,
-    width: 16,
-  },
-  timeLight: {
-    top: 4,
-    width: 54,
-    height: 19,
-    left: 0,
-    overflow: "hidden",
-  },
+ 
   donateInner: {
     width: 390,
     height: 95,
@@ -339,13 +309,13 @@ const styles = StyleSheet.create({
   },
   searchLanguage: {
     top: 2,
-    left: 28,
+    left: 38,
     fontFamily: FontFamily.mobileBody3Regular,
     color: Color.colorDarkgray_100,
     width: 201,
     height: 16,
     textAlign: "left",
-    lineHeight: 14,
+    lineHeight: 18,
     fontSize: FontSize.m3LabelLarge_size,
     position: "absolute",
   },
@@ -363,7 +333,7 @@ const styles = StyleSheet.create({
   },
   searchButton: {
     top: 117,
-    left: 11,
+    left: 21,
     width: 351,
     height: 42,
     borderWidth: 1,
@@ -537,14 +507,7 @@ const styles = StyleSheet.create({
     top: 529,
     fontFamily: FontFamily.interRegular,
   },
-  jyotibaTemple: {
-    top: 682,
-    fontFamily: FontFamily.interRegular,
-  },
-  shriAiyappaSwami: {
-    top: 762,
-    fontFamily: FontFamily.interRegular,
-  },
+  
   shriSiddivinayakTemple: {
     top: 852,
     fontFamily: FontFamily.interRegular,
@@ -560,18 +523,7 @@ const styles = StyleSheet.create({
     top: 523,
     height: 40,
   },
-  image133Icon: {
-    top: 674,
-    left: 27,
-    height: 29,
-  },
-  image134Icon: {
-    top: 756,
-    left: 31,
-    width: 30,
-    height: 40,
-    position: "absolute",
-  },
+  
   image135Icon: {
     top: 839,
     height: 40,
@@ -605,9 +557,19 @@ const styles = StyleSheet.create({
     width: 288,
     left: 21,
   },
+  searchButtonParent1: {
+    top: -2,
+    width: 288,
+    left: 0,
+  },
+  searchButtonParent2: {
+    top: 0,
+    width: 288,
+    left: 0,
+  },
   donate2: {
     top: 186,
-    left: 2,
+    left: 12,
     backgroundColor: Color.colorLinen_100,
     width: 370,
     height: 912,

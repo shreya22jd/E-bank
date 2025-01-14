@@ -1,164 +1,172 @@
 import * as React from "react";
 import { Image } from "expo-image";
-import { StyleSheet, Text, View } from "react-native";
+import { StyleSheet, Text, View, Pressable } from "react-native";
+import { useNavigation } from "@react-navigation/native";
 import { Gap, FontFamily, FontSize, Color } from "../GlobalStyles";
 
 const Frame7 = () => {
+  const navigation = useNavigation();
+
+  const handleNavigation = (page) => {
+    if (page === "Logout") {
+      navigation.reset({
+        index: 0,
+        routes: [{ name: "LoginPage" }], // Replace "Login" with your actual login page route name
+      });
+    } else {
+      navigation.navigate(page);
+    }
+  };
+
   return (
     <View style={[styles.frame, styles.frameFlexBox2]}>
       <View style={styles.information}>
-        <View style={styles.frameParent}>
-          <View style={[styles.frameGroup, styles.frameFlexBox1]}>
-            <View style={[styles.frame1, styles.frameFlexBox]}>
+        <Pressable onPress={() => handleNavigation("PersonalInformation")}>
+          <View style={styles.frameParent}>
+            <View style={[styles.frameGroup, styles.frameFlexBox1]}>
+              <View style={[styles.frame1, styles.frameFlexBox]}>
+                <Image
+                  style={[styles.useruserprofileIcon, styles.frameLayout1]}
+                  contentFit="cover"
+                  source={require("../assets/useruserprofile1.png")}
+                />
+                <Text style={[styles.personalInformation, styles.logoutTypo]}>
+                  Personal Information
+                </Text>
+              </View>
               <Image
-                style={[styles.useruserprofileIcon, styles.frameLayout1]}
+                style={styles.arrowsIconLayout}
                 contentFit="cover"
-                source={require("../assets/useruserprofile1.png")}
+                source={require("../assets/arrows-diagramsarrow1.png")}
               />
-              <Text style={[styles.personalInformation, styles.logoutTypo]}>
-                Personal Information
+            </View>
+            <Image
+              style={styles.frameChild}
+              contentFit="cover"
+              source={require("../assets/vector-1051.png")}
+            />
+          </View>
+        </Pressable>
+        <Pressable onPress={() => handleNavigation("PaymentPreferences")}>
+          <View style={[styles.frameContainer, styles.frameLayout]}>
+            <View style={[styles.frameView, styles.frameFlexBox1]}>
+              <View style={[styles.frame2, styles.frameLayout1]}>
+                <Image
+                  style={[styles.useruserprofileIcon, styles.frameLayout1]}
+                  contentFit="cover"
+                  source={require("../assets/payments-financecreditcards1.png")}
+                />
+                <Text style={[styles.personalInformation, styles.logoutTypo]}>
+                  Payment Preferences
+                </Text>
+              </View>
+              <Image
+                style={styles.arrowsIconLayout}
+                contentFit="cover"
+                source={require("../assets/arrows-diagramsarrow1.png")}
+              />
+            </View>
+            <Image
+              style={styles.frameChild}
+              contentFit="cover"
+              source={require("../assets/vector-1052.png")}
+            />
+          </View>
+        </Pressable>
+
+        <Pressable onPress={() => handleNavigation("Card")}>
+          <View style={[styles.frameContainer, styles.frameLayout]}>
+            <View style={styles.banksAndCardsParent}>
+              <Text style={[styles.banksAndCards, styles.settingsPosition]}>
+                Banks and Cards
               </Text>
+              <Image
+                style={[styles.arrowsDiagramsarrowIcon2, styles.arrowsIconLayout]}
+                contentFit="cover"
+                source={require("../assets/arrows-diagramsarrow2.png")}
+              />
+              <Image
+                style={[styles.paymentsFinancecreditCard, styles.frameLayout1]}
+                contentFit="cover"
+                source={require("../assets/payments-financecredit-card-edit.png")}
+              />
             </View>
             <Image
-              style={styles.arrowsIconLayout}
+              style={styles.frameChild}
               contentFit="cover"
-              source={require("../assets/arrows-diagramsarrow1.png")}
+              source={require("../assets/vector-1051.png")}
             />
           </View>
-          <Image
-            style={styles.frameChild}
-            contentFit="cover"
-            source={require("../assets/vector-1051.png")}
-          />
-        </View>
-        <View style={[styles.frameContainer, styles.frameLayout]}>
-          <View style={[styles.frameView, styles.frameFlexBox1]}>
-            <View style={[styles.frame2, styles.frameLayout1]}>
-              <Image
-                style={[styles.useruserprofileIcon, styles.frameLayout1]}
-                contentFit="cover"
-                source={require("../assets/payments-financecreditcards1.png")}
-              />
-              <Text style={[styles.personalInformation, styles.logoutTypo]}>
-                Payment Preferences
+        </Pressable>
+
+        <Pressable onPress={() => handleNavigation("Help")}>
+          <View style={styles.frameLayout}>
+            <View style={styles.banksAndCardsParent}>
+              <Text style={[styles.messageCenter, styles.settingsPosition]}>
+                Message Center
               </Text>
-            </View>
-            <Image
-              style={styles.arrowsIconLayout}
-              contentFit="cover"
-              source={require("../assets/arrows-diagramsarrow1.png")}
-            />
-          </View>
-          <Image
-            style={styles.frameChild}
-            contentFit="cover"
-            source={require("../assets/vector-1052.png")}
-          />
-        </View>
-        <View style={[styles.frameContainer, styles.frameLayout]}>
-          <View style={styles.banksAndCardsParent}>
-            <Text style={[styles.banksAndCards, styles.settingsPosition]}>
-              Banks and Cards
-            </Text>
-            <Image
-              style={[styles.arrowsDiagramsarrowIcon2, styles.arrowsIconLayout]}
-              contentFit="cover"
-              source={require("../assets/arrows-diagramsarrow2.png")}
-            />
-            <Image
-              style={[styles.paymentsFinancecreditCard, styles.frameLayout1]}
-              contentFit="cover"
-              source={require("../assets/payments-financecredit-card-edit.png")}
-            />
-          </View>
-          <Image
-            style={styles.frameChild}
-            contentFit="cover"
-            source={require("../assets/vector-1051.png")}
-          />
-        </View>
-        <View style={styles.frameLayout}>
-          <View style={styles.banksAndCardsParent}>
-            <Text style={[styles.messageCenter, styles.settingsPosition]}>
-              Message Center
-            </Text>
-            <Image
-              style={[styles.arrowsDiagramsarrowIcon2, styles.arrowsIconLayout]}
-              contentFit="cover"
-              source={require("../assets/arrows-diagramsarrow3.png")}
-            />
-            <Image
-              style={[styles.paymentsFinancecreditCard, styles.frameLayout1]}
-              contentFit="cover"
-              source={require("../assets/interface-essentialchat-messages-bubble-circle.png")}
-            />
-          </View>
-          <Image
-            style={styles.frameChild}
-            contentFit="cover"
-            source={require("../assets/vector-108.png")}
-          />
-        </View>
-        <View style={[styles.frameContainer, styles.frameLayout]}>
-          <View style={[styles.frameParent4, styles.parentFlexBox]}>
-            <View style={[styles.frame3, styles.frameLayout1]}>
               <Image
-                style={[styles.useruserprofileIcon, styles.frameLayout1]}
+                style={[styles.arrowsDiagramsarrowIcon2, styles.arrowsIconLayout]}
                 contentFit="cover"
-                source={require("../assets/navigation-mapspin-location.png")}
+                source={require("../assets/arrows-diagramsarrow3.png")}
               />
-              <Text style={[styles.address, styles.logoutTypo]}>Address</Text>
+              <Image
+                style={[styles.paymentsFinancecreditCard, styles.frameLayout1]}
+                contentFit="cover"
+                source={require("../assets/interface-essentialchat-messages-bubble-circle.png")}
+              />
             </View>
             <Image
-              style={styles.arrowsIconLayout}
+              style={styles.frameChild}
               contentFit="cover"
-              source={require("../assets/arrows-diagramsarrow4.png")}
+              source={require("../assets/vector-108.png")}
             />
           </View>
-          <Image
-            style={styles.frameChild}
-            contentFit="cover"
-            source={require("../assets/vector-109.png")}
-          />
-        </View>
-        <View style={[styles.frameContainer, styles.frameLayout]}>
-          <View style={styles.banksAndCardsParent}>
-            <Text style={[styles.settings, styles.settingsPosition]}>
-              Settings
-            </Text>
+        </Pressable>
+
+        <Pressable onPress={() => handleNavigation("Address")}>
+          <View style={[styles.frameContainer, styles.frameLayout]}>
+            <View style={[styles.frameParent4, styles.parentFlexBox]}>
+              <View style={[styles.frame3, styles.frameLayout1]}>
+                <Image
+                  style={[styles.useruserprofileIcon, styles.frameLayout1]}
+                  contentFit="cover"
+                  source={require("../assets/navigation-mapspin-location.png")}
+                />
+                <Text style={[styles.address, styles.logoutTypo]}>Address</Text>
+              </View>
+              <Image
+                style={styles.arrowsIconLayout}
+                contentFit="cover"
+                source={require("../assets/arrows-diagramsarrow4.png")}
+              />
+            </View>
             <Image
-              style={[styles.paymentsFinancecreditCard, styles.frameLayout1]}
+              style={styles.frameChild}
               contentFit="cover"
-              source={require("../assets/interface-essentialsetting-edit-filter-gear.png")}
-            />
-            <Image
-              style={[styles.arrowsDiagramsarrowIcon2, styles.arrowsIconLayout]}
-              contentFit="cover"
-              source={require("../assets/arrows-diagramsarrow5.png")}
+              source={require("../assets/vector-109.png")}
             />
           </View>
-          <Image
-            style={styles.frameChild}
-            contentFit="cover"
-            source={require("../assets/vector-1091.png")}
-          />
-        </View>
-        <View style={[styles.frame4, styles.frameFlexBox2]}>
-          <View style={[styles.image102Parent, styles.parentFlexBox]}>
-            <Image
-              style={styles.image102Icon}
-              contentFit="cover"
-              source={require("../assets/image-102.png")}
-            />
-            <Text style={[styles.logout, styles.logoutTypo]}>Logout</Text>
+        </Pressable>
+        <Pressable onPress={() => handleNavigation("Logout")}>
+          <View style={[styles.frame4, styles.frameFlexBox2]}>
+            <View style={[styles.image102Parent, styles.parentFlexBox]}>
+              <Image
+                style={styles.image102Icon}
+                contentFit="cover"
+                source={require("../assets/image-102.png")}
+              />
+              <Text style={[styles.logout, styles.logoutTypo]}>Logout</Text>
+            </View>
           </View>
-        </View>
+        </Pressable>
       </View>
     </View>
   );
 };
 
 const styles = StyleSheet.create({
+
   frameFlexBox2: {
     justifyContent: "center",
     overflow: "hidden",

@@ -1,5 +1,5 @@
 import * as React from "react";
-import { Text, StyleSheet, View } from "react-native";
+import { Text, StyleSheet, View, Pressable } from "react-native";
 import { Image } from "expo-image";
 import { Button } from "react-native-paper";
 import { useNavigation } from "@react-navigation/native";
@@ -17,9 +17,20 @@ const RoomCreated = () => {
 
   return (
     <View style={styles.roomcreated}>
-      <Text style={[styles.hoorayNewRoom, styles.timeTypo]}>{`Hooray!
-New Room Created`}</Text>
-      <Text style={[styles.comeExploreYour, styles.timeTypo]}>
+      {/* Home Button */}
+      <Pressable
+        style={styles.homeButton}
+        onPress={() => navigation.navigate("Home")}
+      >
+        <Image
+          style={styles.icon}
+          contentFit="cover"
+          source={require("../assets/group-1272628270.png")} // Home icon path
+        />
+      </Pressable>
+
+      <Text style={[styles.hoorayNewRoom, styles.textCenter]}>{`Hooray!\nNew Room Created`}</Text>
+      <Text style={[styles.comeExploreYour, styles.textCenter]}>
         Come explore your new room
       </Text>
       <Image
@@ -33,48 +44,34 @@ New Room Created`}</Text>
         source={require("../assets/frame-110.png")}
       />
       <Image
-        style={[
-          styles.teenyiconstickCircleSolid,
-          styles.roomcreatedChildPosition,
-        ]}
+        style={[styles.teenyiconstickCircleSolid, styles.roomcreatedChildPosition]}
         contentFit="cover"
         source={require("../assets/teenyiconstickcirclesolid.png")}
       />
       <Button
-        style={[styles.roomcreatedItem, styles.statusBarwhiteFlexBox]}
+        style={styles.goToRoomButton}
         mode="contained"
-        labelStyle={styles.frameButtonBtn}
+        labelStyle={styles.goToRoomButtonText}
         onPress={() => navigation.navigate("EmptyRoomlist")}
-        contentStyle={styles.frameButtonBtn1}
+        contentStyle={styles.goToRoomButtonContent}
       >
         Go to room
       </Button>
       <View style={[styles.statusBarwhite, styles.statusBarwhiteFlexBox]}>
-        <Text style={[styles.time, styles.timeTypo]}>9:41</Text>
-        <Image
-          style={styles.connectionsIcon}
-          contentFit="cover"
-          source={require("../assets/connections.png")}
-        />
+        
       </View>
+
     </View>
   );
 };
 
 const styles = StyleSheet.create({
-  frameButtonBtn: {
-    color: "#454545",
-    fontSize: 18,
-    fontWeight: "700",
-    fontFamily: "NotoSansTC-Bold",
+  statusBarwhiteFlexBox: {
+    flexDirection: "row",
+    position: "absolute",
   },
-  frameButtonBtn1: {
-    paddingHorizontal: 115,
-    paddingVertical: 13,
-    borderRadius: 30,
-    width: 272,
-  },
-  timeTypo: {
+
+  textCenter: {
     textAlign: "center",
     fontWeight: "700",
   },
@@ -86,18 +83,12 @@ const styles = StyleSheet.create({
     left: "50%",
     position: "absolute",
   },
-  statusBarwhiteFlexBox: {
-    flexDirection: "row",
-    position: "absolute",
-  },
   hoorayNewRoom: {
     marginLeft: -112.5,
     top: 436,
     fontSize: FontSize.size_5xl,
     color: Color.colorDarkslategray_300,
     fontFamily: FontFamily.font,
-    textAlign: "center",
-    fontWeight: "700",
     left: "50%",
     position: "absolute",
   },
@@ -108,10 +99,9 @@ const styles = StyleSheet.create({
     color: "#b98141",
     width: 244,
     fontFamily: FontFamily.font,
-    textAlign: "center",
-    fontWeight: "700",
     left: "50%",
     position: "absolute",
+    backgroundColor: "transparent", // Ensures no background color
   },
   confettiIcon: {
     width: 390,
@@ -134,30 +124,64 @@ const styles = StyleSheet.create({
     height: 44,
     overflow: "hidden",
   },
-  roomcreatedItem: {
-    top: 562,
-    left: 59,
-    borderStyle: "solid",
-    borderColor: Color.colorDarkslategray_300,
+  goToRoomButton: {
+    top:600,
+    marginTop: 30, // Adjusts the vertical spacing
+    marginLeft: 'auto',
+    marginRight: 'auto', // Centers the button horizontally
+    borderColor: "black",
     borderWidth: 1,
     justifyContent: "center",
-    overflow: "hidden",
   },
-  time: {
-    fontSize: FontSize.size_mini,
-    letterSpacing: 0,
-    fontFamily: FontFamily.helvetica,
-    color: Color.lightGray11,
-    textAlign: "center",
+  goToRoomButtonText: {
+    color: "white", // Change text color to white for better contrast
+    fontSize: 18,
     fontWeight: "700",
+    fontFamily: "NotoSansTC-Bold",
   },
-  connectionsIcon: {
-    width: 68,
-    height: 16,
+  goToRoomButtonContent: {
+    paddingHorizontal: 30, // Adjust the padding for desired button size
+    paddingVertical: 12,
+    borderRadius: 30,
+    width: 272,
+  },
+  roomcreated: {
+    borderRadius: Border.br_5xl,
+    backgroundColor: Color.white,
+    flex: 1,
+    width: "100%",
+    height: 812,
+  },
+  backButton: {
+    position: "absolute",
+    top: 48,
+    left: 17,
+    width: 40,
+    height: 40,
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  backIcon: {
+    width: 24,
+    height: 24,
+  },
+  homeButton: {
+    position: "absolute",
+    top: 48,
+    right: 17,
+    width: 40,
+    height: 40,
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  icon: {
+    right:320,
+    width: 24,
+    height: 24,
   },
   statusBarwhite: {
     backgroundColor: Color.colorGoldenrod_100,
-    width: 375,
+    width: 400,
     height: 36,
     alignItems: "center",
     paddingLeft: Padding.p_5xl,
@@ -167,13 +191,6 @@ const styles = StyleSheet.create({
     gap: Gap.gap_20xl,
     left: 0,
     top: 0,
-  },
-  roomcreated: {
-    borderRadius: Border.br_5xl,
-    backgroundColor: Color.white,
-    flex: 1,
-    width: "100%",
-    height: 812,
   },
 });
 

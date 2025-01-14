@@ -9,171 +9,90 @@ const GroupComponent30 = () => {
 
   return (
     <View style={styles.groupParent}>
+      {/* Life Insurance */}
       <Pressable
-        style={[styles.wrapper, styles.groupLayout1]}
+        style={styles.wrapper}
         onPress={() => navigation.navigate("ChildScheme")}
       >
         <Image
-          style={[styles.icon, styles.iconGroupLayout]}
+          style={styles.icon}
           contentFit="cover"
           source={require("../assets/group-79.png")}
         />
+        <Text style={styles.iconLabel}>Life Insurance</Text>
       </Pressable>
-      <Text style={[styles.lifeInsurance, styles.homeTypo]}>
-        Life Insurance
-      </Text>
-      <Image
-        style={[styles.groupChild, styles.groupPosition]}
-        contentFit="cover"
-        source={require("../assets/group-82.png")}
-      />
-      <Text style={[styles.homeInsurance, styles.insuranceTypo]}>
-        Home Insurance
-      </Text>
-      <Image
-        style={[styles.groupItem, styles.groupLayout]}
-        contentFit="cover"
-        source={require("../assets/group-83.png")}
-      />
-      <Text style={[styles.vehicleInsurance, styles.insuranceTypo]}>
-        Vehicle Insurance
-      </Text>
-      <Image
-        style={[styles.groupInner, styles.groupLayout]}
-        contentFit="cover"
-        source={require("../assets/group-80.png")}
-      />
-      <Image
-        style={[styles.groupIcon, styles.iconGroupLayout]}
-        contentFit="cover"
-        source={require("../assets/group-81.png")}
-      />
-      <Text style={[styles.home, styles.homeTypo]}>Home</Text>
-      <Text style={styles.guaranteedBonus}>Guaranteed Bonus</Text>
+
+      {/* Health Insurance */}
+      <Pressable
+        style={styles.wrapper}
+        onPress={() => navigation.navigate("HealthInsuranceScreen2")}
+      >
+        <Image
+          style={styles.icon}
+          contentFit="cover"
+          source={require("../assets/group-82.png")}
+        />
+        <Text style={styles.iconLabel}>Health Insurance</Text>
+      </Pressable>
+
+      {/* Vehicle Insurance */}
+      <Pressable
+        style={styles.wrapper}
+        onPress={() => navigation.navigate("VehicleInsuranceScreen2")}
+      >
+        <Image
+          style={styles.icon}
+          contentFit="cover"
+          source={require("../assets/group-83.png")}
+        />
+        <Text style={styles.iconLabel}>Vehicle Insurance</Text>
+      </Pressable>
+
+      {/* Home Insurance */}
+      <Pressable
+        style={styles.wrapper}
+        onPress={() => navigation.navigate("HomeInsuranceScreen2")}
+      >
+        <Image
+          style={styles.icon}
+          contentFit="cover"
+          source={require("../assets/group-80.png")}
+        />
+        <Text style={styles.iconLabel}>Home Insurance</Text>
+      </Pressable>
     </View>
   );
 };
 
 const styles = StyleSheet.create({
-  groupLayout1: {
-    height: "27.91%",
-    width: "17.65%",
-    position: "absolute",
-  },
-  iconGroupLayout: {
-    maxHeight: "100%",
-    overflow: "hidden",
-    maxWidth: "100%",
-  },
-  homeTypo: {
-    textAlign: "left",
-    color: Color.lightGray11,
-    fontFamily: FontFamily.montserratSemiBold,
-    fontWeight: "600",
-    fontSize: FontSize.m3LabelLarge_size,
-    top: "34.42%",
-    position: "absolute",
-  },
-  groupPosition: {
-    bottom: "17.21%",
-    top: "54.88%",
-  },
-  insuranceTypo: {
-    top: "89.3%",
-    height: "10.7%",
-    textAlign: "left",
-    color: Color.lightGray11,
-    fontFamily: FontFamily.montserratSemiBold,
-    fontWeight: "600",
-    fontSize: FontSize.m3LabelLarge_size,
-    position: "absolute",
-  },
-  groupLayout: {
-    left: "39.41%",
-    right: "42.94%",
-    maxHeight: "100%",
-    overflow: "hidden",
-    maxWidth: "100%",
-    height: "27.91%",
-    width: "17.65%",
-    position: "absolute",
-  },
-  icon: {
-    height: "100%",
-    width: "100%",
+  groupParent: {
+    justifyContent: "center", // Center items vertically
+    alignItems: "center", // Center items horizontally
+    flexDirection: "row",
+    flexWrap: "wrap",
+    paddingHorizontal: 20,
+    paddingVertical: 20,
+    backgroundColor: "#F2F2F2", // Light gray background
+    borderRadius: 20, // Small circular border radius
+    alignSelf: "center", // Center the container in its parent
+    margin: 10,
+    top:"520",
   },
   wrapper: {
-    bottom: "72.09%",
-    top: "0%",
-    right: "78.24%",
-    left: "4.12%",
-    width: "17.65%",
+    alignItems: "center",
+    margin: 15, // Adjusted margin for spacing
+    width: "40%", // Adjust width as necessary for layout
   },
-  lifeInsurance: {
-    height: "10.6%",
-    width: "30.32%",
-    left: "0%",
+  icon: {
+    width: 60,
+    height: 60,
+    marginBottom: 8,
   },
-  groupChild: {
-    maxHeight: "100%",
-    overflow: "hidden",
-    maxWidth: "100%",
-    height: "27.91%",
-    width: "17.65%",
-    position: "absolute",
-    right: "78.24%",
-    left: "4.12%",
-  },
-  homeInsurance: {
-    width: "37.65%",
-    left: "0%",
-  },
-  groupItem: {
-    bottom: "17.21%",
-    top: "54.88%",
-  },
-  vehicleInsurance: {
-    width: "38.24%",
-    left: "37.65%",
-  },
-  groupInner: {
-    bottom: "72.09%",
-    top: "0%",
-  },
-  groupIcon: {
-    right: "7.65%",
-    left: "74.71%",
-    height: "27.91%",
-    width: "17.65%",
-    position: "absolute",
-    bottom: "72.09%",
-    top: "0%",
-  },
-  home: {
-    height: "7.44%",
-    width: "14.41%",
-    left: "43.53%",
-  },
-  guaranteedBonus: {
-    height: "7.67%",
-    width: "29.71%",
-    left: "70.29%",
-    textAlign: "center",
+  iconLabel: {
     color: Color.lightGray11,
     fontFamily: FontFamily.montserratSemiBold,
-    fontWeight: "600",
     fontSize: FontSize.m3LabelLarge_size,
-    top: "34.42%",
-    position: "absolute",
-  },
-  groupParent: {
-    height: "26.48%",
-    width: "90.67%",
-    top: "50%",
-    right: "6.67%",
-    bottom: "23.52%",
-    left: "2.67%",
-    position: "absolute",
+    textAlign: "center",
   },
 });
 

@@ -12,7 +12,7 @@ import {
   Color,
   FontSize,
 } from "../GlobalStyles";
-
+import News from "../screens/News";
 const getStyleValue = (key, value) => {
   if (value === undefined) return;
   return { [key]: value === "unset" ? undefined : value };
@@ -116,7 +116,7 @@ const HeaderSection = ({
       {/* Updates Section */}
       <Pressable
         style={styles.updates}
-        onPress={() => navigation.navigate("Plans1")}
+        onPress={() => navigation.navigate("News")}
       >
         <View style={styles.send}>
           <View style={[styles.icon1, styles.menuFlexBox]}>

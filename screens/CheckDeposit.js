@@ -16,7 +16,7 @@ const CheckDeposit = () => {
             statusBarPosition="absolute"
             statusBarWidth={390}
             statusBarHeight={95}
-            statusBarTop={0}
+            statusBarTop={0} 
             statusBarLeft={0}
             statusBarBackgroundColor="#e0a340"
             statusBarRight="unset"

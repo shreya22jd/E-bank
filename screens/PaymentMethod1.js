@@ -3,12 +3,15 @@ import { Text, StyleSheet, View, Pressable } from "react-native";
 import { Image } from "expo-image";
 import FrameComponent1 from "../components/FrameComponent1";
 import Card4 from "../components/Card4";
-import { useNavigation } from "@react-navigation/native";
+import { useNavigation ,useRoute} from "@react-navigation/native";
 import { Gap, FontFamily, FontSize, Color, Border } from "../GlobalStyles";
 
 const PaymentMethod1 = () => {
   const navigation = useNavigation();
+  const route = useRoute();
 
+  // Retrieve the amount parameter or use a default value
+  const amount = route.params?.amount || "$0.00";
   return (
     <View style={styles.paymentMethod}>
       <Text style={[styles.paymentMethod1, styles.selectAmountFlexBox]}>
@@ -27,7 +30,7 @@ const PaymentMethod1 = () => {
                 DebitCard
               </Text>
               <Text style={[styles.text, styles.textFlexBox]}>
-                **** **** 0783 7873
+                ** ** 0783 7873
               </Text>
             </View>
             <View style={styles.iconPaymentMastercard}>
@@ -56,7 +59,7 @@ const PaymentMethod1 = () => {
                 UPI_Paypal
               </Text>
               <Text style={[styles.text, styles.textFlexBox]}>
-                **** **** 889@paypal
+                ** ** 889@paypal
               </Text>
             </View>
           </View>
@@ -80,7 +83,7 @@ const PaymentMethod1 = () => {
                 Paytm
               </Text>
               <Text style={[styles.text, styles.textFlexBox]}>
-                **** **** 0582 4672
+                ** ** 0582 4672
               </Text>
             </View>
           </View>
@@ -91,10 +94,7 @@ const PaymentMethod1 = () => {
           />
         </View>
       </View>
-      <Text style={[styles.selectAmount, styles.debitcardTypo]}>
-        Select Amount
-      </Text>
-      <FrameComponent1 prop="200" propTop={7} propHeight="unset" />
+      <Text style={styles.amountText}>Amount: {amount}</Text>
       <Card4 />
       <Pressable
         style={styles.paymentMethodInner}
@@ -107,7 +107,7 @@ const PaymentMethod1 = () => {
       </Pressable>
       <Pressable
         style={styles.wrapper}
-        onPress={() => navigation.navigate("EmptyRoomlist")}
+        onPress={() => navigation.navigate("Home")}
       >
         <Image
           style={styles.icon3}
@@ -116,12 +116,7 @@ const PaymentMethod1 = () => {
         />
       </Pressable>
       <View style={[styles.statusBarwhite, styles.groupChildBg]}>
-        <Image
-          style={styles.connectionsIcon}
-          contentFit="cover"
-          source={require("../assets/connections.png")}
-        />
-        <Text style={[styles.time, styles.timeTypo]}>9:41</Text>
+       
       </View>
     </View>
   );
@@ -286,11 +281,20 @@ const styles = StyleSheet.create({
     width: "100%",
     borderRadius: Border.br_base,
   },
+  amountText: {
+    marginTop: 650,
+    textAlign: "center",
+    fontSize: FontSize.size_xl, // Increased font size (you can replace this with a specific number if needed, e.g., 24)
+    color: Color.darkGray,
+    fontWeight: "bold",
+    fontFamily: FontFamily.interMedium,
+  },
+  
   continue: {
-    height: "33.33%",
+    height: "50.33%",
     width: "44.97%",
-    top: "33.33%",
-    left: "27.51%",
+    top: "20.33%",
+    left: "30.51%",
     fontSize: FontSize.font_size,
     fontFamily: FontFamily.montserratBold,
     color: Color.white,
@@ -338,7 +342,7 @@ const styles = StyleSheet.create({
   },
   statusBarwhite: {
     top: 0,
-    width: 375,
+    width: 405,
     height: 36,
     left: 0,
   },
